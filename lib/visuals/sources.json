@@ -1,0 +1,378 @@
+[
+  {
+    "id": "atlas",
+    "title": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "url": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "driveId": "1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/atlas-page-1.webp"
+      },
+      {
+        "page": 2,
+        "src": "/images/course/atlas-page-2.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "9cd7ad51d0ee06b619fb01ca063a5bfb0c46056e882ba7b1357a6c53d97888d3"
+  },
+  {
+    "id": "multimetro",
+    "title": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "driveId": "19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/multimetro-page-1.webp"
+      }
+    ],
+    "integrity": "partial",
+    "note": "PDF incompleto; primeira prancha recuperada integralmente. Segunda prancha não utilizada.",
+    "sha256": "66c76e8e81456d30aab2def97e7db9efdf61ce270796f85ee8d4bd7fa22c848e"
+  },
+  {
+    "id": "fonte",
+    "title": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "driveId": "1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/fonte-page-1.webp"
+      },
+      {
+        "page": 2,
+        "src": "/images/course/fonte-page-2.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "b1cc027332ecb7c4f28e26c6239292446269c0cd3a1e5749c83357026661ff6c"
+  },
+  {
+    "id": "esquemas",
+    "title": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "driveId": "1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/esquemas-page-1.webp"
+      },
+      {
+        "page": 2,
+        "src": "/images/course/esquemas-page-2.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "1a4e22be331a6182647449c3311edc938bbc43c37e6ffb3fb2a689535b6a4d2f"
+  },
+  {
+    "id": "diagnostico",
+    "title": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "driveId": "1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/diagnostico-page-1.webp"
+      },
+      {
+        "page": 2,
+        "src": "/images/course/diagnostico-page-2.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "f6a6fd00a172daab26b3e1a0c059f9ec64d35c46b664c6284a279648cb4848f4"
+  },
+  {
+    "id": "procedure_01",
+    "title": "5 - BGA-4_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1yTnYWKHANksCapbXMs6wSjo-DiSEtjUl/view?usp=drivesdk",
+    "driveId": "1yTnYWKHANksCapbXMs6wSjo-DiSEtjUl",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_01-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "75fd68983e6dfd61afe9d46b183c10786f9d14f04a35c12d640326d20e17b2b8"
+  },
+  {
+    "id": "procedure_02",
+    "title": "5 - BGA-3_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/12EPO0BU-MPsmJN9cuEXyGYVue4xxn53P/view?usp=drivesdk",
+    "driveId": "12EPO0BU-MPsmJN9cuEXyGYVue4xxn53P",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_02-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "562c6c11e836fab2089054fe1cbbbb7237566b811a48a502945c4896696a05d9"
+  },
+  {
+    "id": "procedure_03",
+    "title": "5 - BGA-2_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1TVOachHV9k6DBSBDGhD0O42Eppn4U8ow/view?usp=drivesdk",
+    "driveId": "1TVOachHV9k6DBSBDGhD0O42Eppn4U8ow",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_03-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "1723a658317c412487ca9e5ad283e37f24d216d714013247554d2acf60db1ed9"
+  },
+  {
+    "id": "procedure_04",
+    "title": "5 - BGA-1_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1u7zMQZTuweKSnc8Nl5I_Ea3b8Dn9K854/view?usp=drivesdk",
+    "driveId": "1u7zMQZTuweKSnc8Nl5I_Ea3b8Dn9K854",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_04-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "9692c3319adb4135717b68e32ffedd4df3434429f52322350379e3c880d6e32a"
+  },
+  {
+    "id": "procedure_05",
+    "title": "4 - Recuperacao_de_Pads_e_Trilhas-4_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1DMCCJSRjEwTR5r_KyECdaZ4paBefWqDh/view?usp=drivesdk",
+    "driveId": "1DMCCJSRjEwTR5r_KyECdaZ4paBefWqDh",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_05-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "16fc96396367651704449aed75fe76fb632b26b3002ca7c4bf59d12616e8d61a"
+  },
+  {
+    "id": "procedure_06",
+    "title": "4 - Recuperacao_de_Pads_e_Trilhas-3_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1R-5xbz66ho78qH7Ar2wFbPTkL7NfJVdL/view?usp=drivesdk",
+    "driveId": "1R-5xbz66ho78qH7Ar2wFbPTkL7NfJVdL",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_06-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "b5a48d35e1605c394175ab9dc67a060aebdd88bf8e16a0e3f189dc982cea0d4c"
+  },
+  {
+    "id": "procedure_07",
+    "title": "4 - Recuperacao_de_Pads_e_Trilhas-2_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/11l9OmjON6QuA1Ru2ENcsclphIkFLbq-4/view?usp=drivesdk",
+    "driveId": "11l9OmjON6QuA1Ru2ENcsclphIkFLbq-4",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_07-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "598e3ceb4ee013da012db217bfee5f7b8df8a77378be0ec56f5eebfa7243fb5a"
+  },
+  {
+    "id": "procedure_08",
+    "title": "4 - Recuperacao_de_Pads_e_Trilhas-1_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1h_qpBDkiccjbMOO4FAVnOilNDe7cn0PY/view?usp=drivesdk",
+    "driveId": "1h_qpBDkiccjbMOO4FAVnOilNDe7cn0PY",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_08-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "860173ed0dc5d0852dde9fe10f207e36c8760825500b48595c7657c1693eccea"
+  },
+  {
+    "id": "procedure_09",
+    "title": "3 - Componentes_e_Ressolda-4_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/18Qvtae9HobC68jGGTqYMlsJm0J9s23Y2/view?usp=drivesdk",
+    "driveId": "18Qvtae9HobC68jGGTqYMlsJm0J9s23Y2",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_09-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "a08419ddca5cc9abd80d81ca198714a31b690995b308352a812e168f471fbf83"
+  },
+  {
+    "id": "procedure_10",
+    "title": "3 - Componentes_e_Ressolda-3_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1FVecgeOLQ13HlxDL-5smH5bOCY51qkmm/view?usp=drivesdk",
+    "driveId": "1FVecgeOLQ13HlxDL-5smH5bOCY51qkmm",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_10-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "fb9ef974a398fbf7add2f9047d32a2b559c76d00983b455038789f2c71c1f893"
+  },
+  {
+    "id": "procedure_11",
+    "title": "3 - Componentes_e_Ressolda-2_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1Opz12Ft3TIJqu_c6m1yetVg3vjep0rTy/view?usp=drivesdk",
+    "driveId": "1Opz12Ft3TIJqu_c6m1yetVg3vjep0rTy",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_11-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "44209098e1a3e39197b2e8cbe08275961b5dfa2861e694583cfecea8625f662e"
+  },
+  {
+    "id": "procedure_12",
+    "title": "3 - Componentes_e_Ressolda-1_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1OTLRjddhDtDeZ6hQOZK1r3YIxSVbg6ov/view?usp=drivesdk",
+    "driveId": "1OTLRjddhDtDeZ6hQOZK1r3YIxSVbg6ov",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_12-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "1cc29f024e71d177fb4133a2e8bd2381f785a6fda71fb9e18c70875e16bd999d"
+  },
+  {
+    "id": "procedure_13",
+    "title": "1 - Materiais_e_Controle-2_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1Bokz4W98HLUipw4GeZLMtvTXd9b4KcsN/view?usp=drivesdk",
+    "driveId": "1Bokz4W98HLUipw4GeZLMtvTXd9b4KcsN",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_13-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "b8074a23db4ff470c0f2c0ccf10209e8fc40e8acd27d8c8d7c524fbc73dc4dfa"
+  },
+  {
+    "id": "procedure_14",
+    "title": "1 - Materiais_e_Controle-3_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/16Cbv1BFPOhAV7-1JriqtrlB9nMA3jYQv/view?usp=drivesdk",
+    "driveId": "16Cbv1BFPOhAV7-1JriqtrlB9nMA3jYQv",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_14-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "a8c56b1da8e8c49a619cbfc74f293181e7a389700f7e2d5e109e8d4a30d52b4a"
+  },
+  {
+    "id": "procedure_15",
+    "title": "1 - Materiais_e_Controle-1_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1BRmDLj7SnqJUMKm_10orMmBGQkIzSJkl/view?usp=drivesdk",
+    "driveId": "1BRmDLj7SnqJUMKm_10orMmBGQkIzSJkl",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_15-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "130df87cb6d7a5dc6270a9d45cd8804d6874b6af1ebcd8ef488fed843512b116"
+  },
+  {
+    "id": "procedure_16",
+    "title": "2 - Fundamentos_da_Soldagem-4_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1-9PeKZTL-8-Ic30gye4C6myYIDWIps9P/view?usp=drivesdk",
+    "driveId": "1-9PeKZTL-8-Ic30gye4C6myYIDWIps9P",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_16-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "470fffdc1900ba474376ab26b3a7dd80fc072463788c3734ce66ae04f217acf1"
+  },
+  {
+    "id": "procedure_17",
+    "title": "2 - Fundamentos_da_Soldagem-3_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/16n2xEH1SJl1py8oOrT58U0MTwafmPZd_/view?usp=drivesdk",
+    "driveId": "16n2xEH1SJl1py8oOrT58U0MTwafmPZd_",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_17-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "331d44241d6641328175681ee7590c6530b7a7d16c661b96c0cbed233a44c07e"
+  },
+  {
+    "id": "procedure_18",
+    "title": "2 - Fundamentos_da_Soldagem-2_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1n_yKxSnoS0RqwnqWEThuO313corKUst-/view?usp=drivesdk",
+    "driveId": "1n_yKxSnoS0RqwnqWEThuO313corKUst-",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_18-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "e9c23bd65c03d875a9c42c0fa4fbe2bf7101dc50e59890f9a4e36bad9bdc8a55"
+  },
+  {
+    "id": "procedure_19",
+    "title": "2 - Fundamentos_da_Soldagem-1_Br3_Tech.pdf",
+    "url": "https://drive.google.com/file/d/1oa6cwpRDKTmgJpV-tCsXevWDzjiqJZbB/view?usp=drivesdk",
+    "driveId": "1oa6cwpRDKTmgJpV-tCsXevWDzjiqJZbB",
+    "pages": [
+      {
+        "page": 1,
+        "src": "/images/course/procedure_19-page-1.webp"
+      }
+    ],
+    "integrity": "readable",
+    "note": "Pranchas didáticas; nenhuma identificação de modelo ou medição real foi comprovada.",
+    "sha256": "c6b8c128c70d9b22ed49d1a9897c7dfc505652e80a090ba8af437f1865940d88"
+  }
+]

@@ -1,0 +1,1388 @@
+[
+  {
+    "id": "resistor",
+    "title": "Resistor SMD",
+    "src": "/images/course/resistor.webp",
+    "fullSrc": "/images/course/atlas-page-1.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 1,
+    "caption": "Identifique a classe do componente e confirme a referência no esquema.",
+    "observe": [
+      "Formato e terminais",
+      "Designador e código quando legíveis",
+      "Função no circuito"
+    ],
+    "tags": [
+      "resistor",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 375,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "capacitor",
+    "title": "Capacitor cerâmico",
+    "src": "/images/course/capacitor.webp",
+    "fullSrc": "/images/course/atlas-page-1.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 1,
+    "caption": "A ausência de código é comum; a posição elétrica importa.",
+    "observe": [
+      "Terminais do encapsulamento",
+      "Linha e GND no esquema",
+      "Caminhos paralelos na medição"
+    ],
+    "tags": [
+      "capacitor",
+      "componentes",
+      "curto"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 375,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "bobina",
+    "title": "Bobina / indutor",
+    "src": "/images/course/bobina.webp",
+    "fullSrc": "/images/course/atlas-page-1.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 1,
+    "caption": "Baixa resistência DC pode ser normal para uma bobina.",
+    "observe": [
+      "Encapsulamento e contexto",
+      "Entrada/saída no conversor",
+      "Diferença entre bip e defeito"
+    ],
+    "tags": [
+      "bobina",
+      "indutor",
+      "componentes",
+      "alimentacao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 375,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "diodo",
+    "title": "Diodo e proteção",
+    "src": "/images/course/diodo.webp",
+    "fullSrc": "/images/course/atlas-page-1.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 1,
+    "caption": "Polaridade e leitura dependem da referência e da condição de teste.",
+    "observe": [
+      "Identificação documental",
+      "Polaridade do teste",
+      "Comparação em condições equivalentes"
+    ],
+    "tags": [
+      "diodo",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 316,
+    "height": 375,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fusivel",
+    "title": "Filtro / fusível",
+    "src": "/images/course/fusivel.webp",
+    "fullSrc": "/images/course/atlas-page-1.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 1,
+    "caption": "A aparência não distingue automaticamente filtro, fusível e bead.",
+    "observe": [
+      "Referência no esquema",
+      "Caminho em série",
+      "Continuidade desenergizada"
+    ],
+    "tags": [
+      "fusivel",
+      "filtro",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 375,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "mosfet",
+    "title": "MOSFET",
+    "src": "/images/course/mosfet.webp",
+    "fullSrc": "/images/course/atlas-page-2.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 2,
+    "caption": "Exemplo visual de classe e encapsulamento; função e terminais exigem documentação.",
+    "observe": [
+      "Referência completa",
+      "Contexto e componentes vizinhos",
+      "Orientação e compatibilidade"
+    ],
+    "tags": [
+      "mosfet",
+      "alimentacao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 374,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "transistor",
+    "title": "Transistor",
+    "src": "/images/course/transistor.webp",
+    "fullSrc": "/images/course/atlas-page-2.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 2,
+    "caption": "Exemplo visual de classe e encapsulamento; função e terminais exigem documentação.",
+    "observe": [
+      "Referência completa",
+      "Contexto e componentes vizinhos",
+      "Orientação e compatibilidade"
+    ],
+    "tags": [
+      "transistor",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 374,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "regulador",
+    "title": "Regulador de tensão",
+    "src": "/images/course/regulador.webp",
+    "fullSrc": "/images/course/atlas-page-2.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 2,
+    "caption": "Exemplo visual de classe e encapsulamento; função e terminais exigem documentação.",
+    "observe": [
+      "Referência completa",
+      "Contexto e componentes vizinhos",
+      "Orientação e compatibilidade"
+    ],
+    "tags": [
+      "regulador",
+      "pmic",
+      "alimentacao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 374,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "ci-memoria",
+    "title": "Circuito integrado / memória",
+    "src": "/images/course/ci-memoria.webp",
+    "fullSrc": "/images/course/atlas-page-2.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 2,
+    "caption": "Exemplo visual de classe e encapsulamento; função e terminais exigem documentação.",
+    "observe": [
+      "Referência completa",
+      "Contexto e componentes vizinhos",
+      "Orientação e compatibilidade"
+    ],
+    "tags": [
+      "memoria",
+      "cpu",
+      "pmic",
+      "codec",
+      "rf",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 316,
+    "height": 374,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "conector",
+    "title": "Conector de módulo",
+    "src": "/images/course/conector.webp",
+    "fullSrc": "/images/course/atlas-page-2.webp",
+    "sourceId": "atlas",
+    "sourceTitle": "1 - Atlas_Visual_COMPONENTES_BR3_Tech-1.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1voNr7yLYePXiYj070zRsU5RkAm0S_1u_",
+    "page": 2,
+    "caption": "Exemplo visual de classe e encapsulamento; função e terminais exigem documentação.",
+    "observe": [
+      "Referência completa",
+      "Contexto e componentes vizinhos",
+      "Orientação e compatibilidade"
+    ],
+    "tags": [
+      "conector",
+      "flex",
+      "usb",
+      "sim",
+      "display",
+      "camera"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 374,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "pontas",
+    "title": "Entradas das pontas",
+    "src": "/images/course/pontas.webp",
+    "fullSrc": "/images/course/multimetro-page-1.webp",
+    "sourceId": "multimetro",
+    "sourceTitle": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "page": 1,
+    "caption": "Detalhe da primeira prancha recuperada do guia de multímetro. Os números mostrados são exemplos ilustrativos.",
+    "observe": [
+      "COM e entrada adequada",
+      "Não usar borne de corrente para tensão",
+      "Integridade e escala"
+    ],
+    "tags": [
+      "multimetro",
+      "pontas",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 312,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "continuidade",
+    "title": "Modo continuidade",
+    "src": "/images/course/continuidade.webp",
+    "fullSrc": "/images/course/multimetro-page-1.webp",
+    "sourceId": "multimetro",
+    "sourceTitle": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "page": 1,
+    "caption": "Detalhe da primeira prancha recuperada do guia de multímetro. Os números mostrados são exemplos ilustrativos.",
+    "observe": [
+      "Estado desenergizado",
+      "Pontos do mesmo caminho",
+      "Bip não identifica a causa"
+    ],
+    "tags": [
+      "continuidade",
+      "multimetro"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 312,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "resistencia",
+    "title": "Modo resistência",
+    "src": "/images/course/resistencia.webp",
+    "fullSrc": "/images/course/multimetro-page-1.webp",
+    "sourceId": "multimetro",
+    "sourceTitle": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "page": 1,
+    "caption": "Detalhe da primeira prancha recuperada do guia de multímetro. Os números mostrados são exemplos ilustrativos.",
+    "observe": [
+      "Ausência de alimentação",
+      "Unidade e escala",
+      "Caminhos paralelos"
+    ],
+    "tags": [
+      "resistencia",
+      "multimetro"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 316,
+    "height": 312,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "modo-diodo",
+    "title": "Modo diodo",
+    "src": "/images/course/modo-diodo.webp",
+    "fullSrc": "/images/course/multimetro-page-1.webp",
+    "sourceId": "multimetro",
+    "sourceTitle": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "page": 1,
+    "caption": "Detalhe da primeira prancha recuperada do guia de multímetro. Os números mostrados são exemplos ilustrativos.",
+    "observe": [
+      "Polaridade das pontas",
+      "Leitura de teste, não tensão de operação",
+      "Referência comparável"
+    ],
+    "tags": [
+      "diodo",
+      "multimetro"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 312,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "tensao-dc",
+    "title": "Tensão contínua",
+    "src": "/images/course/tensao-dc.webp",
+    "fullSrc": "/images/course/multimetro-page-1.webp",
+    "sourceId": "multimetro",
+    "sourceTitle": "2 - Guia_Visual_Multimetro_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/19QE29OtU8aGGYSkv-MdCEwew4BYBzfX4",
+    "page": 1,
+    "caption": "Detalhe da primeira prancha recuperada do guia de multímetro. Os números mostrados são exemplos ilustrativos.",
+    "observe": [
+      "Referência GND validada",
+      "Instrumento em paralelo",
+      "Condição de energização"
+    ],
+    "tags": [
+      "tensao",
+      "vbat",
+      "vbus",
+      "multimetro"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 312,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fonte-linha",
+    "title": "Identificação da linha",
+    "src": "/images/course/fonte-linha.webp",
+    "fullSrc": "/images/course/fonte-page-1.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 1,
+    "caption": "Preparação da fonte conforme o guia; validar os parâmetros no modelo e no instrumento.",
+    "observe": [
+      "Nome da rede",
+      "Origem e destino",
+      "Tensão nominal documentada"
+    ],
+    "tags": [
+      "fonte",
+      "alimentacao",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 359,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fonte-ajuste",
+    "title": "Configuração da fonte",
+    "src": "/images/course/fonte-ajuste.webp",
+    "fullSrc": "/images/course/fonte-page-1.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 1,
+    "caption": "Preparação da fonte conforme o guia; validar os parâmetros no modelo e no instrumento.",
+    "observe": [
+      "Saída desligada ao preparar",
+      "Tensão e corrente validadas",
+      "Exemplo do visor não é ajuste universal"
+    ],
+    "tags": [
+      "fonte",
+      "alimentacao",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 359,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fonte-polaridade",
+    "title": "Polaridade da conexão",
+    "src": "/images/course/fonte-polaridade.webp",
+    "fullSrc": "/images/course/fonte-page-1.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 1,
+    "caption": "Preparação da fonte conforme o guia; validar os parâmetros no modelo e no instrumento.",
+    "observe": [
+      "Positivo e referência documentados",
+      "Interface compatível",
+      "Conferência antes de conectar"
+    ],
+    "tags": [
+      "fonte",
+      "alimentacao",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 316,
+    "height": 359,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fonte-conexao",
+    "title": "Conexão estável",
+    "src": "/images/course/fonte-conexao.webp",
+    "fullSrc": "/images/course/fonte-page-1.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 1,
+    "caption": "Preparação da fonte conforme o guia; validar os parâmetros no modelo e no instrumento.",
+    "observe": [
+      "Isolamento das pontas",
+      "Cabos e contatos firmes",
+      "Evitar curto entre vizinhos"
+    ],
+    "tags": [
+      "fonte",
+      "alimentacao",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 359,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "fonte-inspecao",
+    "title": "Inspeção antes de energizar",
+    "src": "/images/course/fonte-inspecao.webp",
+    "fullSrc": "/images/course/fonte-page-1.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 1,
+    "caption": "Preparação da fonte conforme o guia; validar os parâmetros no modelo e no instrumento.",
+    "observe": [
+      "Dano físico e líquido",
+      "Condição elétrica",
+      "Critério de parada"
+    ],
+    "tags": [
+      "fonte",
+      "alimentacao",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 317,
+    "height": 359,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "consumo-zero",
+    "title": "Zero indicado antes de power",
+    "src": "/images/course/consumo-zero.webp",
+    "fullSrc": "/images/course/fonte-page-2.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 2,
+    "caption": "Zero no visor exige conferir resolução, saída, conexão e contexto.",
+    "observe": [
+      "Comportamento no tempo",
+      "Tensão no aparelho e modo CV/CC",
+      "Limites da hipótese"
+    ],
+    "tags": [
+      "fonte",
+      "consumo",
+      "boot",
+      "alimentacao"
+    ],
+    "caution": "Os valores do visor são ilustrações. A expressão “desenergizado” da prancha não deve ser confundida com placa sem alimentação; não medir Ω/diodo com a fonte aplicada.",
+    "width": 317,
+    "height": 532,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "consumo-alto",
+    "title": "Consumo alto ao conectar",
+    "src": "/images/course/consumo-alto.webp",
+    "fullSrc": "/images/course/fonte-page-2.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 2,
+    "caption": "Interromper e investigar; esse perfil não identifica o componente.",
+    "observe": [
+      "Comportamento no tempo",
+      "Tensão no aparelho e modo CV/CC",
+      "Limites da hipótese"
+    ],
+    "tags": [
+      "fonte",
+      "consumo",
+      "boot",
+      "alimentacao"
+    ],
+    "caution": "Os valores do visor são ilustrações. A expressão “desenergizado” da prancha não deve ser confundida com placa sem alimentação; não medir Ω/diodo com a fonte aplicada.",
+    "width": 317,
+    "height": 532,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "consumo-pulso",
+    "title": "Pulso e retorno a zero",
+    "src": "/images/course/consumo-pulso.webp",
+    "fullSrc": "/images/course/fonte-page-2.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 2,
+    "caption": "Relacionar tensão, corrente e momento da sequência; não concluir peça.",
+    "observe": [
+      "Comportamento no tempo",
+      "Tensão no aparelho e modo CV/CC",
+      "Limites da hipótese"
+    ],
+    "tags": [
+      "fonte",
+      "consumo",
+      "boot",
+      "alimentacao"
+    ],
+    "caution": "Os valores do visor são ilustrações. A expressão “desenergizado” da prancha não deve ser confundida com placa sem alimentação; não medir Ω/diodo com a fonte aplicada.",
+    "width": 316,
+    "height": 532,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "consumo-trava",
+    "title": "Consumo que sobe e permanece",
+    "src": "/images/course/consumo-trava.webp",
+    "fullSrc": "/images/course/fonte-page-2.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 2,
+    "caption": "Pode indicar etapa incompleta; confirmar alimentação, comandos e documentação.",
+    "observe": [
+      "Comportamento no tempo",
+      "Tensão no aparelho e modo CV/CC",
+      "Limites da hipótese"
+    ],
+    "tags": [
+      "fonte",
+      "consumo",
+      "boot",
+      "alimentacao"
+    ],
+    "caution": "Os valores do visor são ilustrações. A expressão “desenergizado” da prancha não deve ser confundida com placa sem alimentação; não medir Ω/diodo com a fonte aplicada.",
+    "width": 317,
+    "height": 532,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "consumo-inicia",
+    "title": "Consumo com inicialização",
+    "src": "/images/course/consumo-inicia.webp",
+    "fullSrc": "/images/course/fonte-page-2.webp",
+    "sourceId": "fonte",
+    "sourceTitle": "3 - Guia_Visual_Fonte_Assimetrica_BR3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1mWzwUdAHWGR6WDpBrmklMfmkt3v4T5iE",
+    "page": 2,
+    "caption": "Comparar com perfil documentado do mesmo modelo; números não são universais.",
+    "observe": [
+      "Comportamento no tempo",
+      "Tensão no aparelho e modo CV/CC",
+      "Limites da hipótese"
+    ],
+    "tags": [
+      "fonte",
+      "consumo",
+      "boot",
+      "alimentacao"
+    ],
+    "caution": "Os valores do visor são ilustrações. A expressão “desenergizado” da prancha não deve ser confundida com placa sem alimentação; não medir Ω/diodo com a fonte aplicada.",
+    "width": 317,
+    "height": 532,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "referencias-esquema",
+    "title": "Símbolos e referências",
+    "src": "/images/course/referencias-esquema.webp",
+    "fullSrc": "/images/course/esquemas-page-1.webp",
+    "sourceId": "esquemas",
+    "sourceTitle": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "page": 1,
+    "caption": "Designadores ajudam a localizar classes; a legenda do documento prevalece.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "esquema",
+      "componentes"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 314,
+    "height": 469,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "rede-esquema",
+    "title": "Nome da rede e caminho",
+    "src": "/images/course/rede-esquema.webp",
+    "fullSrc": "/images/course/esquemas-page-1.webp",
+    "sourceId": "esquemas",
+    "sourceTitle": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "page": 1,
+    "caption": "A imagem ilustra uma rede; nomes desenhados não comprovam a pinagem de um aparelho.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "esquema",
+      "linha",
+      "vbat",
+      "vbus"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 312,
+    "height": 469,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "origem-destino",
+    "title": "Origem, carga e elementos intermediários",
+    "src": "/images/course/origem-destino.webp",
+    "fullSrc": "/images/course/esquemas-page-1.webp",
+    "sourceId": "esquemas",
+    "sourceTitle": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "page": 1,
+    "caption": "Rastreie o caminho sem pressupor que o CI é a causa da falha.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "esquema",
+      "pmic",
+      "alimentacao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 312,
+    "height": 469,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "boardview",
+    "title": "Localização no boardview",
+    "src": "/images/course/boardview.webp",
+    "fullSrc": "/images/course/esquemas-page-2.webp",
+    "sourceId": "esquemas",
+    "sourceTitle": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "page": 2,
+    "caption": "Combine localização física com documentação da mesma revisão.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "boardview",
+      "esquema"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 315,
+    "height": 432,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "ponto-medicao",
+    "title": "Ponto de acesso para medição",
+    "src": "/images/course/ponto-medicao.webp",
+    "fullSrc": "/images/course/esquemas-page-2.webp",
+    "sourceId": "esquemas",
+    "sourceTitle": "4 - Esquemas_Eletricos_e_Boardview_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1IQaCz31xtrHQW_e6HI5zA5iFAyQw4lpm",
+    "page": 2,
+    "caption": "Escolha acesso seguro; posição da ponta no desenho não é instrução para modelo real.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "medicao",
+      "multimetro",
+      "seguranca"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 312,
+    "height": 432,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "inspecao-placa",
+    "title": "Inspeção visual da placa",
+    "src": "/images/course/inspecao-placa.webp",
+    "fullSrc": "/images/course/diagnostico-page-1.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 1,
+    "caption": "Identifique contexto e sinais de dano antes de energizar.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "inspecao",
+      "oxidacao",
+      "queda"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 314,
+    "height": 444,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "entrada-placa",
+    "title": "Entrada e conector",
+    "src": "/images/course/entrada-placa.webp",
+    "fullSrc": "/images/course/diagnostico-page-1.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 1,
+    "caption": "Conector é parte do caminho; comparar com esquema e peça compatível.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "usb",
+      "conector",
+      "alimentacao",
+      "vbus"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 312,
+    "height": 444,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "power-placa",
+    "title": "Região de comando power",
+    "src": "/images/course/power-placa.webp",
+    "fullSrc": "/images/course/diagnostico-page-1.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 1,
+    "caption": "Um exemplo visual de comando; confirme a lógica e o ponto no modelo.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "power",
+      "boot"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 313,
+    "height": 444,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "termica",
+    "title": "Observação térmica",
+    "src": "/images/course/termica.webp",
+    "fullSrc": "/images/course/diagnostico-page-2.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 2,
+    "caption": "Ponto quente pode ser causa ou consequência; a temperatura exibida não é limite universal.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "termica",
+      "consumo",
+      "curto"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 315,
+    "height": 504,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "queda-placa",
+    "title": "Sinais após queda",
+    "src": "/images/course/queda-placa.webp",
+    "fullSrc": "/images/course/diagnostico-page-2.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 2,
+    "caption": "Inspeção favorece hipóteses; não confirma solda BGA por si só.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "queda",
+      "inspecao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 312,
+    "height": 504,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "oxidacao",
+    "title": "Oxidação e resíduos",
+    "src": "/images/course/oxidacao.webp",
+    "fullSrc": "/images/course/diagnostico-page-2.webp",
+    "sourceId": "diagnostico",
+    "sourceTitle": "5 - Diagnostico_de_Defeitos_em_Placas_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1eM_mkgijQzC4u8M2vVK9m9k0Xc-O6zGG",
+    "page": 2,
+    "caption": "Desenergize e use limpeza compatível; secagem precisa ser verificada antes de reteste.",
+    "observe": [
+      "Estado e contexto do circuito",
+      "Informação da fonte versus hipótese",
+      "Documento necessário para confirmar"
+    ],
+    "tags": [
+      "oxidacao",
+      "liquido",
+      "inspecao"
+    ],
+    "caution": "Imagem didática extraída do material fornecido. Não é medição real validada nem pinagem de um modelo. Confirme identificação, documento e condição de teste.",
+    "width": 301,
+    "height": 504,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_01",
+    "title": "Remoção controlada de BGA",
+    "src": "/images/course/procedure_01.webp",
+    "fullSrc": "/images/course/procedure_01-page-1.webp",
+    "sourceId": "procedure_01",
+    "sourceTitle": "5 - BGA-4_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1yTnYWKHANksCapbXMs6wSjo-DiSEtjUl/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "bga"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_02",
+    "title": "Proteção dos componentes próximos ao BGA",
+    "src": "/images/course/procedure_02.webp",
+    "fullSrc": "/images/course/procedure_02-page-1.webp",
+    "sourceId": "procedure_02",
+    "sourceTitle": "5 - BGA-3_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/12EPO0BU-MPsmJN9cuEXyGYVue4xxn53P/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "bga"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_03",
+    "title": "Preparação da região de BGA",
+    "src": "/images/course/procedure_03.webp",
+    "fullSrc": "/images/course/procedure_03-page-1.webp",
+    "sourceId": "procedure_03",
+    "sourceTitle": "5 - BGA-2_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1TVOachHV9k6DBSBDGhD0O42Eppn4U8ow/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "bga"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_04",
+    "title": "Estrutura e identificação do BGA",
+    "src": "/images/course/procedure_04.webp",
+    "fullSrc": "/images/course/procedure_04-page-1.webp",
+    "sourceId": "procedure_04",
+    "sourceTitle": "5 - BGA-1_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1u7zMQZTuweKSnc8Nl5I_Ea3b8Dn9K854/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "bga"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_05",
+    "title": "Identificação de trilhas rompidas",
+    "src": "/images/course/procedure_05.webp",
+    "fullSrc": "/images/course/procedure_05-page-1.webp",
+    "sourceId": "procedure_05",
+    "sourceTitle": "4 - Recuperacao_de_Pads_e_Trilhas-4_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1DMCCJSRjEwTR5r_KyECdaZ4paBefWqDh/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "pads",
+      "trilha",
+      "queda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_06",
+    "title": "Fixação e proteção do reparo",
+    "src": "/images/course/procedure_06.webp",
+    "fullSrc": "/images/course/procedure_06-page-1.webp",
+    "sourceId": "procedure_06",
+    "sourceTitle": "4 - Recuperacao_de_Pads_e_Trilhas-3_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1R-5xbz66ho78qH7Ar2wFbPTkL7NfJVdL/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "pads",
+      "trilha",
+      "queda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 816,
+    "height": 330,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_07",
+    "title": "Pad parcialmente danificado",
+    "src": "/images/course/procedure_07.webp",
+    "fullSrc": "/images/course/procedure_07-page-1.webp",
+    "sourceId": "procedure_07",
+    "sourceTitle": "4 - Recuperacao_de_Pads_e_Trilhas-2_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/11l9OmjON6QuA1Ru2ENcsclphIkFLbq-4/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "pads",
+      "trilha",
+      "queda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_08",
+    "title": "Identificação de pads danificados",
+    "src": "/images/course/procedure_08.webp",
+    "fullSrc": "/images/course/procedure_08-page-1.webp",
+    "sourceId": "procedure_08",
+    "sourceTitle": "4 - Recuperacao_de_Pads_e_Trilhas-1_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1h_qpBDkiccjbMOO4FAVnOilNDe7cn0PY/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "pads",
+      "trilha",
+      "queda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_09",
+    "title": "Verificação de pontes e terminais",
+    "src": "/images/course/procedure_09.webp",
+    "fullSrc": "/images/course/procedure_09-page-1.webp",
+    "sourceId": "procedure_09",
+    "sourceTitle": "3 - Componentes_e_Ressolda-4_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/18Qvtae9HobC68jGGTqYMlsJm0J9s23Y2/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "ponte",
+      "inspecao",
+      "validacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_10",
+    "title": "Ressolda dos componentes",
+    "src": "/images/course/procedure_10.webp",
+    "fullSrc": "/images/course/procedure_10-page-1.webp",
+    "sourceId": "procedure_10",
+    "sourceTitle": "3 - Componentes_e_Ressolda-3_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1FVecgeOLQ13HlxDL-5smH5bOCY51qkmm/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_11",
+    "title": "Resistores e capacitores",
+    "src": "/images/course/procedure_11.webp",
+    "fullSrc": "/images/course/procedure_11-page-1.webp",
+    "sourceId": "procedure_11",
+    "sourceTitle": "3 - Componentes_e_Ressolda-2_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1Opz12Ft3TIJqu_c6m1yetVg3vjep0rTy/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "componentes"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_12",
+    "title": "Componentes SMD pequenos",
+    "src": "/images/course/procedure_12.webp",
+    "fullSrc": "/images/course/procedure_12-page-1.webp",
+    "sourceId": "procedure_12",
+    "sourceTitle": "3 - Componentes_e_Ressolda-1_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1OTLRjddhDtDeZ6hQOZK1r3YIxSVbg6ov/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "componentes"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_13",
+    "title": "Tipos de pontas do ferro",
+    "src": "/images/course/procedure_13.webp",
+    "fullSrc": "/images/course/procedure_13-page-1.webp",
+    "sourceId": "procedure_13",
+    "sourceTitle": "1 - Materiais_e_Controle-2_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1Bokz4W98HLUipw4GeZLMtvTXd9b4KcsN/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "preparacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_14",
+    "title": "Controle de temperatura",
+    "src": "/images/course/procedure_14.webp",
+    "fullSrc": "/images/course/procedure_14-page-1.webp",
+    "sourceId": "procedure_14",
+    "sourceTitle": "1 - Materiais_e_Controle-3_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/16Cbv1BFPOhAV7-1JriqtrlB9nMA3jYQv/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "preparacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_15",
+    "title": "Solda, fluxo, pasta e malha",
+    "src": "/images/course/procedure_15.webp",
+    "fullSrc": "/images/course/procedure_15-page-1.webp",
+    "sourceId": "procedure_15",
+    "sourceTitle": "1 - Materiais_e_Controle-1_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1BRmDLj7SnqJUMKm_10orMmBGQkIzSJkl/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "preparacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_16",
+    "title": "Molhabilidade e formação da junta",
+    "src": "/images/course/procedure_16.webp",
+    "fullSrc": "/images/course/procedure_16-page-1.webp",
+    "sourceId": "procedure_16",
+    "sourceTitle": "2 - Fundamentos_da_Soldagem-4_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1-9PeKZTL-8-Ic30gye4C6myYIDWIps9P/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_17",
+    "title": "Comportamento da solda",
+    "src": "/images/course/procedure_17.webp",
+    "fullSrc": "/images/course/procedure_17-page-1.webp",
+    "sourceId": "procedure_17",
+    "sourceTitle": "2 - Fundamentos_da_Soldagem-3_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/16n2xEH1SJl1py8oOrT58U0MTwafmPZd_/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_18",
+    "title": "Ponta oxidada e ponta preparada",
+    "src": "/images/course/procedure_18.webp",
+    "fullSrc": "/images/course/procedure_18-page-1.webp",
+    "sourceId": "procedure_18",
+    "sourceTitle": "2 - Fundamentos_da_Soldagem-2_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1n_yKxSnoS0RqwnqWEThuO313corKUst-/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "preparacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  },
+  {
+    "id": "procedure_19",
+    "title": "Estanhamento da ponta",
+    "src": "/images/course/procedure_19.webp",
+    "fullSrc": "/images/course/procedure_19-page-1.webp",
+    "sourceId": "procedure_19",
+    "sourceTitle": "2 - Fundamentos_da_Soldagem-1_Br3_Tech.pdf",
+    "sourceUrl": "https://drive.google.com/file/d/1oa6cwpRDKTmgJpV-tCsXevWDzjiqJZbB/view?usp=drivesdk",
+    "page": 1,
+    "caption": "Ilustração de procedimento de bancada do material fornecido; não representa intervenção já realizada.",
+    "observe": [
+      "Preparação e estado desenergizado",
+      "Compatibilidade de materiais e ferramenta",
+      "Inspeção e validação antes/depois"
+    ],
+    "tags": [
+      "procedimento",
+      "solda",
+      "preparacao"
+    ],
+    "caution": "Retrabalho exige diagnóstico sustentado, treinamento e protocolo do modelo. Não copie temperatura, pinagem ou posição apenas desta ilustração.",
+    "width": 1200,
+    "height": 486,
+    "kind": "Imagem didática da fonte"
+  }
+]
