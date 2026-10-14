@@ -57,6 +57,36 @@ assert.equal(defCourse.hours,220);
 assert.equal(defCourse.description,'Descrição customizada do treinamento');
 assert.equal(defCourse.status,'published');
 
+// AI Course generation test via prompt and file attachments
+const [aiCreateStatus,aiCreateRes]=await req('POST',{
+  action:'course-create-ai',
+  provider:'gemini',
+  prompt:'Diagnóstico Avançado de Placas Apple iPhone 13 ao 15 com Câmera Térmica e Osciloscópio',
+  category:'Smartphones Apple iOS',
+  status:'published',
+  targetModules:3,
+  lessonsPerModule:2,
+  useDemoMode:true,
+  files:[
+    {name:'esquema_iphone.pdf',mimeType:'application/pdf',size:102400},
+    {name:'termografia_curto.png',mimeType:'image/png',size:204800}
+  ]
+});
+assert.equal(aiCreateStatus,200);
+assert.ok(aiCreateRes.courseId);
+assert.ok(aiCreateRes.course.title.includes('Diagnóstico Avançado'));
+assert.equal(aiCreateRes.course.category,'Smartphones Apple iOS');
+assert.ok(aiCreateRes.course.modules.length>=2);
+assert.ok(aiCreateRes.course.lessons.length>=4);
+assert.ok(aiCreateRes.course.lessons[0].body.includes('Objetivos da Aula'));
+
+const allCoursesAfterAI=(await req('GET'))[1].courses;
+const createdAiCourse=allCoursesAfterAI.find(c=>c.id===aiCreateRes.courseId);
+assert.ok(createdAiCourse);
+assert.equal(createdAiCourse.modules.length,aiCreateRes.course.modules.length);
+assert.equal(createdAiCourse.lessons.length,aiCreateRes.course.lessons.length);
+
+console.log('PASS: criacao de curso via prompt com IA (Gemini/ChatGPT), anexos e persistencia completa.');
 console.log('PASS: configurações gerais do curso ajustáveis (nome, categoria, horas, status) e persistidas.');
 console.log('PASS: percursos persistidos, isolamento, respostas privadas, bloqueio de saltos, retomada, segurança, cálculo, conclusão de estudo, notas preservadas, referência sem aprovação e atualização de conteúdo.');
 console.log('PASS: conteúdo 100/112/13, identidade e papéis, registros isolados, bloqueio de aulas pendentes, gabarito privado, segurança, simulações, práticas, origem e arquivos.');

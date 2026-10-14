@@ -1,7 +1,7 @@
 'use client';
 import React,{useEffect,useState} from 'react';
 import GuidedLesson from './GuidedLesson';
-import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX,DollarSign,CreditCard,TrendingUp,Wallet,Receipt,ArrowLeft,FolderPlus,Layers,Edit3} from 'lucide-react';
+import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX,DollarSign,CreditCard,TrendingUp,Wallet,Receipt,ArrowLeft,FolderPlus,Layers,Edit3,Sparkles,Bot,Image as ImageIcon,Paperclip,Wand2} from 'lucide-react';
 const nav=[['dashboard','Área do aluno',LayoutDashboard],['curso','Meu curso',BookOpen],['biblioteca','Fluxogramas',GitBranch],['laboratorio','Laboratório',FlaskConical],['avaliacoes','Avaliações',ClipboardCheck],['materiais','Materiais',FolderOpen],['revisoes','Revisões técnicas',ShieldCheck],['conta','Minha conta',GraduationCap]] as const;
 const modIcons=[Cpu,Monitor,Smartphone,BatteryCharging,RefreshCw,Monitor,Zap,Volume2,Radio,Wifi,Camera,ShieldCheck,ClipboardCheck];
 const labels:Record<string,string>={dashboard:'Área do aluno',conta:'Minha conta',curso:'Meu curso',biblioteca:'Biblioteca de diagnóstico',laboratorio:'Laboratório virtual',avaliacoes:'Avaliações',materiais:'Materiais do curso',revisoes:'Revisões técnicas',admin:'Administração',aula:'Sala de aula'};
@@ -250,6 +250,7 @@ const [guided,setGuided]=useState(true);
 const [focusMode,setFocusMode]=useState(true),[nativeFullscreen,setNativeFullscreen]=useState(false),[canFullscreen,setCanFullscreen]=useState(false);
 const [data,setData]=useState<any>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[toast,setToast]=useState(''),[view,setView]=useState('dashboard'),[lessonId,setLessonId]=useState('F00.1'),[mobile,setMobile]=useState(false),[module,setModule]=useState('all'),[query,setQuery]=useState(''),[cat,setCat]=useState('all'),[favOnly,setFavOnly]=useState(false),[flow,setFlow]=useState<any>(null),[notes,setNotes]=useState(''),[report,setReport]=useState(''),[quizId,setQuizId]=useState('fundamentos'),[answers,setAnswers]=useState<Record<number,number>>({}),[quizResult,setQuizResult]=useState<any>(null),[run,setRun]=useState<any>(null),[justification,setJustification]=useState(''),[adminLesson,setAdminLesson]=useState('D001'),[editBody,setEditBody]=useState(''),[editReady,setEditReady]=useState(false),[video,setVideo]=useState(''),[reviewFeedback,setReviewFeedback]=useState<Record<string,string>>({}),[question,setQuestion]=useState(''),[options,setOptions]=useState(''),[correct,setCorrect]=useState(0),[explanation,setExplanation]=useState(''),[critical,setCritical]=useState(false);
 const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState(''),[adminTab,setAdminTab]=useState<'academico'|'financeiro'|'usuarios'>('academico'),[financeSearch,setFinanceSearch]=useState(''),[financeFilter,setFinanceFilter]=useState<'all'|'paid'|'pending'>('all'),[selectedCourseId,setSelectedCourseId]=useState<string|null>(null),[showNewCourseModal,setShowNewCourseModal]=useState(false),[newCourseTitle,setNewCourseTitle]=useState(''),[newCourseDesc,setNewCourseDesc]=useState(''),[newCourseHours,setNewCourseHours]=useState(40),[newCourseCategory,setNewCourseCategory]=useState('Hardware & Diagnóstico'),[newCourseStatus,setNewCourseStatus]=useState<'published'|'draft'>('published'),[editCourseTitle,setEditCourseTitle]=useState(''),[editCourseDesc,setEditCourseDesc]=useState(''),[editCourseHours,setEditCourseHours]=useState(40),[editCourseCategory,setEditCourseCategory]=useState('Hardware & Diagnóstico'),[editCourseStatus,setEditCourseStatus]=useState<'published'|'draft'>('published'),[courseLessonId,setCourseLessonId]=useState(''),[courseLessonTitle,setCourseLessonTitle]=useState(''),[courseLessonBody,setCourseLessonBody]=useState(''),[courseLessonReady,setCourseLessonReady]=useState(false),[courseLessonVideo,setCourseLessonVideo]=useState(''),[showAddLessonModal,setShowAddLessonModal]=useState(false),[newLessonTitle,setNewLessonTitle]=useState(''),[newLessonModule,setNewLessonModule]=useState('M01'),[newLessonMinutes,setNewLessonMinutes]=useState(60);
+const [newCourseMode,setNewCourseMode]=useState<'ai'|'manual'>('ai'),[aiProvider,setAiProvider]=useState<'gemini'|'openai'>('gemini'),[aiApiKey,setAiApiKey]=useState(''),[aiShowKey,setAiShowKey]=useState(false),[aiModel,setAiModel]=useState('gemini-2.5-flash'),[aiPrompt,setAiPrompt]=useState(''),[aiCategory,setAiCategory]=useState('Hardware & Diagnóstico'),[aiModulesCount,setAiModulesCount]=useState(3),[aiLessonsPerMod,setAiLessonsPerMod]=useState(2),[aiStatus,setAiStatus]=useState<'published'|'draft'>('published'),[aiAttachments,setAiAttachments]=useState<Array<{id:string;name:string;mimeType:string;size:number;url?:string;base64?:string;preview?:string}>>([]),[aiUploadingFile,setAiUploadingFile]=useState(false),[aiGenerating,setAiGenerating]=useState(false),[aiProgressText,setAiProgressText]=useState(''),[aiUseDemo,setAiUseDemo]=useState(false);
 
 function generateRandomPassword(){
   const chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#$';
@@ -333,6 +334,125 @@ async function handleCreateCourse(e:React.FormEvent){
     setShowNewCourseModal(false);
     setSelectedCourseId(res.courseId);
     setToast('Curso criado com sucesso! Abrindo editor individual...');
+  }
+}
+
+useEffect(()=>{
+  try{
+    const savedGemini=localStorage.getItem('br3_gemini_key')||'';
+    const savedOpenAI=localStorage.getItem('br3_openai_key')||'';
+    if(aiProvider==='gemini')setAiApiKey(savedGemini);
+    else if(aiProvider==='openai')setAiApiKey(savedOpenAI);
+  }catch{}
+},[aiProvider]);
+
+async function handleAttachFiles(e:React.ChangeEvent<HTMLInputElement>){
+  const fileList=e.target.files;
+  if(!fileList||fileList.length===0)return;
+  setAiUploadingFile(true);
+  try{
+    const items=[...aiAttachments];
+    for(let i=0;i<fileList.length;i++){
+      const file=fileList[i];
+      if(file.size>25*1024*1024){
+        setToast(`Arquivo ${file.name} excede o limite de 25 MB.`);
+        continue;
+      }
+      let base64='';
+      let preview='';
+      if(file.type.startsWith('image/')){
+        base64=await new Promise<string>((resolve)=>{
+          const reader=new FileReader();
+          reader.onload=()=>resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        preview=base64;
+      }
+      let uploadedUrl='';
+      try{
+        const formData=new FormData();
+        formData.append('file',file);
+        formData.append('lessonId','ai-course-material');
+        const uploadRes=await fetch('/api/upload',{method:'POST',body:formData});
+        if(uploadRes.ok){
+          const upJson:any=await uploadRes.json();
+          uploadedUrl=upJson.url;
+        }
+      }catch{}
+      items.push({
+        id:'att_'+crypto.randomUUID().slice(0,8),
+        name:file.name,
+        mimeType:file.type||'application/octet-stream',
+        size:file.size,
+        url:uploadedUrl,
+        base64,
+        preview
+      });
+    }
+    setAiAttachments(items);
+    setToast(`${fileList.length} anexo(s) adicionado(s) para o prompt da IA.`);
+  }catch(err:any){
+    setToast(err.message||'Erro ao anexar arquivos.');
+  }finally{
+    setAiUploadingFile(false);
+    e.target.value='';
+  }
+}
+
+function handleRemoveAttachment(index:number){
+  setAiAttachments(prev=>prev.filter((_,i)=>i!==index));
+}
+
+async function handleGenerateCourseWithAI(e:React.FormEvent){
+  e.preventDefault();
+  if(!aiPrompt.trim()){
+    setToast('Descreva o curso desejado no prompt.');
+    return;
+  }
+  if(!aiApiKey.trim()&&!aiUseDemo){
+    setToast('Insira a chave de API (Gemini ou OpenAI) ou marque a opção "Modo Demonstração".');
+    return;
+  }
+  setAiGenerating(true);
+  setAiProgressText(`Conectando ao modelo ${aiProvider==='gemini'?'Google Gemini':'OpenAI ChatGPT'}...`);
+  const t1=setTimeout(()=>setAiProgressText('Processando prompt e analisando imagens/arquivos...'),1800);
+  const t2=setTimeout(()=>setAiProgressText('Estruturando módulos e redigindo conteúdo didático em Markdown...'),4200);
+  const t3=setTimeout(()=>setAiProgressText('Finalizando diretrizes práticas de bancada e cadastrando curso...'),7500);
+
+  try{
+    if(aiApiKey.trim()){
+      try{
+        if(aiProvider==='gemini')localStorage.setItem('br3_gemini_key',aiApiKey.trim());
+        else localStorage.setItem('br3_openai_key',aiApiKey.trim());
+      }catch{}
+    }
+    const res=await post({
+      action:'course-create-ai',
+      provider:aiProvider,
+      apiKey:aiApiKey.trim(),
+      model:aiModel,
+      prompt:aiPrompt.trim(),
+      files:aiAttachments,
+      category:aiCategory,
+      status:aiStatus,
+      targetModules:aiModulesCount,
+      lessonsPerModule:aiLessonsPerMod,
+      useDemoMode:aiUseDemo
+    });
+    if(res&&res.courseId){
+      clearTimeout(t1);clearTimeout(t2);clearTimeout(t3);
+      setShowNewCourseModal(false);
+      setAiPrompt('');
+      setAiAttachments([]);
+      setSelectedCourseId(res.courseId);
+      setToast('✨ Curso gerado com sucesso via Inteligência Artificial! Abrindo editor...');
+    }
+  }catch(err:any){
+    clearTimeout(t1);clearTimeout(t2);clearTimeout(t3);
+    setToast(err.message||'Falha ao gerar curso com IA.');
+  }finally{
+    setAiGenerating(false);
+    setAiProgressText('');
   }
 }
 
@@ -614,93 +734,406 @@ return <div className={'app '+(isFocus?'focus-mode':'')}>
           </div>
 
           {showNewCourseModal && (
-            <div style={{background:'#0c140e',border:'1px solid #2a442d',borderRadius:10,padding:20,marginBottom:24}}>
-              <div className="section-heading" style={{marginBottom:14}}>
+            <div style={{background:'#0c140e',border:'1px solid #2a442d',borderRadius:10,padding:22,marginBottom:24,boxShadow:'0 10px 32px rgba(0,0,0,0.4)'}}>
+              <div className="section-heading" style={{marginBottom:16}}>
                 <h3 style={{margin:0,fontSize:16,color:'#a1ef4b',display:'flex',alignItems:'center',gap:8}}>
-                  <FolderPlus size={18}/> Cadastrar Novo Curso na Academy
+                  <FolderPlus size={18}/> Novo Curso na BR3 Academy
                 </h3>
-                <span className="quiet-tag">Nova Formação</span>
+                <span className="quiet-tag">{newCourseMode==='ai'?'Geração com IA':'Cadastro Tradicional'}</span>
               </div>
-              <form onSubmit={handleCreateCourse}>
-                <div className="course-settings-grid">
-                  <label className="form-label">
-                    Título do Curso
-                    <input
-                      type="text"
-                      placeholder="Ex.: Manutenção e Reparo Avançado em Placas Apple iPhone"
-                      value={newCourseTitle}
-                      onChange={e=>setNewCourseTitle(e.target.value)}
+
+              {/* Seletor de Abas: IA ou Manual */}
+              <div className="ai-modal-tabs">
+                <button
+                  type="button"
+                  className={`ai-tab-btn ${newCourseMode==='ai'?'active':''}`}
+                  onClick={()=>setNewCourseMode('ai')}
+                >
+                  <Sparkles size={16}/> Gerar Curso via Prompt com IA (Gemini / ChatGPT)
+                </button>
+                <button
+                  type="button"
+                  className={`ai-tab-btn ${newCourseMode==='manual'?'active':''}`}
+                  onClick={()=>setNewCourseMode('manual')}
+                >
+                  <Edit3 size={16}/> Cadastro Manual Tradicional
+                </button>
+              </div>
+
+              {/* MODO 1: IA (Gemini / ChatGPT com Prompt e Anexos de Arquivos/Imagens) */}
+              {newCourseMode==='ai' && (
+                <form onSubmit={handleGenerateCourseWithAI}>
+                  {/* Seletor de Provedor (Gemini vs OpenAI) */}
+                  <div style={{display:'flex',gap:12,marginBottom:16,flexWrap:'wrap'}}>
+                    <div
+                      className={`ai-provider-card ${aiProvider==='gemini'?'selected':''}`}
+                      onClick={()=>{
+                        setAiProvider('gemini');
+                        setAiModel('gemini-2.5-flash');
+                      }}
+                    >
+                      <div className="ai-provider-icon gemini">
+                        <Sparkles size={20}/>
+                      </div>
+                      <div>
+                        <div style={{color:'#f3f7f4',fontWeight:700,fontSize:13}}>Google Gemini</div>
+                        <small style={{color:'#9ab59f',fontSize:11}}>Gemini 2.5 Flash / 1.5 Pro (Multimodal com Imagens e PDFs)</small>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`ai-provider-card ${aiProvider==='openai'?'selected':''}`}
+                      onClick={()=>{
+                        setAiProvider('openai');
+                        setAiModel('gpt-4o-mini');
+                      }}
+                    >
+                      <div className="ai-provider-icon openai">
+                        <Bot size={20}/>
+                      </div>
+                      <div>
+                        <div style={{color:'#f3f7f4',fontWeight:700,fontSize:13}}>OpenAI ChatGPT</div>
+                        <small style={{color:'#9ab59f',fontSize:11}}>GPT-4o / GPT-4o-mini (Multimodal com Imagens)</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Chave de API & Modo de Execução */}
+                  <div style={{background:'#09110b',border:'1px solid #1f3322',borderRadius:8,padding:14,marginBottom:16}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,flexWrap:'wrap',gap:8}}>
+                      <label style={{fontSize:12,fontWeight:600,color:'#d4e5d6',margin:0,display:'flex',alignItems:'center',gap:6}}>
+                        <Key size={14} style={{color:'#a1ef4b'}}/>
+                        Chave de API do {aiProvider==='gemini'?'Google Gemini':'OpenAI ChatGPT'}
+                      </label>
+                      <a
+                        href={aiProvider==='gemini'?'https://aistudio.google.com/app/apikey':'https://platform.openai.com/api-keys'}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{fontSize:11,color:'#a1ef4b',textDecoration:'underline'}}
+                      >
+                        {aiProvider==='gemini'?'Obter chave gratuita no Google AI Studio ↗':'Obter chave na OpenAI ↗'}
+                      </a>
+                    </div>
+
+                    <div style={{position:'relative',marginBottom:10}}>
+                      <input
+                        type={aiShowKey?'text':'password'}
+                        placeholder={aiUseDemo?'Modo Demonstração ativo (chave opcional)':'Cole sua chave de API aqui (ex: AIzaSy... ou sk-...)'}
+                        value={aiApiKey}
+                        onChange={e=>setAiApiKey(e.target.value)}
+                        disabled={aiGenerating||aiUseDemo}
+                        style={{width:'100%',padding:'9px 40px 9px 12px',background:'#132217',border:'1px solid #2d4530',borderRadius:6,color:'#eef4ec',fontSize:13}}
+                      />
+                      <button
+                        type="button"
+                        onClick={()=>setAiShowKey(!aiShowKey)}
+                        disabled={aiUseDemo}
+                        style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'#88a78e',cursor:'pointer'}}
+                        title={aiShowKey?'Ocultar chave':'Visualizar chave'}
+                      >
+                        {aiShowKey?<EyeOff size={16}/>:<Eye size={16}/>}
+                      </button>
+                    </div>
+
+                    <label style={{display:'inline-flex',alignItems:'center',gap:8,fontSize:12,color:'#9ab59f',cursor:'pointer'}}>
+                      <input
+                        type="checkbox"
+                        checked={aiUseDemo}
+                        onChange={e=>setAiUseDemo(e.target.checked)}
+                        disabled={aiGenerating}
+                      />
+                      <span>Usar modo de teste/demonstração integrado (gera a estrutura inteligente sem gastar créditos de API)</span>
+                    </label>
+                  </div>
+
+                  {/* Campo de Prompt Principal */}
+                  <div className="ai-prompt-wrap">
+                    <label style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8,fontSize:13,fontWeight:700,color:'#f3f7f4'}}>
+                      <span style={{display:'flex',alignItems:'center',gap:6}}>
+                        <Wand2 size={16} style={{color:'#a1ef4b'}}/>
+                        Prompt de Instrução para Criação do Curso
+                      </span>
+                      <small style={{fontSize:11,color:'#85a88c',fontWeight:'normal'}}>
+                        Quanto mais detalhes técnicos, mais preciso o conteúdo didático gerado
+                      </small>
+                    </label>
+                    <textarea
+                      className="ai-prompt-textarea"
+                      placeholder="Exemplo de prompt:
+Crie uma formação técnica especializada em 'Diagnóstico Avançado de Placas Apple iPhone 13 ao 15 Pro Max'.
+Foque em:
+1. Mapeamento de malhas primárias (VDD_MAIN, VDD_BOOST) e tensões secundárias das PMUs.
+2. Identificação de fugas com câmera térmica e teste de condução reversa nas linhas de dados I2C e SPMI.
+3. Procedimentos práticos de medição com multímetro e osciloscópio, com tabelas de referência e checklist de bancada.
+4. Cuidados com temperatura e remoção de resina nas CPUs A15/A16."
+                      value={aiPrompt}
+                      onChange={e=>setAiPrompt(e.target.value)}
+                      disabled={aiGenerating}
                       required
+                      rows={5}
+                    />
+                  </div>
+
+                  {/* Sugestões Rápidas de Prompt */}
+                  <span className="ai-chips-label">Sugestões de temas para preencher o prompt:</span>
+                  <div className="ai-chips-list">
+                    {[
+                      '🔬 Microeletrônica & Solda BGA em Placas Apple iPhone',
+                      '⚡ Linhas de Alimentação e Power Management IC (PMIC)',
+                      '📱 Osciloscópio Digital & Análise de Sinais de Clock e Reset',
+                      '🛠️ Manutenção e Troca de Vidro em Displays OLED Curvos',
+                      '🔋 Fugas Térmicas com Câmera Infravermelha e Injeção de Tensão'
+                    ].map((sug,i)=>(
+                      <button
+                        key={i}
+                        type="button"
+                        className="ai-chip"
+                        onClick={()=>{
+                          setAiPrompt(prev => prev ? `${prev}\n\nAlém disso, inclua: ${sug}` : `Crie uma formação completa sobre ${sug}, com raciocínio de bancada, medições passo a passo, testes com multímetro e critérios de segurança para técnicos.`);
+                        }}
+                        disabled={aiGenerating}
+                      >
+                        <Sparkles size={12}/> {sug}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Upload de Arquivos & Imagens (Multimodal) */}
+                  <div style={{marginBottom:16}}>
+                    <label style={{display:'block',fontSize:12,fontWeight:600,color:'#d4e5d6',marginBottom:8}}>
+                      Adicionar Imagens e Arquivos de Referência (Esquemas, Fotos de Bancada, Apostilas, PDFs)
+                    </label>
+
+                    <label className="ai-dropzone">
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*,.pdf,.txt,.md"
+                        onChange={handleAttachFiles}
+                        className="ai-dropzone-input"
+                        disabled={aiGenerating||aiUploadingFile}
+                      />
+                      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
+                        <div style={{width:40,height:40,borderRadius:'50%',background:'rgba(161,239,75,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'#a1ef4b'}}>
+                          {aiUploadingFile?<RefreshCw size={20} className="ai-spinner"/>:<Upload size={20}/>}
+                        </div>
+                        <b style={{fontSize:13,color:'#f3f7f4'}}>
+                          {aiUploadingFile?'Processando e anexando arquivos...':'Clique ou arraste imagens e arquivos para incluir no prompt'}
+                        </b>
+                        <small style={{fontSize:11,color:'#85a88c'}}>
+                          Fotos de placas, esquemas elétricos em PDF/PNG, fotos de microscópio ou notas técnicas (até 25 MB por arquivo)
+                        </small>
+                      </div>
+                    </label>
+
+                    {aiAttachments.length > 0 && (
+                      <div className="ai-attachments-grid">
+                        {aiAttachments.map((att,idx)=>(
+                          <div className="ai-attachment-item" key={att.id||idx}>
+                            {att.preview ? (
+                              <img src={att.preview} alt={att.name} className="ai-attachment-thumb"/>
+                            ) : (
+                              <div className="ai-attachment-icon">
+                                <FileText size={18}/>
+                              </div>
+                            )}
+                            <div className="ai-attachment-info">
+                              <div className="ai-attachment-name" title={att.name}>{att.name}</div>
+                              <div className="ai-attachment-size">{(att.size/1024).toFixed(0)} KB</div>
+                            </div>
+                            <button
+                              type="button"
+                              className="ai-attachment-del"
+                              onClick={()=>handleRemoveAttachment(idx)}
+                              title="Remover anexo"
+                              disabled={aiGenerating}
+                            >
+                              <Trash2 size={14}/>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Configurações Estruturais da Formação */}
+                  <div className="course-settings-grid">
+                    <label className="form-label">
+                      Categoria do Curso
+                      <select
+                        value={aiCategory}
+                        onChange={e=>setAiCategory(e.target.value)}
+                        disabled={aiGenerating}
+                      >
+                        <option value="Hardware & Diagnóstico">Hardware & Diagnóstico</option>
+                        <option value="Microeletrônica & Solda">Microeletrônica & Solda</option>
+                        <option value="Smartphones Apple iOS">Smartphones Apple iOS</option>
+                        <option value="Smartphones Android">Smartphones Android</option>
+                        <option value="Software & Recuperação">Software & Recuperação</option>
+                        <option value="Gestão de Bancada Técnica">Gestão de Bancada Técnica</option>
+                      </select>
+                    </label>
+
+                    <label className="form-label">
+                      Qtd. Módulos Desejada
+                      <select
+                        value={aiModulesCount}
+                        onChange={e=>setAiModulesCount(Number(e.target.value))}
+                        disabled={aiGenerating}
+                      >
+                        <option value={2}>2 Módulos (Compacto)</option>
+                        <option value={3}>3 Módulos (Padrão)</option>
+                        <option value={4}>4 Módulos (Avançado)</option>
+                        <option value={5}>5 Módulos (Formação Completa)</option>
+                      </select>
+                    </label>
+
+                    <label className="form-label">
+                      Aulas por Módulo
+                      <select
+                        value={aiLessonsPerMod}
+                        onChange={e=>setAiLessonsPerMod(Number(e.target.value))}
+                        disabled={aiGenerating}
+                      >
+                        <option value={2}>2 Aulas por Módulo</option>
+                        <option value={3}>3 Aulas por Módulo</option>
+                        <option value={4}>4 Aulas por Módulo</option>
+                      </select>
+                    </label>
+
+                    <label className="form-label">
+                      Status de Publicação
+                      <select
+                        value={aiStatus}
+                        onChange={e=>setAiStatus(e.target.value as any)}
+                        disabled={aiGenerating}
+                      >
+                        <option value="published">Publicado (Acesso Liberado)</option>
+                        <option value="draft">Em Edição / Rascunho</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  {/* Banner de Geração com IA */}
+                  {aiGenerating && (
+                    <div className="ai-generating-banner">
+                      <div className="ai-spinner"/>
+                      <div>
+                        <b style={{color:'#a1ef4b',fontSize:13,display:'block',marginBottom:2}}>
+                          {aiProgressText || 'A inteligência artificial está estruturando o seu curso...'}
+                        </b>
+                        <small style={{color:'#9ab59f',fontSize:11}}>
+                          Escrevendo textos das aulas em Markdown, checklist de bancada e diretrizes de medição. Isso pode levar alguns segundos.
+                        </small>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Ações do Modal IA */}
+                  <div style={{display:'flex',justifyContent:'flex-end',gap:10,marginTop:16}}>
+                    <button
+                      type="button"
+                      className="btn secondary"
+                      onClick={()=>setShowNewCourseModal(false)}
+                      disabled={aiGenerating}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn primary"
+                      disabled={aiGenerating||!aiPrompt.trim()}
+                      style={{background:'linear-gradient(135deg, #1b3d22 0%, #165b25 100%)',border:'1px solid #4a8d56',padding:'10px 20px',fontSize:13}}
+                    >
+                      <Sparkles size={16}/> {aiGenerating ? 'Gerando Curso...' : '✨ Gerar Curso com Inteligência Artificial'}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* MODO 2: MANUAL TRADICIONAL */}
+              {newCourseMode==='manual' && (
+                <form onSubmit={handleCreateCourse}>
+                  <div className="course-settings-grid">
+                    <label className="form-label">
+                      Título do Curso
+                      <input
+                        type="text"
+                        placeholder="Ex.: Manutenção e Reparo Avançado em Placas Apple iPhone"
+                        value={newCourseTitle}
+                        onChange={e=>setNewCourseTitle(e.target.value)}
+                        required
+                        disabled={busy}
+                      />
+                    </label>
+                    <label className="form-label">
+                      Categoria
+                      <select
+                        value={newCourseCategory}
+                        onChange={e=>setNewCourseCategory(e.target.value)}
+                        disabled={busy}
+                      >
+                        <option value="Hardware & Diagnóstico">Hardware & Diagnóstico</option>
+                        <option value="Microeletrônica & Solda">Microeletrônica & Solda</option>
+                        <option value="Smartphones Apple iOS">Smartphones Apple iOS</option>
+                        <option value="Smartphones Android">Smartphones Android</option>
+                        <option value="Software & Recuperação">Software & Recuperação</option>
+                        <option value="Gestão de Bancada Técnica">Gestão de Bancada Técnica</option>
+                      </select>
+                    </label>
+                    <label className="form-label">
+                      Carga Horária (horas)
+                      <input
+                        type="number"
+                        min={1}
+                        max={500}
+                        value={newCourseHours}
+                        onChange={e=>setNewCourseHours(Number(e.target.value))}
+                        required
+                        disabled={busy}
+                      />
+                    </label>
+                    <label className="form-label">
+                      Status Inicial
+                      <select
+                        value={newCourseStatus}
+                        onChange={e=>setNewCourseStatus(e.target.value as any)}
+                        disabled={busy}
+                      >
+                        <option value="published">Publicado (Acesso Liberado)</option>
+                        <option value="draft">Em Edição / Rascunho</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label className="form-label">
+                    Descrição do Curso e Metodologia
+                    <textarea
+                      rows={3}
+                      placeholder="Descreva o público-alvo, ferramentas recomendadas e competências práticas que o aluno desenvolverá..."
+                      value={newCourseDesc}
+                      onChange={e=>setNewCourseDesc(e.target.value)}
                       disabled={busy}
                     />
                   </label>
-                  <label className="form-label">
-                    Categoria
-                    <select
-                      value={newCourseCategory}
-                      onChange={e=>setNewCourseCategory(e.target.value)}
+                  <div style={{display:'flex',justifyContent:'flex-end',gap:10,marginTop:14}}>
+                    <button
+                      type="button"
+                      className="btn secondary"
+                      onClick={()=>setShowNewCourseModal(false)}
                       disabled={busy}
                     >
-                      <option value="Hardware & Diagnóstico">Hardware & Diagnóstico</option>
-                      <option value="Microeletrônica & Solda">Microeletrônica & Solda</option>
-                      <option value="Smartphones Apple iOS">Smartphones Apple iOS</option>
-                      <option value="Smartphones Android">Smartphones Android</option>
-                      <option value="Software & Recuperação">Software & Recuperação</option>
-                      <option value="Gestão de Bancada Técnica">Gestão de Bancada Técnica</option>
-                    </select>
-                  </label>
-                  <label className="form-label">
-                    Carga Horária (horas)
-                    <input
-                      type="number"
-                      min={1}
-                      max={500}
-                      value={newCourseHours}
-                      onChange={e=>setNewCourseHours(Number(e.target.value))}
-                      required
-                      disabled={busy}
-                    />
-                  </label>
-                  <label className="form-label">
-                    Status Inicial
-                    <select
-                      value={newCourseStatus}
-                      onChange={e=>setNewCourseStatus(e.target.value as any)}
-                      disabled={busy}
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn primary"
+                      disabled={busy||!newCourseTitle.trim()}
                     >
-                      <option value="published">Publicado (Acesso Liberado)</option>
-                      <option value="draft">Em Edição / Rascunho</option>
-                    </select>
-                  </label>
-                </div>
-                <label className="form-label">
-                  Descrição do Curso e Metodologia
-                  <textarea
-                    rows={3}
-                    placeholder="Descreva o público-alvo, ferramentas recomendadas e competências práticas que o aluno desenvolverá..."
-                    value={newCourseDesc}
-                    onChange={e=>setNewCourseDesc(e.target.value)}
-                    disabled={busy}
-                  />
-                </label>
-                <div style={{display:'flex',justifyContent:'flex-end',gap:10,marginTop:14}}>
-                  <button
-                    type="button"
-                    className="btn secondary"
-                    onClick={()=>setShowNewCourseModal(false)}
-                    disabled={busy}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn primary"
-                    disabled={busy||!newCourseTitle.trim()}
-                  >
-                    <Save size={16}/> Salvar e Abrir Editor
-                  </button>
-                </div>
-              </form>
+                      <Save size={16}/> Salvar e Abrir Editor
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           )}
 
