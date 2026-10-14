@@ -1,7 +1,7 @@
 'use client';
 import React,{useEffect,useState} from 'react';
 import GuidedLesson from './GuidedLesson';
-import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User} from 'lucide-react';
+import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX} from 'lucide-react';
 const nav=[['dashboard','Área do aluno',LayoutDashboard],['curso','Meu curso',BookOpen],['biblioteca','Fluxogramas',GitBranch],['laboratorio','Laboratório',FlaskConical],['avaliacoes','Avaliações',ClipboardCheck],['materiais','Materiais',FolderOpen],['revisoes','Revisões técnicas',ShieldCheck],['conta','Minha conta',GraduationCap]] as const;
 const modIcons=[Cpu,Monitor,Smartphone,BatteryCharging,RefreshCw,Monitor,Zap,Volume2,Radio,Wifi,Camera,ShieldCheck,ClipboardCheck];
 const labels:Record<string,string>={dashboard:'Área do aluno',conta:'Minha conta',curso:'Meu curso',biblioteca:'Biblioteca de diagnóstico',laboratorio:'Laboratório virtual',avaliacoes:'Avaliações',materiais:'Materiais do curso',revisoes:'Revisões técnicas',admin:'Administração',aula:'Sala de aula'};
@@ -20,52 +20,29 @@ function GoogleIcon() {
 }
 
 function LoginArea({ signin }: { signin: string }) {
-  const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [googleEmail, setGoogleEmail] = useState('');
   const [googleName, setGoogleName] = useState('');
 
-  async function handleEmailLogin(e: React.FormEvent) {
+  async function handlePasswordLogin(e: React.FormEvent) {
     e.preventDefault();
-    if (!email) return;
+    if (!login || !password) return;
     setLoading(true);
     setError('');
     try {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login-email', email }),
+        body: JSON.stringify({ action: 'login-password', login, password }),
       });
       const data: any = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Não foi possível autenticar.');
-      }
-      window.location.reload();
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleRegister(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'register-email', email, name }),
-      });
-      const data: any = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Não foi possível cadastrar.');
+        throw new Error(data.error || 'Credenciais inválidas. Verifique seu usuário e senha.');
       }
       window.location.reload();
     } catch (err) {
@@ -112,7 +89,75 @@ function LoginArea({ signin }: { signin: string }) {
       <p>Medir. Interpretar. Diagnosticar.<br />Sua formação em smartphones Android começa aqui.</p>
 
       <div className="login-card">
-        {/* Opção 1: Conta Google */}
+        {/* Sessão 1: Usuário e Senha Cadastrados */}
+        <div className="login-section-title">
+          <Key size={16} />
+          <span>Usuário e senha cadastrados</span>
+        </div>
+
+        <form onSubmit={handlePasswordLogin} className="login-form">
+          <label className="login-label">Usuário ou e-mail cadastrado</label>
+          <div className="login-input-wrap">
+            <User size={17} className="login-input-icon" />
+            <input
+              type="text"
+              placeholder="ex.: usuario ou aluno@exemplo.com"
+              value={login}
+              onChange={e => { setLogin(e.target.value); setError(''); }}
+              required
+              disabled={loading}
+              className="login-input"
+              autoComplete="username"
+            />
+          </div>
+
+          <label className="login-label">Senha de acesso</label>
+          <div className="login-input-wrap">
+            <Lock size={17} className="login-input-icon" />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Sua senha de acesso"
+              value={password}
+              onChange={e => { setPassword(e.target.value); setError(''); }}
+              required
+              disabled={loading}
+              className="login-input login-input-password"
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
+              aria-label={showPassword ? 'Ocultar senha' : 'Exibir senha'}
+            >
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+
+          {error && (
+            <div className="login-alert">
+              <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <button type="submit" className="btn primary full" disabled={loading || !login || !password}>
+            {loading ? 'Verificando credenciais...' : 'Acessar Academy'} <ArrowRight size={17} />
+          </button>
+
+          <p className="login-note-restricted">
+            <ShieldCheck size={14} />
+            <span>Acesso restrito a usuários e alunos cadastrados pela administração.</span>
+          </p>
+        </form>
+
+        {/* Divisor */}
+        <div className="login-divider">
+          <span>ou continue com</span>
+        </div>
+
+        {/* Sessão 2: Opção Google */}
         <button
           type="button"
           className="btn-google"
@@ -122,100 +167,6 @@ function LoginArea({ signin }: { signin: string }) {
           <GoogleIcon />
           <span>Continuar com o Google</span>
         </button>
-
-        {/* Divisor */}
-        <div className="login-divider">
-          <span>ou acesse com seu e-mail cadastrado</span>
-        </div>
-
-        {/* Opção 2: E-mail cadastrado */}
-        {mode === 'login' ? (
-          <form onSubmit={handleEmailLogin} className="login-form">
-            <label className="login-label">E-mail cadastrado</label>
-            <div className="login-input-wrap">
-              <Mail size={17} className="login-input-icon" />
-              <input
-                type="email"
-                placeholder="aluno@exemplo.com"
-                value={email}
-                onChange={e => { setEmail(e.target.value); setError(''); }}
-                required
-                disabled={loading}
-                className="login-input"
-              />
-            </div>
-
-            {error && (
-              <div className="login-alert">
-                <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <button type="submit" className="btn primary full" disabled={loading || !email}>
-              {loading ? 'Verificando...' : 'Entrar com e-mail cadastrado'} <ArrowRight size={17} />
-            </button>
-
-            {error && (
-              <button
-                type="button"
-                className="login-switch-btn"
-                onClick={() => { setMode('register'); setError(''); }}
-              >
-                Primeiro acesso? Cadastre seu e-mail aqui
-              </button>
-            )}
-          </form>
-        ) : (
-          <form onSubmit={handleRegister} className="login-form">
-            <label className="login-label">Nome completo</label>
-            <div className="login-input-wrap">
-              <User size={17} className="login-input-icon" />
-              <input
-                type="text"
-                placeholder="Seu nome completo"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-                disabled={loading}
-                className="login-input"
-              />
-            </div>
-
-            <label className="login-label">E-mail para cadastro</label>
-            <div className="login-input-wrap">
-              <Mail size={17} className="login-input-icon" />
-              <input
-                type="email"
-                placeholder="aluno@exemplo.com"
-                value={email}
-                onChange={e => { setEmail(e.target.value); setError(''); }}
-                required
-                disabled={loading}
-                className="login-input"
-              />
-            </div>
-
-            {error && (
-              <div className="login-alert">
-                <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <button type="submit" className="btn primary full" disabled={loading || !email}>
-              {loading ? 'Cadastrando...' : 'Cadastrar e acessar Academy'} <ArrowRight size={17} />
-            </button>
-
-            <button
-              type="button"
-              className="login-switch-btn"
-              onClick={() => { setMode('login'); setError(''); }}
-            >
-              Já é cadastrado? Entrar com e-mail
-            </button>
-          </form>
-        )}
 
         <div className="login-footer-meta">
           <ShieldCheck size={14} />
@@ -298,6 +249,76 @@ export default function Academy({signedIn,signin,signout}:{signedIn:boolean;sign
 const [guided,setGuided]=useState(true);
 const [focusMode,setFocusMode]=useState(true),[nativeFullscreen,setNativeFullscreen]=useState(false),[canFullscreen,setCanFullscreen]=useState(false);
 const [data,setData]=useState<any>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[toast,setToast]=useState(''),[view,setView]=useState('dashboard'),[lessonId,setLessonId]=useState('F00.1'),[mobile,setMobile]=useState(false),[module,setModule]=useState('all'),[query,setQuery]=useState(''),[cat,setCat]=useState('all'),[favOnly,setFavOnly]=useState(false),[flow,setFlow]=useState<any>(null),[notes,setNotes]=useState(''),[report,setReport]=useState(''),[quizId,setQuizId]=useState('fundamentos'),[answers,setAnswers]=useState<Record<number,number>>({}),[quizResult,setQuizResult]=useState<any>(null),[run,setRun]=useState<any>(null),[justification,setJustification]=useState(''),[adminLesson,setAdminLesson]=useState('D001'),[editBody,setEditBody]=useState(''),[editReady,setEditReady]=useState(false),[video,setVideo]=useState(''),[reviewFeedback,setReviewFeedback]=useState<Record<string,string>>({}),[question,setQuestion]=useState(''),[options,setOptions]=useState(''),[correct,setCorrect]=useState(0),[explanation,setExplanation]=useState(''),[critical,setCritical]=useState(false);
+const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState('');
+
+function generateRandomPassword(){
+  const chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#$';
+  let pass='';
+  for(let i=0;i<10;i++)pass+=chars.charAt(Math.floor(Math.random()*chars.length));
+  return pass;
+}
+
+async function handleCreateUser(e:React.FormEvent){
+  e.preventDefault();
+  if(!newUserName.trim()||!newUserLogin.trim()||!newUserEmail.trim()||!newUserPassword){
+    setToast('Preencha todos os campos para cadastrar o usuário.');
+    return;
+  }
+  const res=await post({
+    action:'admin-user-create',
+    name:newUserName.trim(),
+    username:newUserLogin.trim().toLowerCase(),
+    email:newUserEmail.trim().toLowerCase(),
+    password:newUserPassword,
+    role:newUserRole
+  });
+  if(res){
+    setNewUserName('');
+    setNewUserLogin('');
+    setNewUserEmail('');
+    setNewUserPassword('');
+    setNewUserRole('student');
+    setToast('Usuário cadastrado com sucesso!');
+  }
+}
+
+async function handleToggleRole(user:any){
+  const newRole=user.role==='admin'?'student':'admin';
+  const roleName=newRole==='admin'?'Administrador':'Aluno';
+  if(confirm(`Deseja alterar o perfil de ${user.name} para ${roleName}?`)){
+    const res=await post({action:'admin-user-role',userId:user.id,role:newRole});
+    if(res)setToast(`Perfil de ${user.name} atualizado para ${roleName}.`);
+  }
+}
+
+async function handleToggleStatus(user:any){
+  const newStatus=user.status==='disabled'?'active':'disabled';
+  const statusName=newStatus==='active'?'ativar':'desativar';
+  if(confirm(`Deseja ${statusName} o acesso de ${user.name}?`)){
+    const res=await post({action:'admin-user-status',userId:user.id,status:newStatus});
+    if(res)setToast(`Acesso ${newStatus==='active'?'ativado':'desativado'} com sucesso.`);
+  }
+}
+
+async function handleResetPassword(){
+  if(!pwdModalUser||!pwdModalValue||pwdModalValue.length<4){
+    setToast('A nova senha deve ter no mínimo 4 caracteres.');
+    return;
+  }
+  const res=await post({action:'admin-user-password',userId:pwdModalUser.id,password:pwdModalValue});
+  if(res){
+    setToast(`Senha de ${pwdModalUser.name} redefinida com sucesso!`);
+    setPwdModalUser(null);
+    setPwdModalValue('');
+  }
+}
+
+async function handleDeleteUser(user:any){
+  if(confirm(`Tem certeza que deseja excluir o usuário ${user.name}? Esta ação apagará todo o progresso e histórico associados e não pode ser desfeita.`)){
+    const res=await post({action:'admin-user-delete',userId:user.id});
+    if(res)setToast(`Usuário ${user.name} excluído.`);
+  }
+}
 async function load(){try{setError('');const r=await fetch('/api/academy',{cache:'no-store'});const j:any=await r.json();if(!r.ok)throw new Error(j.error);setData(j);}catch(e){setError((e as Error).message)}}
 useEffect(()=>{if(signedIn)load();const sync=()=>{const h=location.hash.slice(1).split('/');if(h[0]&&labels[h[0]]){setView(h[0]);if(h[0]==='aula'&&h[1]){setLessonId(decodeURIComponent(h[1]));setFocusMode(true);}}};sync();window.addEventListener('hashchange',sync);return()=>window.removeEventListener('hashchange',sync)},[]);
 useEffect(()=>{const p=data?.progress.find((x:any)=>x.lesson_id===lessonId);setNotes(p?.notes||'');setReport('')},[lessonId,!!data]);
@@ -355,13 +376,15 @@ return <div className={'app '+(isFocus?'focus-mode':'')}>
 ['Certificação','Horas e competências comprovadas','A marcação de estudo é autorregistro. Práticas exigem revisão; questões de segurança são obrigatórias. Não há emissão automática de certificado com carga não cumprida.']
 ].map(([code,title,text])=><article className="revision-card" key={code}><span className="revision-code">{code}</span><div><h3>{title}</h3><p>{text}</p></div><CheckCircle2 size={19}/></article>)}<div className="release-note"><AlertTriangle size={18}/><p>Revisões editoriais e didáticas aplicadas. A validação de procedimentos por modelo e a gravação de demonstrações reais continuam necessárias antes de liberação comercial integral.</p></div></>}
 {view==='admin'&&data.user.admin&&<><Heading eyebrow="GESTÃO DA ACADEMY" title="Conteúdo, alunos e evidências." text="Publique textos revisados, associe vídeos e materiais, amplie o banco de questões e revise os relatórios."/><div className="stats"><Stat icon={GraduationCap} label="Contas registradas" value={data.admin.users.length} foot="Acesso atual privado"/><Stat icon={BookOpen} label="Aulas para estudo" value={available.length} foot={'De '+lessons.length+' previstas'}/><Stat icon={ClipboardCheck} label="Práticas pendentes" value={data.admin.practices.filter((p:any)=>p.status==='pending').length} foot="Aguardam sua revisão"/><Stat icon={FlaskConical} label="Simulações para revisar" value={data.admin.simulations.filter((s:any)=>s.status==='pending_review').length} foot="Justificativas enviadas"/></div><section className="panel"><div className="section-heading"><h2>Editor de aulas</h2><span className="quiet-tag">Texto, vídeo e liberação</span></div><label className="form-label">Aula<select value={adminLesson} onChange={e=>setAdminLesson(e.target.value)}>{lessons.map((l:any)=><option key={l.id} value={l.id}>{l.id} • {l.title}</option>)}</select></label><label className="form-label">Conteúdo da aula<textarea className="editor" rows={12} value={editBody} onChange={e=>setEditBody(e.target.value)} placeholder="Use ## para títulos. Preencha objetivos, teoria, testes, limites, prática e avaliação antes de liberar."/></label><label className="form-label">Vídeo MP4/WebM por HTTPS ou endereço de arquivo enviado<input value={video} onChange={e=>setVideo(e.target.value)} placeholder="https://…/video.mp4 ou /api/files/…"/></label><label className="checkbox-row"><input type="checkbox" checked={editReady} onChange={e=>setEditReady(e.target.checked)}/>Texto revisado e disponível para estudo</label><button disabled={busy||editBody.length<100} className="btn primary" onClick={async()=>{if(await post({action:'lesson-save',lessonId:adminLesson,body:editBody,ready:editReady,video}))setToast('Aula atualizada.')}}><Save size={16}/>Salvar aula</button><div className="upload-area"><Upload size={21}/><div><b>Enviar material para esta aula</b><p>PDF, MP4 ou WebM • até 25 MB por arquivo. Para vídeos maiores, use um endereço HTTPS de mídia.</p></div><input aria-label="Enviar material da aula" type="file" accept="application/pdf,video/mp4,video/webm" disabled={busy} onChange={async e=>{const f=e.target.files?.[0];if(!f)return;setBusy(true);try{const form=new FormData();form.append('file',f);form.append('lessonId',adminLesson);const r=await fetch('/api/upload',{method:'POST',body:form});const j:any=await r.json();if(!r.ok)throw new Error(j.error);if(f.type.startsWith('video/'))setVideo(j.url);await load();setToast('Arquivo enviado. Para o vídeo aparecer no player, salve a aula com seu endereço.')}catch(err){setToast((err as Error).message)}finally{setBusy(false);e.target.value=''}}}/></div></section>
-<section className="panel"><h2>Alunos e progresso registrado</h2><div className="table-wrap"><table><thead><tr><th>Nome</th><th>Contato</th><th>Aulas estudadas</th><th>Entrada</th></tr></thead><tbody>{data.admin.users.map((u:any)=><tr key={u.id}><td>{u.name}</td><td>{u.email}</td><td>{u.studied}/{lessons.length}</td><td>{new Date(u.created).toLocaleDateString('pt-BR')}</td></tr>)}</tbody></table></div></section>
+<section className="panel"><div className="section-heading"><h2><Users size={20} style={{verticalAlign:'middle',marginRight:8}}/>Criação de Novo Usuário e Acesso</h2><span className="quiet-tag">Controle de Acessos • RBAC</span></div><p className="muted">Cadastre novos alunos ou administradores com credenciais exclusivas de acesso à plataforma.</p><form onSubmit={handleCreateUser}><div className="admin-user-create-grid"><label className="form-label">Nome completo<input type="text" placeholder="Ex.: Carlos Silva" value={newUserName} onChange={e=>setNewUserName(e.target.value)} required disabled={busy}/></label><label className="form-label">Nome de usuário (Login)<input type="text" placeholder="Ex.: carlos.silva" value={newUserLogin} onChange={e=>setNewUserLogin(e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g,''))} required disabled={busy}/></label><label className="form-label">E-mail do usuário<input type="email" placeholder="carlos@exemplo.com" value={newUserEmail} onChange={e=>setNewUserEmail(e.target.value)} required disabled={busy}/></label><label className="form-label">Senha de acesso<div className="input-with-button"><input type="text" placeholder="Mínimo 4 caracteres" value={newUserPassword} onChange={e=>setNewUserPassword(e.target.value)} required disabled={busy}/><button type="button" className="btn secondary" onClick={()=>setNewUserPassword(generateRandomPassword())} title="Gerar senha aleatória"><RefreshCw size={14}/> Gerar</button></div></label><label className="form-label">Perfil de acesso<select value={newUserRole} onChange={e=>setNewUserRole(e.target.value as 'student'|'admin')} disabled={busy}><option value="student">Aluno (Acesso aos Cursos e Laboratórios)</option><option value="admin">Administrador (Gestão Integral)</option></select></label></div><div className="admin-user-create-actions"><button type="submit" className="btn primary" disabled={busy||!newUserName||!newUserLogin||!newUserEmail||!newUserPassword}><UserPlus size={16}/> Cadastrar Usuário</button></div></form></section>
+<section className="panel"><div className="admin-users-header"><div className="section-heading" style={{marginBottom:0}}><h2>Gestão de Usuários e Controle de Acessos</h2><span className="quiet-tag">{data.admin.users.length} usuários cadastrados</span></div><div className="admin-users-search"><Search size={15}/><input type="text" placeholder="Buscar por nome, usuário ou e-mail..." value={adminUserFilter} onChange={e=>setAdminUserFilter(e.target.value)}/></div></div><div className="table-wrap"><table><thead><tr><th>Usuário</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Aulas</th><th>Cadastro</th><th style={{textAlign:'right'}}>Ações</th></tr></thead><tbody>{data.admin.users.filter((u:any)=>{if(!adminUserFilter.trim())return true;const term=adminUserFilter.toLowerCase();return u.name?.toLowerCase().includes(term)||u.email?.toLowerCase().includes(term)||u.username?.toLowerCase().includes(term);}).map((u:any)=><tr key={u.id}><td><div className="user-cell-main"><span className="user-cell-name">{u.name}</span><span className="user-cell-login">@{u.username||u.email?.split('@')[0]}</span></div></td><td>{u.email}</td><td><span className={`user-badge ${u.role==='admin'?'badge-admin':'badge-student'}`}>{u.role==='admin'?'Administrador':'Aluno'}</span></td><td><span className={`status-pill ${u.status==='disabled'?'disabled':'active'}`}><span className="status-dot"/>{u.status==='disabled'?'Desativado':'Ativo'}</span></td><td>{u.studied}/{lessons.length}</td><td>{new Date(u.created).toLocaleDateString('pt-BR')}</td><td><div className="action-buttons-group" style={{justifyContent:'flex-end'}}><button type="button" className="action-btn-mini" title="Redefinir Senha de Acesso" disabled={busy} onClick={()=>{setPwdModalUser(u);setPwdModalValue(generateRandomPassword());}}><Key size={13}/> Senha</button><button type="button" className="action-btn-mini" title={u.role==='admin'?'Mudar para Aluno':'Promover a Administrador'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleRole(u)}><ShieldCheck size={13}/> {u.role==='admin'?'Aluno':'Admin'}</button><button type="button" className="action-btn-mini" title={u.status==='disabled'?'Ativar acesso':'Desativar acesso'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleStatus(u)}>{u.status==='disabled'?<UserCheck size={13}/>:<UserX size={13}/>} {u.status==='disabled'?'Ativar':'Desativar'}</button><button type="button" className="action-btn-mini danger" title="Excluir Usuário" disabled={busy||u.id===data.user.id} onClick={()=>handleDeleteUser(u)}><Trash2 size={13}/></button></div></td></tr>)}</tbody></table></div></section>
 <section className="panel"><h2>Revisão de práticas</h2>{data.admin.practices.length?data.admin.practices.map((p:any)=><div className="admin-submission" key={p.id}><div className="section-heading"><b>{p.user_name} • {p.lesson_id}</b><span className="quiet-tag">{statusLabel(p.status)}</span></div><p className="report-text">{p.report}</p><textarea rows={2} value={reviewFeedback[p.id]??p.feedback} onChange={e=>setReviewFeedback({...reviewFeedback,[p.id]:e.target.value})} placeholder="Feedback: evidência, segurança, interpretação e próximo teste…"/><div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'approved',feedback:reviewFeedback[p.id]??p.feedback})}>Aprovar prática</button><button className="btn secondary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'revise',feedback:reviewFeedback[p.id]??p.feedback})}>Solicitar revisão</button></div></div>):<p className="muted">Os relatórios enviados aparecerão aqui.</p>}</section>
 <section className="panel"><h2>Justificativas do laboratório</h2>{data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada.</p>}</section>
 <section className="panel"><h2>Ampliar banco de questões</h2><div className="two-cols"><label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label><label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label></div><label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label><label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label><label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label><label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label><button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button></section>
 <section className="panel"><h2>Resultados de avaliações</h2>{data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}</section></>}
 </main><footer className="app-footer"><div className="footer-brand"><img src="/images/logo.png?v=clean" alt="BR3Tech" className="footer-logo"/><span>BR3 Academy <b>•</b> Medir. Interpretar. Diagnosticar.</span></div><span>Formação Técnica BR3Tech • Conteúdo protegido</span></footer></div>
 {flow&&<div className="modal-backdrop" onClick={()=>setFlow(null)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="flow-title" onClick={e=>e.stopPropagation()}><div className="modal-top"><span className="flow-code">FLUXOGRAMA {flow.numero} • PÁGINA {flow.pagina_pdf}</span><button autoFocus className="icon-button" onClick={()=>setFlow(null)} aria-label="Fechar referência"><X/></button></div><h2 id="flow-title">{flow.titulo_original.replace('ressposta [sic]','resposta')}</h2><span className="category-chip">{flow.categoria_conteudo}</span>{[['Sintoma',flow.sintoma_sintese_pdf],['Ferramentas da fonte',flow.ferramentas_declaradas_pdf],['Testes • síntese da fonte',flow.testes_sintese_pdf],['Pontos e circuitos • sem pinagem',flow.pontos_circuitos_sem_pinagem]].map(([title,text])=><div className="detail-block" key={title}><h3>{title}</h3><p>{text}</p></div>)}<div className="measurement-note"><Zap size={19}/><div><b>Valores genéricos citados</b><p>{flow.valores_genericos_pdf}</p><small>Não configure a bancada sem confirmar o modelo e a linha.</small></div></div><div className="detail-block"><h3>Complementação e validação</h3><p>{flow.complementacao_validacao}</p></div><div className="modal-actions"><a className="btn secondary" href={'/materials/100_Fluxogramas_Android_BR3Tech.pdf#page='+flow.pagina_pdf} target="_blank" rel="noreferrer">Ver original <ArrowUpRight size={16}/></a><button className="btn primary" onClick={()=>{go('aula','D'+flow.numero);setFlow(null)}}>Ir à aula <ArrowRight size={17}/></button></div></section></div>}
+{pwdModalUser&&<div className="modal-backdrop" onClick={()=>setPwdModalUser(null)}><section className="modal pwd-modal-card" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}><div className="pwd-modal-header"><div><h3>Redefinir Senha de Acesso</h3><p className="pwd-modal-desc">Defina uma nova senha para o usuário <b>{pwdModalUser.name}</b> (@{pwdModalUser.username||pwdModalUser.email?.split('@')[0]}).</p></div><button className="icon-button" onClick={()=>setPwdModalUser(null)} aria-label="Fechar modal"><X size={16}/></button></div><label className="form-label">Nova senha de acesso<div className="input-with-button"><input type="text" value={pwdModalValue} onChange={e=>setPwdModalValue(e.target.value)} placeholder="Digite a nova senha" disabled={busy}/><button type="button" className="btn secondary" onClick={()=>setPwdModalValue(generateRandomPassword())}><RefreshCw size={14}/> Gerar</button></div></label><div className="pwd-modal-actions"><button type="button" className="btn secondary" onClick={()=>setPwdModalUser(null)} disabled={busy}>Cancelar</button><button type="button" className="btn primary" onClick={handleResetPassword} disabled={busy||!pwdModalValue||pwdModalValue.length<4}><Save size={15}/> Salvar Nova Senha</button></div></section></div>}
 {toast&&<div className="toast" role="status"><span>{toast}</span><button className="icon-button" onClick={()=>setToast('')} aria-label="Fechar mensagem"><X size={15}/></button></div>}
 </div>;
 function moduleCard(m:any){const group=lessons.filter((l:any)=>l.module===m.id),ready=group.filter((l:any)=>l.ready).length,done=group.filter((l:any)=>data.progress.some((p:any)=>p.lesson_id===l.id&&p.studied)).length,Icon=modIcons[Number(m.id)];return <article className="module-card" key={m.id}><div className="module-card-top"><span className="module-icon"><Icon size={22}/></span><span className="module-code">MÓDULO {m.id}</span></div><h3>{m.title}</h3><p>{m.description}</p><div className="module-meta"><span><Clock size={13}/>{String(m.hours).replace('.',',')} h</span><span><BookOpen size={13}/>{group.length} aulas</span></div><div className="module-track"><span style={{width:(done/group.length*100)+'%'}}/></div><div className="module-footer"><span className={ready?'ready-text':''}>{ready?ready+' textos disponíveis':'Referências disponíveis'}</span><button className="icon-button" aria-label={'Abrir módulo '+m.id} onClick={()=>{setModule(m.id);go('curso');setTimeout(()=>document.getElementById('module-lessons')?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}><ArrowRight size={19}/></button></div></article>}

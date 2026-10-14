@@ -40,79 +40,192 @@ try {
     }
   }
 
-  // 1. Test registering a user via register-email
+  // 1. Initial admin bootstrap using action: login-password
   let r = await mf.dispatchFetch('http://academy.test/api/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'register-email', email: 'thiago@br3academy.com.br', name: 'Thiago Maia' }),
+    body: JSON.stringify({ action: 'login-password', login: 'admin', password: 'admin123' }),
   });
   assert.equal(r.status, 200);
   let j = await r.json();
   assert.equal(j.ok, true);
-  assert.equal(j.user.email, 'thiago@br3academy.com.br');
-  assert.equal(j.user.displayName, 'Thiago Maia');
+  assert.equal(j.user.role, 'admin');
   const setCookie = r.headers.get('set-cookie');
   assert.ok(setCookie.includes('br3_session='));
+  const adminCookie = `br3_session=${setCookie.match(/br3_session=([^;]+)/)[1]}`;
 
-  // Extract session cookie
-  const cookieMatch = setCookie.match(/br3_session=([^;]+)/);
-  const cookieHeader = `br3_session=${cookieMatch[1]}`;
-
-  // 2. Verify authenticated access with this cookie to /api/academy
+  // 2. Admin verifies access to /api/academy
   r = await mf.dispatchFetch('http://academy.test/api/academy', {
-    headers: { cookie: cookieHeader },
+    headers: { cookie: adminCookie },
   });
   assert.equal(r.status, 200);
   j = await r.json();
-  assert.equal(j.user.email, 'thiago@br3academy.com.br');
-  assert.equal(j.user.name, 'Thiago Maia');
-  assert.equal(j.user.admin, true); // First user becomes owner/admin!
+  assert.equal(j.user.admin, true);
 
-  // 3. Test logging in with an already registered email via login-email
-  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+  // 3. Admin creates a new student user via action: admin-user-create
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'login-email', email: 'thiago@br3academy.com.br' }),
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({
+      action: 'admin-user-create',
+      name: 'Carlos Oliveira',
+      username: 'carlos.aluno',
+      email: 'carlos@exemplo.com',
+      password: 'senhaSegura123',
+      role: 'student',
+    }),
   });
   assert.equal(r.status, 200);
   j = await r.json();
   assert.equal(j.ok, true);
-  assert.equal(j.user.email, 'thiago@br3academy.com.br');
+  const createdUserId = j.userId;
+  assert.ok(createdUserId);
 
-  // 4. Test logging in with an unregistered email -> should return 404 with notRegistered
+  // 4. Test student login with username and password
   r = await mf.dispatchFetch('http://academy.test/api/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'login-email', email: 'nao.existe@exemplo.com' }),
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'senhaSegura123' }),
   });
-  assert.equal(r.status, 404);
+  assert.equal(r.status, 200);
   j = await r.json();
-  assert.equal(j.notRegistered, true);
+  assert.equal(j.ok, true);
+  assert.equal(j.user.displayName, 'Carlos Oliveira');
+  const studentCookie = `br3_session=${r.headers.get('set-cookie').match(/br3_session=([^;]+)/)[1]}`;
 
-  // 5. Test logging in with Google
+  // 5. Test student login with email and password
   r = await mf.dispatchFetch('http://academy.test/api/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'login-google', email: 'aluno.novo@gmail.com', name: 'Aluno Google Teste' }),
+    body: JSON.stringify({ action: 'login-password', login: 'carlos@exemplo.com', password: 'senhaSegura123' }),
+  });
+  assert.equal(r.status, 200);
+
+  // 6. Test login failure with wrong password
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'senhaIncorreta' }),
+  });
+  assert.ok([400, 401].includes(r.status));
+
+  // 7. Test student verifying role (is student, not admin)
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    headers: { cookie: studentCookie },
+  });
+  assert.equal(r.status, 200);
+  j = await r.json();
+  assert.equal(j.user.admin, false);
+
+  // 8. Student trying to perform admin action should be forbidden (403)
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: studentCookie },
+    body: JSON.stringify({ action: 'admin-user-create', name: 'Hacker', username: 'hack', email: 'h@h.com', password: '123' }),
+  });
+  assert.equal(r.status, 403);
+
+  // 9. Admin resets student password via action: admin-user-password
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({ action: 'admin-user-password', userId: createdUserId, password: 'novaSenha456' }),
+  });
+  assert.equal(r.status, 200);
+
+  // Old password should fail now
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'senhaSegura123' }),
+  });
+  assert.ok([400, 401].includes(r.status));
+
+  // New password should succeed
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'novaSenha456' }),
+  });
+  assert.equal(r.status, 200);
+
+  // 10. Admin disables student account via action: admin-user-status
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({ action: 'admin-user-status', userId: createdUserId, status: 'disabled' }),
+  });
+  assert.equal(r.status, 200);
+
+  // Disabled user cannot log in
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'novaSenha456' }),
+  });
+  assert.ok([400, 403].includes(r.status));
+  j = await r.json();
+  assert.ok(j.error.includes('desativado'));
+
+  // 11. Admin re-enables student account
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({ action: 'admin-user-status', userId: createdUserId, status: 'active' }),
+  });
+  assert.equal(r.status, 200);
+
+  // 12. Admin promotes student to admin via action: admin-user-role
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({ action: 'admin-user-role', userId: createdUserId, role: 'admin' }),
+  });
+  assert.equal(r.status, 200);
+
+  // Student logs in again and is now admin
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'novaSenha456' }),
+  });
+  assert.equal(r.status, 200);
+  const promotedCookie = `br3_session=${r.headers.get('set-cookie').match(/br3_session=([^;]+)/)[1]}`;
+  r = await mf.dispatchFetch('http://academy.test/api/academy', {
+    headers: { cookie: promotedCookie },
+  });
+  assert.equal(r.status, 200);
+  j = await r.json();
+  assert.equal(j.user.admin, true);
+
+  // 13. Test Google Sign-In
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-google', email: 'aluno.google@br3academy.com.br', name: 'Aluno Google' }),
   });
   assert.equal(r.status, 200);
   j = await r.json();
   assert.equal(j.ok, true);
   assert.equal(j.user.provider, 'google');
-  assert.equal(j.user.email, 'aluno.novo@gmail.com');
-  const googleCookie = r.headers.get('set-cookie');
-  const googleCookieHeader = `br3_session=${googleCookie.match(/br3_session=([^;]+)/)[1]}`;
 
-  // 6. Verify second user accessing /api/academy (should be student, admin: false)
+  // 14. Admin deletes a user via action: admin-user-delete
   r = await mf.dispatchFetch('http://academy.test/api/academy', {
-    headers: { cookie: googleCookieHeader },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', cookie: adminCookie },
+    body: JSON.stringify({ action: 'admin-user-delete', userId: createdUserId }),
   });
   assert.equal(r.status, 200);
-  j = await r.json();
-  assert.equal(j.user.email, 'aluno.novo@gmail.com');
-  assert.equal(j.user.admin, false);
 
-  // 7. Test signout endpoint
+  // Deleted user cannot log in
+  r = await mf.dispatchFetch('http://academy.test/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'login-password', login: 'carlos.aluno', password: 'novaSenha456' }),
+  });
+  assert.ok([400, 401].includes(r.status));
+
+  // 15. Signout endpoint
   r = await mf.dispatchFetch('http://academy.test/api/auth/signout?return_to=/', {
     redirect: 'manual',
   });
@@ -120,7 +233,7 @@ try {
   assert.equal(r.headers.get('location'), '/');
   assert.ok(r.headers.get('set-cookie').includes('Max-Age=0'));
 
-  console.log('ALL AUTH TESTS PASSED: Google login, email login, email registration, cookie session and signout!');
+  console.log('ALL AUTH & USER MANAGEMENT TESTS PASSED: username/password auth, admin user creation, role toggling, status deactivation, password reset, deletion, and Google login!');
 } finally {
   await mf.dispose();
 }

@@ -1,4 +1,5 @@
 import { db, identity, sameOrigin, errorResponse } from '../../../lib/server';
+import { hashPassword, generateSalt } from '../../../lib/auth-util';
 import course from '../../../lib/course.json';
 import flows from '../../../lib/flows.json';
 import {visualSources} from '../../../lib/visuals/catalog';
@@ -8,7 +9,11 @@ const lessonIDs=new Set(course.lessons.map(x=>x.id));const now=()=>new Date().to
 async function questionBank(id:string){if(!quizzes[id])throw new Error('Avaliação inválida.');const {results}=await db().prepare('SELECT * FROM custom_questions WHERE quiz_id=?').bind(id).all();return [...quizzes[id].questions,...results.map((x:any)=>({id:x.id,question:x.question,options:JSON.parse(x.options),answer:x.answer,explanation:x.explanation,critical:!!x.critical}))] as Question[];}
 function publicNode(s:any,node:string){const n=s.nodes[node];return {text:n.text,terminal:!!n.terminal,failed:!!n.failed,choices:(n.choices||[]).map((c:any,i:number)=>({id:i,label:c.label}))};}
 export async function GET(){try{const u=await identity();const queries=[db().prepare('SELECT * FROM progress WHERE user_id=?').bind(u.userId),db().prepare('SELECT flow_id FROM favorites WHERE user_id=?').bind(u.userId),db().prepare('SELECT * FROM lesson_content'),db().prepare('SELECT id,quiz_id,score,passed,created FROM quiz_attempts WHERE user_id=? ORDER BY created DESC').bind(u.userId),db().prepare('SELECT * FROM practices WHERE user_id=? ORDER BY created DESC').bind(u.userId),db().prepare('SELECT id,scenario,status,score,created FROM simulations WHERE user_id=? ORDER BY created DESC').bind(u.userId),db().prepare('SELECT * FROM files ORDER BY created DESC'),db().prepare('SELECT lesson_id,step,completed,updated FROM journeys WHERE user_id=? ORDER BY updated DESC').bind(u.userId)];const r=await db().batch(queries);const overrides=r[2].results as any[];const lessons=course.lessons.map(l=>{const o=overrides.find(x=>x.lesson_id===l.id);return {...l,...(o?{body:o.body,ready:!!o.ready,video:o.video}:{video:''})};});const assessments=[];for(const [id,q]of Object.entries(quizzes)){const qs=await questionBank(id);assessments.push({id,title:q.title,questions:qs.map(({answer,explanation,...rest})=>rest)});}
-let admin:any=null;if(u.admin){const a=await db().batch([db().prepare('SELECT u.id,u.name,u.email,u.created,COUNT(p.lesson_id) AS studied FROM users u LEFT JOIN progress p ON p.user_id=u.id AND p.studied=1 GROUP BY u.id ORDER BY u.created DESC'),db().prepare('SELECT p.*,u.name AS user_name FROM practices p JOIN users u ON p.user_id=u.id ORDER BY p.created DESC'),db().prepare('SELECT s.*,u.name AS user_name FROM simulations s JOIN users u ON s.user_id=u.id ORDER BY s.created DESC'),db().prepare('SELECT q.id,q.quiz_id,q.score,q.passed,q.created,u.name AS user_name FROM quiz_attempts q JOIN users u ON q.user_id=u.id ORDER BY q.created DESC')]);admin={users:a[0].results,practices:a[1].results,simulations:a[2].results,attempts:a[3].results};}
+let admin:any=null;if(u.admin){
+let usersQuery=`SELECT u.id, u.name, u.email, u.created, COALESCE(c.username, LOWER(REPLACE(SUBSTR(u.email, 1, INSTR(u.email || '@', '@') - 1), ' ', ''))) AS username, COALESCE(c.role, CASE WHEN o.user_id IS NOT NULL THEN 'admin' ELSE 'student' END) AS role, COALESCE(c.status, 'active') AS status, CASE WHEN c.password_hash IS NOT NULL AND LENGTH(c.password_hash) > 0 THEN 1 ELSE 0 END AS has_password, CASE WHEN o.user_id IS NOT NULL THEN 1 ELSE 0 END AS is_owner, COUNT(p.lesson_id) AS studied FROM users u LEFT JOIN user_credentials c ON c.user_id = u.id LEFT JOIN owner o ON o.user_id = u.id AND o.id = 1 LEFT JOIN progress p ON p.user_id = u.id AND p.studied = 1 GROUP BY u.id ORDER BY u.created DESC`;
+let usersResult: any;
+try { usersResult = await db().prepare(usersQuery).all(); } catch { usersResult = await db().prepare('SELECT u.id, u.name, u.email, u.created, u.email AS username, "student" AS role, "active" AS status, 0 AS has_password, 0 AS is_owner, COUNT(p.lesson_id) AS studied FROM users u LEFT JOIN progress p ON p.user_id=u.id AND p.studied=1 GROUP BY u.id ORDER BY u.created DESC').all(); }
+const a=await db().batch([db().prepare('SELECT p.*,u.name AS user_name FROM practices p JOIN users u ON p.user_id=u.id ORDER BY p.created DESC'),db().prepare('SELECT s.*,u.name AS user_name FROM simulations s JOIN users u ON s.user_id=u.id ORDER BY s.created DESC'),db().prepare('SELECT q.id,q.quiz_id,q.score,q.passed,q.created,u.name AS user_name FROM quiz_attempts q JOIN users u ON q.user_id=u.id ORDER BY q.created DESC')]);admin={users:usersResult.results,practices:a[0].results,simulations:a[1].results,attempts:a[2].results};}
 return Response.json({journeyHistory:r[7].results,visualSources,user:{name:u.displayName,email:u.email,admin:u.admin},modules:course.modules,lessons,flows,progress:r[0].results,favorites:r[1].results.map((x:any)=>x.flow_id),attempts:r[3].results,practices:r[4].results,simulationHistory:r[5].results,files:r[6].results,quizzes:assessments,scenarios:Object.entries(scenarios).map(([id,s])=>({id,title:s.title,category:s.category,description:s.description})),admin},{headers:{'Cache-Control':'no-store'}});
 }catch(e){return errorResponse(e)}}
 export async function POST(request:Request){try{sameOrigin(request);const u=await identity();if(Number(request.headers.get('content-length')||0)>250000)throw new Error('Conteúdo muito grande.');const raw=await request.text();if(raw.length>250000)throw new Error('Conteúdo muito grande.');const b=JSON.parse(raw);const action=b.action;const id=typeof b.lessonId==='string'?b.lessonId:'';const requireLesson=()=>{if(!lessonIDs.has(id))throw new Error('Aula inválida.');};const admin=()=>{if(!u.admin)throw new Error('ADMIN');};
@@ -23,5 +28,105 @@ else if(action==='lesson-save'){admin();requireLesson();const body=String(b.body
 else if(action==='practice-review'){admin();if(!['approved','revise'].includes(b.status))throw new Error('Status inválido.');const f=String(b.feedback||'').trim();if(f.length<10)throw new Error('Escreva um feedback com pelo menos 10 caracteres.');await db().prepare('UPDATE practices SET status=?,feedback=? WHERE id=?').bind(b.status,f,String(b.id)).run();}
 else if(action==='simulation-review'){admin();if(!['approved','revise'].includes(b.status))throw new Error('Status inválido.');await db().prepare('UPDATE simulations SET status=? WHERE id=? AND status IN (?,?,?)').bind(b.status,String(b.id),'pending_review','approved','revise').run();}
 else if(action==='question-add'){admin();if(!quizzes[b.quizId]||!Array.isArray(b.options)||b.options.length<2||b.options.length>5||!Number.isInteger(b.answer)||b.answer<0||b.answer>=b.options.length)throw new Error('Confira avaliação, opções e resposta correta.');if(String(b.question||'').length<10||String(b.explanation||'').length<10||b.options.some((x:any)=>typeof x!=='string'||x.length<1||x.length>500))throw new Error('Preencha questão, alternativas e comentário.');await db().prepare('INSERT INTO custom_questions(id,quiz_id,question,options,answer,explanation,critical) VALUES(?,?,?,?,?,?,?)').bind(crypto.randomUUID(),b.quizId,String(b.question).slice(0,2000),JSON.stringify(b.options),b.answer,String(b.explanation).slice(0,3000),b.critical?1:0).run();}
+else if(action==='admin-user-create'){admin();
+  const name=String(b.name||'').trim();
+  const rawUsername=String(b.username||'').trim().toLowerCase();
+  const email=String(b.email||'').trim().toLowerCase();
+  const password=String(b.password||'');
+  const role=b.role==='admin'?'admin':'student';
+
+  if(!name||name.length<2)throw new Error('Informe o nome completo do usuário.');
+  if(!rawUsername||rawUsername.length<3||!/^[a-z0-9._-]+$/.test(rawUsername))throw new Error('Usuário deve ter pelo menos 3 caracteres alfanuméricos (letras, números, pontos ou traços).');
+  if(!email||!email.includes('@'))throw new Error('Informe um e-mail válido.');
+  if(!password||password.length<4)throw new Error('A senha deve ter pelo menos 4 caracteres.');
+
+  const existingEmail:any=await db().prepare('SELECT id FROM users WHERE LOWER(email)=LOWER(?)').bind(email).first();
+  if(existingEmail)throw new Error('Este e-mail já está cadastrado.');
+
+  const existingUser:any=await db().prepare('SELECT user_id FROM user_credentials WHERE LOWER(username)=LOWER(?)').bind(rawUsername).first().catch(()=>null);
+  if(existingUser)throw new Error('Este nome de usuário já está em uso.');
+
+  const userId='usr_'+crypto.randomUUID().slice(0,10);
+  const salt=generateSalt();
+  const passwordHash=await hashPassword(password,salt);
+  const stamp=now();
+
+  await db().batch([
+    db().prepare('INSERT INTO users(id,name,email,created) VALUES(?,?,?,?)').bind(userId,name,email,stamp),
+    db().prepare('INSERT OR REPLACE INTO user_credentials(user_id,username,password_hash,salt,role,status,created,updated) VALUES(?,?,?,?,?,?,?,?)').bind(userId,rawUsername,passwordHash,salt,role,'active',stamp,stamp)
+  ]);
+  return Response.json({ok:true,userId});
+}
+else if(action==='admin-user-password'){admin();
+  const userId=String(b.userId||'').trim();
+  const password=String(b.password||'');
+  if(!userId)throw new Error('ID do usuário não informado.');
+  if(!password||password.length<4)throw new Error('A senha deve ter pelo menos 4 caracteres.');
+
+  const targetUser:any=await db().prepare('SELECT id,name,email FROM users WHERE id=?').bind(userId).first();
+  if(!targetUser)throw new Error('Usuário não encontrado.');
+
+  const targetCred:any=await db().prepare('SELECT username,role,status FROM user_credentials WHERE user_id=?').bind(userId).first().catch(()=>null);
+  const username=targetCred?.username||targetUser.email.split('@')[0].toLowerCase().replace(/[^a-z0-9._-]/g,'');
+  const role=targetCred?.role||'student';
+  const status=targetCred?.status||'active';
+
+  const salt=generateSalt();
+  const passwordHash=await hashPassword(password,salt);
+  const stamp=now();
+
+  await db().prepare('INSERT INTO user_credentials(user_id,username,password_hash,salt,role,status,created,updated) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET password_hash=excluded.password_hash,salt=excluded.salt,updated=excluded.updated').bind(userId,username,passwordHash,salt,role,status,stamp,stamp).run();
+  return Response.json({ok:true});
+}
+else if(action==='admin-user-role'){admin();
+  const userId=String(b.userId||'').trim();
+  const newRole=b.role==='admin'?'admin':'student';
+  if(!userId)throw new Error('ID do usuário não informado.');
+  if(userId===u.userId&&newRole!=='admin')throw new Error('Você não pode revogar seu próprio acesso de administrador.');
+
+  const targetUser:any=await db().prepare('SELECT id,name,email FROM users WHERE id=?').bind(userId).first();
+  if(!targetUser)throw new Error('Usuário não encontrado.');
+
+  const targetCred:any=await db().prepare('SELECT username,password_hash,salt,status FROM user_credentials WHERE user_id=?').bind(userId).first().catch(()=>null);
+  const username=targetCred?.username||targetUser.email.split('@')[0].toLowerCase().replace(/[^a-z0-9._-]/g,'');
+  const stamp=now();
+
+  await db().prepare('INSERT INTO user_credentials(user_id,username,password_hash,salt,role,status,created,updated) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET role=excluded.role,updated=excluded.updated').bind(userId,username,targetCred?.password_hash||'',targetCred?.salt||'',newRole,targetCred?.status||'active',stamp,stamp).run();
+  return Response.json({ok:true});
+}
+else if(action==='admin-user-status'){admin();
+  const userId=String(b.userId||'').trim();
+  const newStatus=b.status==='disabled'?'disabled':'active';
+  if(!userId)throw new Error('ID do usuário não informado.');
+  if(userId===u.userId&&newStatus==='disabled')throw new Error('Você não pode desativar seu próprio acesso.');
+
+  const targetUser:any=await db().prepare('SELECT id,name,email FROM users WHERE id=?').bind(userId).first();
+  if(!targetUser)throw new Error('Usuário não encontrado.');
+
+  const targetCred:any=await db().prepare('SELECT username,password_hash,salt,role FROM user_credentials WHERE user_id=?').bind(userId).first().catch(()=>null);
+  const username=targetCred?.username||targetUser.email.split('@')[0].toLowerCase().replace(/[^a-z0-9._-]/g,'');
+  const stamp=now();
+
+  await db().prepare('INSERT INTO user_credentials(user_id,username,password_hash,salt,role,status,created,updated) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status,updated=excluded.updated').bind(userId,username,targetCred?.password_hash||'',targetCred?.salt||'',targetCred?.role||'student',newStatus,stamp,stamp).run();
+  return Response.json({ok:true});
+}
+else if(action==='admin-user-delete'){admin();
+  const userId=String(b.userId||'').trim();
+  if(!userId)throw new Error('ID do usuário não informado.');
+  if(userId===u.userId)throw new Error('Você não pode excluir sua própria conta enquanto estiver logado.');
+
+  await db().batch([
+    db().prepare('DELETE FROM users WHERE id=?').bind(userId),
+    db().prepare('DELETE FROM user_credentials WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM progress WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM favorites WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM quiz_attempts WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM practices WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM simulations WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM journeys WHERE user_id=?').bind(userId)
+  ]);
+  return Response.json({ok:true});
+}
 else throw new Error('Operação inválida.');return Response.json({ok:true});
 }catch(e){return errorResponse(e)}}
+

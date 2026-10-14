@@ -48,16 +48,19 @@
 .login-divider{display:flex;align-items:center;margin:22px 0;color:#6f906b;font-size:11px;text-transform:uppercase;letter-spacing:.8px}
 .login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#253922}
 .login-divider span{padding:0 14px}
-.login-form{display:flex;flex-direction:column;gap:15px;text-align:left}
-.login-label{font-size:12px;font-weight:500;color:#a4be98;margin-bottom:-7px}
+.login-section-title{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--green);letter-spacing:.6px;text-transform:uppercase;margin-bottom:14px}
+.login-form{display:flex;flex-direction:column;gap:14px;text-align:left}
+.login-label{font-size:12px;font-weight:500;color:#a4be98;margin-bottom:-6px}
 .login-input-wrap{position:relative;display:flex;align-items:center}
 .login-input-icon{position:absolute;left:14px;color:#6f906b;pointer-events:none}
 .login-input{width:100%;padding:12px 14px 12px 42px;background:#090f0c;border:1px solid #2d4529;border-radius:8px;color:#eef4ec;font-size:14px;outline:none;transition:all .2s ease}
+.login-input-password{padding-right:42px}
+.password-toggle-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#7b9976;padding:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:4px;transition:color .2s}
+.password-toggle-btn:hover{color:var(--white)}
 .login-input:focus{border-color:#55c868;box-shadow:0 0 0 3px rgba(85,200,104,0.15)}
 .login-input:disabled{opacity:.6}
 .login-alert{background:#2b1313;border:1px solid #732626;color:#fca5a5;padding:11px 14px;border-radius:8px;font-size:12px;display:flex;align-items:flex-start;gap:9px;line-height:1.45;text-align:left}
-.login-switch-btn{background:none;border:none;color:#79ba75;font-size:12px;cursor:pointer;padding:4px;text-align:center;transition:color .2s}
-.login-switch-btn:hover{color:#a3e69f;text-decoration:underline}
+.login-note-restricted{display:flex;align-items:center;justify-content:center;gap:7px;margin:8px 0 0;font-size:11px;color:#7f9e79;line-height:1.4;text-align:center}
 .login-footer-meta{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:6px;color:#6f906b;font-size:11px}
 .google-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}
 .google-modal{background:#ffffff;color:#202124;border-radius:12px;width:100%;max-width:420px;padding:28px;box-shadow:0 20px 48px rgba(0,0,0,0.5);text-align:left}
@@ -102,5 +105,48 @@
 
 .loading img{width:140px;height:auto;max-height:100px;object-fit:contain;margin-bottom:24px;filter:drop-shadow(0 0 20px rgba(120,240,60,0.35));animation:pulseLogo 2.4s ease-in-out infinite}
 @keyframes pulseLogo{0%,100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(120,240,60,0.25))}50%{transform:scale(1.05);filter:drop-shadow(0 0 26px rgba(120,240,60,0.52))}}
+
+/* ==========================================================================
+   Admin User & Access Management
+   ========================================================================== */
+.admin-user-create-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:14px}
+.admin-user-create-grid .form-label{margin-bottom:0}
+.admin-user-create-actions{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.input-with-button{display:flex;gap:8px;align-items:center}
+.input-with-button input{flex:1;min-width:0}
+.input-with-button .btn{flex-shrink:0;padding:10px 14px;font-size:11px}
+
+.admin-users-header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.admin-users-search{display:flex;align-items:center;gap:10px;background:#0d1511;border:1px solid #2d4529;border-radius:6px;padding:8px 12px;width:290px;max-width:100%}
+.admin-users-search input{background:none;border:none;outline:none;color:#eef4ec;font-size:12px;width:100%;padding:0}
+.admin-users-search svg{color:#6f906b;flex-shrink:0}
+
+.user-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 8px;border-radius:4px;line-height:1.2;text-transform:uppercase;letter-spacing:.5px}
+.badge-admin{background:rgba(161,239,75,0.15);color:var(--green);border:1px solid rgba(161,239,75,0.4)}
+.badge-student{background:#1a2520;color:#9bb4a2;border:1px solid #334839}
+
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:12px}
+.status-pill.active{background:#162b19;color:#85e367;border:1px solid #2b562a}
+.status-pill.disabled{background:#301818;color:#fca5a5;border:1px solid #632b2b}
+.status-dot{width:6px;height:6px;border-radius:50%}
+.status-pill.active .status-dot{background:#85e367;box-shadow:0 0 6px rgba(133,227,103,0.6)}
+.status-pill.disabled .status-dot{background:#fca5a5}
+
+.user-cell-main{display:flex;flex-direction:column;gap:3px}
+.user-cell-name{font-weight:600;color:#f1f5f3;font-size:13px}
+.user-cell-login{font-size:11px;color:#8ca693;font-family:monospace}
+
+.action-buttons-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.action-btn-mini{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:6px 10px;font-size:11px;border-radius:5px;background:#18231c;border:1px solid #334839;color:#b4cbb9;cursor:pointer;transition:all .15s ease}
+.action-btn-mini:hover{background:#233529;color:var(--white);border-color:#4a6853}
+.action-btn-mini.danger:hover{background:#3a1818;color:#fca5a5;border-color:#7a2e2e}
+.action-btn-mini.active-role{background:rgba(161,239,75,0.12);color:var(--green);border-color:rgba(161,239,75,0.35)}
+
+.pwd-modal-card{width:100%;max-width:480px;background:#141e17;border:1px solid #3f5d36;border-radius:12px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,0.7);text-align:left}
+.pwd-modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.pwd-modal-header h3{margin:0;font-size:18px;color:#f1f5f3}
+.pwd-modal-desc{color:#9cb59f;font-size:12px;margin:0 0 20px;line-height:1.5}
+.pwd-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+
 
 
