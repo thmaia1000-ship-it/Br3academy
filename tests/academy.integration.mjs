@@ -45,6 +45,19 @@ for(let i=0;i<30;i++){j=(await journeyGET('D062'))[1];assert.equal(j.reference,t
 const ownerHistory=(await req('GET'))[1].journeyHistory;assert.ok(ownerHistory.find(x=>x.lesson_id==='F00.1'&&x.completed));assert.ok(ownerHistory.every(x=>!('responses'in x)&&!('version'in x)&&!('user_id'in x)));const studentHistory=(await req('GET',null,'student-test'))[1].journeyHistory;assert.ok(!studentHistory.some(x=>x.lesson_id==='D062'));assert.ok(!studentHistory.some(x=>x.completed));
 assert.equal((await journeyGET('D062'))[1].completed,true);assert.ok(!(await req('GET'))[1].progress.some(x=>x.lesson_id==='D062'&&x.studied));
 const old=(await journeyGET('F01.1'))[1];await journeyPOST(old);assert.equal((await journeyGET('F01.1'))[1].index,1);assert.equal((await req('POST',{action:'lesson-save',lessonId:'F01.1',body:'## Conteúdo revisado\n'+('Método seguro com documentação específica. '.repeat(5)),ready:true,video:''}))[0],200);const revised=(await journeyGET('F01.1'))[1];assert.equal(revised.index,0);assert.equal(revised.revised,true);assert.notEqual(revised.version,old.version);
+
+// Course editing tests: verify name, category, hours and status are fully adjustable and persistent
+const [cUpdStatus]=await req('POST',{action:'course-update',courseId:'default-android',title:'Formação Especialista em Smartphones Android & Microeletrônica',category:'Microeletrônica & Solda',hours:220,status:'published',description:'Descrição customizada do treinamento'});
+assert.equal(cUpdStatus,200);
+const updatedCourses=(await req('GET'))[1].courses;
+const defCourse=updatedCourses.find(c=>c.id==='default-android');
+assert.equal(defCourse.title,'Formação Especialista em Smartphones Android & Microeletrônica');
+assert.equal(defCourse.category,'Microeletrônica & Solda');
+assert.equal(defCourse.hours,220);
+assert.equal(defCourse.description,'Descrição customizada do treinamento');
+assert.equal(defCourse.status,'published');
+
+console.log('PASS: configurações gerais do curso ajustáveis (nome, categoria, horas, status) e persistidas.');
 console.log('PASS: percursos persistidos, isolamento, respostas privadas, bloqueio de saltos, retomada, segurança, cálculo, conclusão de estudo, notas preservadas, referência sem aprovação e atualização de conteúdo.');
 console.log('PASS: conteúdo 100/112/13, identidade e papéis, registros isolados, bloqueio de aulas pendentes, gabarito privado, segurança, simulações, práticas, origem e arquivos.');
 }finally{await mf.dispose()}
