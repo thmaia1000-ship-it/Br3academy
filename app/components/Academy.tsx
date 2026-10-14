@@ -1,7 +1,7 @@
 'use client';
 import React,{useEffect,useState} from 'react';
 import GuidedLesson from './GuidedLesson';
-import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX,DollarSign,CreditCard,TrendingUp,Wallet,Receipt} from 'lucide-react';
+import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX,DollarSign,CreditCard,TrendingUp,Wallet,Receipt,ArrowLeft,FolderPlus,Layers,Edit3} from 'lucide-react';
 const nav=[['dashboard','Área do aluno',LayoutDashboard],['curso','Meu curso',BookOpen],['biblioteca','Fluxogramas',GitBranch],['laboratorio','Laboratório',FlaskConical],['avaliacoes','Avaliações',ClipboardCheck],['materiais','Materiais',FolderOpen],['revisoes','Revisões técnicas',ShieldCheck],['conta','Minha conta',GraduationCap]] as const;
 const modIcons=[Cpu,Monitor,Smartphone,BatteryCharging,RefreshCw,Monitor,Zap,Volume2,Radio,Wifi,Camera,ShieldCheck,ClipboardCheck];
 const labels:Record<string,string>={dashboard:'Área do aluno',conta:'Minha conta',curso:'Meu curso',biblioteca:'Biblioteca de diagnóstico',laboratorio:'Laboratório virtual',avaliacoes:'Avaliações',materiais:'Materiais do curso',revisoes:'Revisões técnicas',admin:'Administração',aula:'Sala de aula'};
@@ -249,7 +249,7 @@ export default function Academy({signedIn,signin,signout}:{signedIn:boolean;sign
 const [guided,setGuided]=useState(true);
 const [focusMode,setFocusMode]=useState(true),[nativeFullscreen,setNativeFullscreen]=useState(false),[canFullscreen,setCanFullscreen]=useState(false);
 const [data,setData]=useState<any>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[toast,setToast]=useState(''),[view,setView]=useState('dashboard'),[lessonId,setLessonId]=useState('F00.1'),[mobile,setMobile]=useState(false),[module,setModule]=useState('all'),[query,setQuery]=useState(''),[cat,setCat]=useState('all'),[favOnly,setFavOnly]=useState(false),[flow,setFlow]=useState<any>(null),[notes,setNotes]=useState(''),[report,setReport]=useState(''),[quizId,setQuizId]=useState('fundamentos'),[answers,setAnswers]=useState<Record<number,number>>({}),[quizResult,setQuizResult]=useState<any>(null),[run,setRun]=useState<any>(null),[justification,setJustification]=useState(''),[adminLesson,setAdminLesson]=useState('D001'),[editBody,setEditBody]=useState(''),[editReady,setEditReady]=useState(false),[video,setVideo]=useState(''),[reviewFeedback,setReviewFeedback]=useState<Record<string,string>>({}),[question,setQuestion]=useState(''),[options,setOptions]=useState(''),[correct,setCorrect]=useState(0),[explanation,setExplanation]=useState(''),[critical,setCritical]=useState(false);
-const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState(''),[adminTab,setAdminTab]=useState<'academico'|'financeiro'|'usuarios'>('academico'),[financeSearch,setFinanceSearch]=useState(''),[financeFilter,setFinanceFilter]=useState<'all'|'paid'|'pending'>('all');
+const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState(''),[adminTab,setAdminTab]=useState<'academico'|'financeiro'|'usuarios'>('academico'),[financeSearch,setFinanceSearch]=useState(''),[financeFilter,setFinanceFilter]=useState<'all'|'paid'|'pending'>('all'),[selectedCourseId,setSelectedCourseId]=useState<string|null>(null),[showNewCourseModal,setShowNewCourseModal]=useState(false),[newCourseTitle,setNewCourseTitle]=useState(''),[newCourseDesc,setNewCourseDesc]=useState(''),[newCourseHours,setNewCourseHours]=useState(40),[newCourseCategory,setNewCourseCategory]=useState('Hardware & Diagnóstico'),[newCourseStatus,setNewCourseStatus]=useState<'published'|'draft'>('published'),[editCourseTitle,setEditCourseTitle]=useState(''),[editCourseDesc,setEditCourseDesc]=useState(''),[editCourseHours,setEditCourseHours]=useState(40),[editCourseCategory,setEditCourseCategory]=useState('Hardware & Diagnóstico'),[editCourseStatus,setEditCourseStatus]=useState<'published'|'draft'>('published'),[courseLessonId,setCourseLessonId]=useState(''),[courseLessonTitle,setCourseLessonTitle]=useState(''),[courseLessonBody,setCourseLessonBody]=useState(''),[courseLessonReady,setCourseLessonReady]=useState(false),[courseLessonVideo,setCourseLessonVideo]=useState(''),[showAddLessonModal,setShowAddLessonModal]=useState(false),[newLessonTitle,setNewLessonTitle]=useState(''),[newLessonModule,setNewLessonModule]=useState('M01'),[newLessonMinutes,setNewLessonMinutes]=useState(60);
 
 function generateRandomPassword(){
   const chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#$';
@@ -279,6 +279,141 @@ function exportFinancialCSV(trxList:any[]){
   link.click();
   document.body.removeChild(link);
   setToast('Relatório financeiro exportado com sucesso!');
+}
+
+function openCourseEditor(c:any){
+  setSelectedCourseId(c.id);
+  setEditCourseTitle(c.title);
+  setEditCourseDesc(c.description||'');
+  setEditCourseHours(c.hours||20);
+  setEditCourseCategory(c.category||'Hardware & Diagnóstico');
+  setEditCourseStatus(c.status||'published');
+  const firstLesson=c.lessons?.[0];
+  if(firstLesson){
+    setCourseLessonId(firstLesson.id);
+    setCourseLessonTitle(firstLesson.title||'');
+    setCourseLessonBody(firstLesson.body||'');
+    setCourseLessonReady(!!firstLesson.ready);
+    setCourseLessonVideo(firstLesson.video||'');
+  }else{
+    setCourseLessonId('');
+    setCourseLessonTitle('');
+    setCourseLessonBody('');
+    setCourseLessonReady(false);
+    setCourseLessonVideo('');
+  }
+}
+
+function selectCourseLesson(l:any){
+  setCourseLessonId(l.id);
+  setCourseLessonTitle(l.title||'');
+  setCourseLessonBody(l.body||'');
+  setCourseLessonReady(!!l.ready);
+  setCourseLessonVideo(l.video||'');
+}
+
+async function handleCreateCourse(e:React.FormEvent){
+  e.preventDefault();
+  if(!newCourseTitle.trim()){
+    setToast('Informe o título do curso.');
+    return;
+  }
+  const res=await post({
+    action:'course-create',
+    title:newCourseTitle.trim(),
+    description:newCourseDesc.trim(),
+    hours:newCourseHours,
+    category:newCourseCategory,
+    status:newCourseStatus
+  });
+  if(res&&res.courseId){
+    setNewCourseTitle('');
+    setNewCourseDesc('');
+    setNewCourseHours(40);
+    setShowNewCourseModal(false);
+    setSelectedCourseId(res.courseId);
+    setToast('Curso criado com sucesso! Abrindo editor individual...');
+  }
+}
+
+async function handleUpdateCourse(courseId:string){
+  if(!editCourseTitle.trim()){
+    setToast('Informe o título do curso.');
+    return;
+  }
+  const res=await post({
+    action:'course-update',
+    courseId,
+    title:editCourseTitle.trim(),
+    description:editCourseDesc.trim(),
+    hours:editCourseHours,
+    category:editCourseCategory,
+    status:editCourseStatus
+  });
+  if(res)setToast('Dados do curso atualizados com sucesso!');
+}
+
+async function handleDeleteCourse(courseItem:any){
+  if(courseItem.isDefault){
+    setToast('O curso padrão de formação não pode ser excluído.');
+    return;
+  }
+  if(confirm(`Tem certeza que deseja excluir o curso "${courseItem.title}"? Esta ação não pode ser desfeita.`)){
+    const res=await post({action:'course-delete',courseId:courseItem.id});
+    if(res){
+      if(selectedCourseId===courseItem.id)setSelectedCourseId(null);
+      setToast(`Curso "${courseItem.title}" excluído com sucesso.`);
+    }
+  }
+}
+
+async function handleAddCourseLesson(courseId:string){
+  if(!newLessonTitle.trim()){
+    setToast('Informe o título da nova aula.');
+    return;
+  }
+  const res=await post({
+    action:'course-lesson-add',
+    courseId,
+    title:newLessonTitle.trim(),
+    moduleId:newLessonModule,
+    minutes:newLessonMinutes
+  });
+  if(res&&res.lesson){
+    setNewLessonTitle('');
+    setShowAddLessonModal(false);
+    selectCourseLesson(res.lesson);
+    setToast('Nova aula adicionada ao curso!');
+  }
+}
+
+async function handleSaveCourseLesson(courseId:string,lessonId:string){
+  const isDefaultCourse=courseId==='default-android';
+  if(isDefaultCourse&&courseLessonBody.length<100){
+    setToast('O conteúdo da aula deve ter no mínimo 100 caracteres.');
+    return;
+  }
+  const res=await post({
+    action:'course-lesson-save',
+    courseId,
+    lessonId,
+    title:courseLessonTitle,
+    body:courseLessonBody,
+    ready:courseLessonReady,
+    video:courseLessonVideo
+  });
+  if(res)setToast('Aula salva com sucesso!');
+}
+
+async function handleDeleteCourseLesson(courseId:string,lessonId:string,lessonTitle:string){
+  if(confirm(`Deseja remover a aula "${lessonTitle}" deste curso?`)){
+    const res=await post({
+      action:'course-lesson-delete',
+      courseId,
+      lessonId
+    });
+    if(res)setToast('Aula removida do curso.');
+  }
 }
 
 async function handleCreateUser(e:React.FormEvent){
@@ -432,48 +567,531 @@ return <div className={'app '+(isFocus?'focus-mode':'')}>
   </div>
 
   {/* ================= SETOR 1: ACADÊMICO ================= */}
-  {adminTab==='academico'&&<>
-    <Heading eyebrow="PAINEL ADMINISTRATIVO • SETOR ACADÊMICO" title="Conteúdo pedagógico, aulas e evidências de bancada." text="Publique e edite textos de aulas, associe vídeos e materiais, amplie o banco de questões e avalie os relatórios e justificativas dos alunos."/>
-    <div className="stats">
-      <Stat icon={BookOpen} label="Aulas para estudo" value={available.length} foot={'De '+lessons.length+' previstas'}/>
-      <Stat icon={ClipboardCheck} label="Práticas pendentes" value={data.admin.practices.filter((p:any)=>p.status==='pending').length} foot="Aguardam sua revisão"/>
-      <Stat icon={FlaskConical} label="Simulações p/ revisar" value={data.admin.simulations.filter((s:any)=>s.status==='pending_review').length} foot="Justificativas enviadas"/>
-      <Stat icon={GraduationCap} label="Avaliações realizadas" value={data.admin.attempts.length} foot="Tentativas registradas"/>
-    </div>
-    <section className="panel">
-      <div className="section-heading"><h2>Editor de aulas</h2><span className="quiet-tag">Texto, vídeo e liberação</span></div>
-      <label className="form-label">Aula<select value={adminLesson} onChange={e=>setAdminLesson(e.target.value)}>{lessons.map((l:any)=><option key={l.id} value={l.id}>{l.id} • {l.title}</option>)}</select></label>
-      <label className="form-label">Conteúdo da aula<textarea className="editor" rows={12} value={editBody} onChange={e=>setEditBody(e.target.value)} placeholder="Use ## para títulos. Preencha objetivos, teoria, testes, limites, prática e avaliação antes de liberar."/></label>
-      <label className="form-label">Vídeo MP4/WebM por HTTPS ou endereço de arquivo enviado<input value={video} onChange={e=>setVideo(e.target.value)} placeholder="https://…/video.mp4 ou /api/files/…"/></label>
-      <label className="checkbox-row"><input type="checkbox" checked={editReady} onChange={e=>setEditReady(e.target.checked)}/>Texto revisado e disponível para estudo</label>
-      <button disabled={busy||editBody.length<100} className="btn primary" onClick={async()=>{if(await post({action:'lesson-save',lessonId:adminLesson,body:editBody,ready:editReady,video}))setToast('Aula atualizada.')}}><Save size={16}/>Salvar aula</button>
-      <div className="upload-area"><Upload size={21}/><div><b>Enviar material para esta aula</b><p>PDF, MP4 ou WebM • até 25 MB por arquivo. Para vídeos maiores, use um endereço HTTPS de mídia.</p></div><input aria-label="Enviar material da aula" type="file" accept="application/pdf,video/mp4,video/webm" disabled={busy} onChange={async e=>{const f=e.target.files?.[0];if(!f)return;setBusy(true);try{const form=new FormData();form.append('file',f);form.append('lessonId',adminLesson);const r=await fetch('/api/upload',{method:'POST',body:form});const j:any=await r.json();if(!r.ok)throw new Error(j.error);if(f.type.startsWith('video/'))setVideo(j.url);await load();setToast('Arquivo enviado. Para o vídeo aparecer no player, salve a aula com seu endereço.')}catch(err){setToast((err as Error).message)}finally{setBusy(false);e.target.value=''}}}/></div>
-    </section>
-    <section className="panel">
-      <h2>Revisão de práticas</h2>
-      {data.admin.practices.length?data.admin.practices.map((p:any)=><div className="admin-submission" key={p.id}><div className="section-heading"><b>{p.user_name} • {p.lesson_id}</b><span className="quiet-tag">{statusLabel(p.status)}</span></div><p className="report-text">{p.report}</p><textarea rows={2} value={reviewFeedback[p.id]??p.feedback} onChange={e=>setReviewFeedback({...reviewFeedback,[p.id]:e.target.value})} placeholder="Feedback: evidência, segurança, interpretação e próximo teste…"/><div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'approved',feedback:reviewFeedback[p.id]??p.feedback})}>Aprovar prática</button><button className="btn secondary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'revise',feedback:reviewFeedback[p.id]??p.feedback})}>Solicitar revisão</button></div></div>):<p className="muted">Os relatórios enviados pelos alunos aparecerão aqui.</p>}
-    </section>
-    <section className="panel">
-      <h2>Justificativas do laboratório</h2>
-      {data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada no momento.</p>}
-    </section>
-    <section className="panel">
-      <h2>Ampliar banco de questões</h2>
-      <div className="two-cols">
-        <label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label>
-        <label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label>
-      </div>
-      <label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label>
-      <label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label>
-      <label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label>
-      <label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label>
-      <button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button>
-    </section>
-    <section className="panel">
-      <h2>Resultados de avaliações</h2>
-      {data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}
-    </section>
-  </>}
+  {adminTab==='academico'&&(()=>{
+    const coursesList = data?.courses || [
+      {
+        id: 'default-android',
+        title: 'Formação Especialista em Diagnóstico Android',
+        description: 'Da eletrônica básica ao raciocínio de bancada. 13 módulos completos e 100 fluxogramas de diagnóstico.',
+        hours: 180,
+        category: 'Hardware & Diagnóstico',
+        status: 'published',
+        modules: data.modules,
+        lessons,
+        isDefault: true
+      }
+    ];
+    const currentCourse = coursesList.find((c: any) => c.id === selectedCourseId) || null;
+    const totalLessonsAll = coursesList.reduce((acc: number, c: any) => (c.lessons?.length || 0) + acc, 0);
+
+    return <>
+      {!selectedCourseId && <>
+        <Heading eyebrow="PAINEL ADMINISTRATIVO • SETOR ACADÊMICO" title="Cursos, Conteúdo Pedagógico e Evidências." text="Cadastre e gerencie os cursos da plataforma, acesse o editor individual de cada curso, publique aulas e revise os relatórios de bancada."/>
+        <div className="stats">
+          <Stat icon={BookOpen} label="Cursos cadastrados" value={coursesList.length} foot={`${coursesList.filter((c:any)=>c.status==='published').length} publicados na plataforma`}/>
+          <Stat icon={Layers} label="Aulas em catálogo" value={totalLessonsAll} foot="Em todos os cursos ativos"/>
+          <Stat icon={ClipboardCheck} label="Práticas pendentes" value={data.admin.practices.filter((p:any)=>p.status==='pending').length} foot="Aguardam sua revisão"/>
+          <Stat icon={FlaskConical} label="Simulações p/ revisar" value={data.admin.simulations.filter((s:any)=>s.status==='pending_review').length} foot="Justificativas enviadas"/>
+        </div>
+
+        <section className="panel">
+          <div className="courses-admin-toolbar">
+            <div>
+              <div className="section-heading" style={{marginBottom:4}}>
+                <h2>Cursos e Formações Cadastradas</h2>
+                <span className="quiet-tag">{coursesList.length} {coursesList.length===1?'curso disponível':'cursos disponíveis'}</span>
+              </div>
+              <p className="muted" style={{margin:0}}>Gerencie os treinamentos existentes ou crie novas formações técnicas especializadas.</p>
+            </div>
+            <button
+              type="button"
+              className="btn primary"
+              onClick={()=>setShowNewCourseModal(!showNewCourseModal)}
+            >
+              <FolderPlus size={16}/>
+              {showNewCourseModal?'Fechar Formulário':'Adicionar Novo Curso'}
+            </button>
+          </div>
+
+          {showNewCourseModal && (
+            <div style={{background:'#0c140e',border:'1px solid #2a442d',borderRadius:10,padding:20,marginBottom:24}}>
+              <div className="section-heading" style={{marginBottom:14}}>
+                <h3 style={{margin:0,fontSize:16,color:'#a1ef4b',display:'flex',alignItems:'center',gap:8}}>
+                  <FolderPlus size={18}/> Cadastrar Novo Curso na Academy
+                </h3>
+                <span className="quiet-tag">Nova Formação</span>
+              </div>
+              <form onSubmit={handleCreateCourse}>
+                <div className="course-settings-grid">
+                  <label className="form-label">
+                    Título do Curso
+                    <input
+                      type="text"
+                      placeholder="Ex.: Manutenção e Reparo Avançado em Placas Apple iPhone"
+                      value={newCourseTitle}
+                      onChange={e=>setNewCourseTitle(e.target.value)}
+                      required
+                      disabled={busy}
+                    />
+                  </label>
+                  <label className="form-label">
+                    Categoria
+                    <select
+                      value={newCourseCategory}
+                      onChange={e=>setNewCourseCategory(e.target.value)}
+                      disabled={busy}
+                    >
+                      <option value="Hardware & Diagnóstico">Hardware & Diagnóstico</option>
+                      <option value="Microeletrônica & Solda">Microeletrônica & Solda</option>
+                      <option value="Smartphones Apple iOS">Smartphones Apple iOS</option>
+                      <option value="Smartphones Android">Smartphones Android</option>
+                      <option value="Software & Recuperação">Software & Recuperação</option>
+                      <option value="Gestão de Bancada Técnica">Gestão de Bancada Técnica</option>
+                    </select>
+                  </label>
+                  <label className="form-label">
+                    Carga Horária (horas)
+                    <input
+                      type="number"
+                      min={1}
+                      max={500}
+                      value={newCourseHours}
+                      onChange={e=>setNewCourseHours(Number(e.target.value))}
+                      required
+                      disabled={busy}
+                    />
+                  </label>
+                  <label className="form-label">
+                    Status Inicial
+                    <select
+                      value={newCourseStatus}
+                      onChange={e=>setNewCourseStatus(e.target.value as any)}
+                      disabled={busy}
+                    >
+                      <option value="published">Publicado (Acesso Liberado)</option>
+                      <option value="draft">Em Edição / Rascunho</option>
+                    </select>
+                  </label>
+                </div>
+                <label className="form-label">
+                  Descrição do Curso e Metodologia
+                  <textarea
+                    rows={3}
+                    placeholder="Descreva o público-alvo, ferramentas recomendadas e competências práticas que o aluno desenvolverá..."
+                    value={newCourseDesc}
+                    onChange={e=>setNewCourseDesc(e.target.value)}
+                    disabled={busy}
+                  />
+                </label>
+                <div style={{display:'flex',justifyContent:'flex-end',gap:10,marginTop:14}}>
+                  <button
+                    type="button"
+                    className="btn secondary"
+                    onClick={()=>setShowNewCourseModal(false)}
+                    disabled={busy}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn primary"
+                    disabled={busy||!newCourseTitle.trim()}
+                  >
+                    <Save size={16}/> Salvar e Abrir Editor
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          <div className="courses-admin-grid">
+            {coursesList.map((courseItem: any) => (
+              <div className={`course-admin-card ${courseItem.isDefault?'featured':''}`} key={courseItem.id}>
+                <div>
+                  <div className="course-admin-header">
+                    <span className="course-category-tag">{courseItem.category||'Hardware'}</span>
+                    <span className={`course-status-pill ${courseItem.status||'published'}`}>
+                      {courseItem.status==='draft'?'Rascunho':'Publicado'}
+                    </span>
+                  </div>
+                  <h3 className="course-admin-title">{courseItem.title}</h3>
+                  <p className="course-admin-desc">
+                    {courseItem.description||'Treinamento prático e teórico com metodologia de diagnóstico.'}
+                  </p>
+                </div>
+                <div>
+                  <div className="course-admin-meta">
+                    <span><Clock size={14}/> {courseItem.hours}h</span>
+                    <span><Layers size={14}/> {courseItem.modules?.length||1} {courseItem.modules?.length===1?'módulo':'módulos'}</span>
+                    <span><BookOpen size={14}/> {courseItem.lessons?.length||0} aulas</span>
+                  </div>
+                  <div className="course-admin-actions">
+                    <button
+                      type="button"
+                      className="btn-open-course"
+                      onClick={()=>openCourseEditor(courseItem)}
+                      title="Abrir editor individual para gerenciar aulas e conteúdos deste curso"
+                    >
+                      <Edit3 size={14}/> Abrir Editor do Curso →
+                    </button>
+                    {!courseItem.isDefault && (
+                      <button
+                        type="button"
+                        className="action-btn-mini danger"
+                        onClick={()=>handleDeleteCourse(courseItem)}
+                        title="Excluir este curso"
+                        disabled={busy}
+                      >
+                        <Trash2 size={14}/>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </>}
+
+      {selectedCourseId && currentCourse && (
+        <div>
+          <div className="course-editor-breadcrumb">
+            <button
+              type="button"
+              className="course-editor-back-btn"
+              onClick={()=>setSelectedCourseId(null)}
+            >
+              <ArrowLeft size={16}/> Voltar à Lista de Cursos
+            </button>
+            <span className="course-editor-divider">/</span>
+            <span className="course-editor-current">
+              Editor Individual: <b>{currentCourse.title}</b>
+            </span>
+            <span className={`course-status-pill ${currentCourse.status}`} style={{marginLeft:'auto'}}>
+              {currentCourse.status==='draft'?'Rascunho':'Publicado'}
+            </span>
+            {currentCourse.isDefault && (
+              <span className="quiet-tag" style={{margin:0}}>Formação Oficial BR3Tech</span>
+            )}
+          </div>
+
+          <section className="panel">
+            <div className="section-heading">
+              <h2>
+                <Settings size={18} style={{verticalAlign:'middle',marginRight:8}}/>
+                Configurações Gerais do Curso
+              </h2>
+              <span className="quiet-tag">ID: {currentCourse.id}</span>
+            </div>
+            <div className="course-settings-grid">
+              <label className="form-label">
+                Título do Curso
+                <input
+                  type="text"
+                  value={editCourseTitle}
+                  onChange={e=>setEditCourseTitle(e.target.value)}
+                  disabled={busy||currentCourse.isDefault}
+                  title={currentCourse.isDefault?'Título da formação principal é protegido':''}
+                />
+              </label>
+              <label className="form-label">
+                Categoria
+                <select
+                  value={editCourseCategory}
+                  onChange={e=>setEditCourseCategory(e.target.value)}
+                  disabled={busy||currentCourse.isDefault}
+                >
+                  <option value="Hardware & Diagnóstico">Hardware & Diagnóstico</option>
+                  <option value="Microeletrônica & Solda">Microeletrônica & Solda</option>
+                  <option value="Smartphones Apple iOS">Smartphones Apple iOS</option>
+                  <option value="Smartphones Android">Smartphones Android</option>
+                  <option value="Software & Recuperação">Software & Recuperação</option>
+                  <option value="Gestão de Bancada Técnica">Gestão de Bancada Técnica</option>
+                </select>
+              </label>
+              <label className="form-label">
+                Carga Horária (horas)
+                <input
+                  type="number"
+                  min={1}
+                  max={500}
+                  value={editCourseHours}
+                  onChange={e=>setEditCourseHours(Number(e.target.value))}
+                  disabled={busy||currentCourse.isDefault}
+                />
+              </label>
+              <label className="form-label">
+                Status de Publicação
+                <select
+                  value={editCourseStatus}
+                  onChange={e=>setEditCourseStatus(e.target.value as any)}
+                  disabled={busy||currentCourse.isDefault}
+                >
+                  <option value="published">Publicado (Acesso Liberado)</option>
+                  <option value="draft">Em Edição / Rascunho</option>
+                </select>
+              </label>
+            </div>
+            <label className="form-label">
+              Descrição do Curso
+              <textarea
+                rows={2}
+                value={editCourseDesc}
+                onChange={e=>setEditCourseDesc(e.target.value)}
+                disabled={busy||currentCourse.isDefault}
+              />
+            </label>
+            {!currentCourse.isDefault && (
+              <div style={{display:'flex',justifyContent:'flex-end',marginTop:12}}>
+                <button
+                  type="button"
+                  className="btn primary"
+                  onClick={()=>handleUpdateCourse(currentCourse.id)}
+                  disabled={busy||!editCourseTitle.trim()}
+                >
+                  <Save size={15}/> Salvar Dados do Curso
+                </button>
+              </div>
+            )}
+          </section>
+
+          <section className="panel">
+            <div className="section-heading">
+              <h2>
+                <BookOpen size={18} style={{verticalAlign:'middle',marginRight:8}}/>
+                Editor Individual de Aulas
+              </h2>
+              <span className="quiet-tag">{currentCourse.lessons?.length||0} aulas cadastradas</span>
+            </div>
+
+            <div className="course-lesson-selector-bar">
+              <label style={{display:'flex',alignItems:'center',gap:10,flex:1,margin:0,fontSize:13,color:'#9ab59f'}}>
+                <b style={{color:'#f1f5f3',whiteSpace:'nowrap'}}>Selecionar Aula:</b>
+                <select
+                  className="course-lesson-select"
+                  value={courseLessonId}
+                  onChange={e=>{
+                    const found=currentCourse.lessons.find((l:any)=>l.id===e.target.value);
+                    if(found)selectCourseLesson(found);
+                  }}
+                >
+                  {(currentCourse.lessons||[]).map((l:any)=>(
+                    <option key={l.id} value={l.id}>
+                      {l.id} • {l.title} {l.ready?'✓':'(em preparação)'}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {!currentCourse.isDefault && (
+                <button
+                  type="button"
+                  className="btn primary"
+                  onClick={()=>setShowAddLessonModal(true)}
+                  style={{padding:'8px 14px',fontSize:12}}
+                >
+                  <Plus size={15}/> Adicionar Nova Aula
+                </button>
+              )}
+            </div>
+
+            {showAddLessonModal && !currentCourse.isDefault && (
+              <div style={{background:'#0c140e',border:'1px solid #2a442d',borderRadius:8,padding:16,marginBottom:20}}>
+                <h4 style={{margin:'0 0 12px',color:'#a1ef4b',fontSize:14}}>Nova Aula para "{currentCourse.title}"</h4>
+                <div className="course-settings-grid">
+                  <label className="form-label">
+                    Título da Nova Aula
+                    <input
+                      type="text"
+                      placeholder="Ex.: Aula 02: Mapeamento de Linhas de Alimentação"
+                      value={newLessonTitle}
+                      onChange={e=>setNewLessonTitle(e.target.value)}
+                      required
+                    />
+                  </label>
+                  <label className="form-label">
+                    Módulo
+                    <select
+                      value={newLessonModule}
+                      onChange={e=>setNewLessonModule(e.target.value)}
+                    >
+                      {(currentCourse.modules||[]).map((m:any)=>(
+                        <option key={m.id} value={m.id}>{m.title||`Módulo ${m.id}`}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="form-label">
+                    Duração estimada (minutos)
+                    <input
+                      type="number"
+                      min={10}
+                      max={600}
+                      value={newLessonMinutes}
+                      onChange={e=>setNewLessonMinutes(Number(e.target.value))}
+                    />
+                  </label>
+                </div>
+                <div style={{display:'flex',justifyContent:'flex-end',gap:10,marginTop:10}}>
+                  <button
+                    type="button"
+                    className="btn secondary"
+                    onClick={()=>setShowAddLessonModal(false)}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn primary"
+                    onClick={()=>handleAddCourseLesson(currentCourse.id)}
+                    disabled={busy||!newLessonTitle.trim()}
+                  >
+                    <Plus size={15}/> Criar Aula
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {courseLessonId ? (
+              <>
+                {!currentCourse.isDefault && (
+                  <label className="form-label">
+                    Título da Aula
+                    <input
+                      type="text"
+                      value={courseLessonTitle}
+                      onChange={e=>setCourseLessonTitle(e.target.value)}
+                      disabled={busy}
+                    />
+                  </label>
+                )}
+
+                <label className="form-label">
+                  Conteúdo da Aula (Texto Didático & Markdown)
+                  <textarea
+                    className="editor"
+                    rows={12}
+                    value={courseLessonBody}
+                    onChange={e=>setCourseLessonBody(e.target.value)}
+                    placeholder="Use ## para títulos. Preencha objetivos, teoria, testes, limites, prática e avaliação antes de liberar."
+                  />
+                </label>
+
+                <label className="form-label">
+                  Vídeo MP4/WebM por HTTPS ou endereço de arquivo enviado
+                  <input
+                    value={courseLessonVideo}
+                    onChange={e=>setCourseLessonVideo(e.target.value)}
+                    placeholder="https://…/video.mp4 ou /api/files/…"
+                  />
+                </label>
+
+                <label className="checkbox-row">
+                  <input
+                    type="checkbox"
+                    checked={courseLessonReady}
+                    onChange={e=>setCourseLessonReady(e.target.checked)}
+                  />
+                  Texto revisado e disponível para estudo dos alunos
+                </label>
+
+                <div style={{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap',marginTop:14}}>
+                  <button
+                    disabled={busy||(currentCourse.isDefault&&courseLessonBody.length<100)}
+                    className="btn primary"
+                    onClick={()=>handleSaveCourseLesson(currentCourse.id,courseLessonId)}
+                  >
+                    <Save size={16}/> Salvar Aula
+                  </button>
+                  {!currentCourse.isDefault && (
+                    <button
+                      type="button"
+                      className="btn secondary"
+                      style={{color:'#fca5a5',borderColor:'#632b2b'}}
+                      onClick={()=>handleDeleteCourseLesson(currentCourse.id,courseLessonId,courseLessonTitle)}
+                      disabled={busy}
+                    >
+                      <Trash2 size={15}/> Remover Aula do Curso
+                    </button>
+                  )}
+                </div>
+
+                <div className="upload-area" style={{marginTop:20}}>
+                  <Upload size={21}/>
+                  <div>
+                    <b>Enviar material didático para esta aula</b>
+                    <p>PDF, MP4 ou WebM • até 25 MB por arquivo. Para vídeos maiores, use um endereço HTTPS de mídia.</p>
+                  </div>
+                  <input
+                    aria-label="Enviar material da aula"
+                    type="file"
+                    accept="application/pdf,video/mp4,video/webm"
+                    disabled={busy}
+                    onChange={async e=>{
+                      const f=e.target.files?.[0];
+                      if(!f)return;
+                      setBusy(true);
+                      try{
+                        const form=new FormData();
+                        form.append('file',f);
+                        form.append('lessonId',courseLessonId);
+                        const r=await fetch('/api/upload',{method:'POST',body:form});
+                        const j:any=await r.json();
+                        if(!r.ok)throw new Error(j.error);
+                        if(f.type.startsWith('video/'))setCourseLessonVideo(j.url);
+                        await load();
+                        setToast('Arquivo enviado com sucesso!');
+                      }catch(err){
+                        setToast((err as Error).message);
+                      }finally{
+                        setBusy(false);
+                        e.target.value='';
+                      }
+                    }}
+                  />
+                </div>
+              </>
+            ):(
+              <p className="muted">Nenhuma aula selecionada para edição neste curso.</p>
+            )}
+          </section>
+
+          <div style={{marginTop:16,marginBottom:24}}>
+            <button
+              type="button"
+              className="btn secondary"
+              onClick={()=>setSelectedCourseId(null)}
+            >
+              <ArrowLeft size={16}/> Voltar à Lista de Cursos
+            </button>
+          </div>
+        </div>
+      )}
+
+      <section className="panel">
+        <h2>Revisão de práticas</h2>
+        {data.admin.practices.length?data.admin.practices.map((p:any)=><div className="admin-submission" key={p.id}><div className="section-heading"><b>{p.user_name} • {p.lesson_id}</b><span className="quiet-tag">{statusLabel(p.status)}</span></div><p className="report-text">{p.report}</p><textarea rows={2} value={reviewFeedback[p.id]??p.feedback} onChange={e=>setReviewFeedback({...reviewFeedback,[p.id]:e.target.value})} placeholder="Feedback: evidência, segurança, interpretação e próximo teste…"/><div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'approved',feedback:reviewFeedback[p.id]??p.feedback})}>Aprovar prática</button><button className="btn secondary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'revise',feedback:reviewFeedback[p.id]??p.feedback})}>Solicitar revisão</button></div></div>):<p className="muted">Os relatórios enviados pelos alunos aparecerão aqui.</p>}
+      </section>
+      <section className="panel">
+        <h2>Justificativas do laboratório</h2>
+        {data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada no momento.</p>}
+      </section>
+      <section className="panel">
+        <h2>Ampliar banco de questões</h2>
+        <div className="two-cols">
+          <label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label>
+          <label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label>
+        </div>
+        <label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label>
+        <label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label>
+        <label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label>
+        <label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label>
+        <button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button>
+      </section>
+      <section className="panel">
+        <h2>Resultados de avaliações</h2>
+        {data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}
+      </section>
+    </>;
+  })()}
 
   {/* ================= SETOR 2: FINANCEIRO ================= */}
   {adminTab==='financeiro'&&(()=>{
