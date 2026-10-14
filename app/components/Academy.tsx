@@ -1,12 +1,299 @@
 'use client';
 import React,{useEffect,useState} from 'react';
 import GuidedLesson from './GuidedLesson';
-import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize} from 'lucide-react';
+import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User} from 'lucide-react';
 const nav=[['dashboard','Área do aluno',LayoutDashboard],['curso','Meu curso',BookOpen],['biblioteca','Fluxogramas',GitBranch],['laboratorio','Laboratório',FlaskConical],['avaliacoes','Avaliações',ClipboardCheck],['materiais','Materiais',FolderOpen],['revisoes','Revisões técnicas',ShieldCheck],['conta','Minha conta',GraduationCap]] as const;
 const modIcons=[Cpu,Monitor,Smartphone,BatteryCharging,RefreshCw,Monitor,Zap,Volume2,Radio,Wifi,Camera,ShieldCheck,ClipboardCheck];
 const labels:Record<string,string>={dashboard:'Área do aluno',conta:'Minha conta',curso:'Meu curso',biblioteca:'Biblioteca de diagnóstico',laboratorio:'Laboratório virtual',avaliacoes:'Avaliações',materiais:'Materiais do curso',revisoes:'Revisões técnicas',admin:'Administração',aula:'Sala de aula'};
 const statusLabel=(s:string)=>({pending:'Aguardando revisão',approved:'Aprovado pelo instrutor',revise:'Revisar e reenviar',pending_review:'Justificativa em revisão',failed:'Repetir com feedback',active:'Em andamento',awaiting_justification:'Justificativa pendente'}[s]||s);
 function Markdown({text}:{text:string}){return <div className="prose">{text.split('\n').filter(Boolean).map((l,i)=>l.startsWith('# ')?<h2 key={i}>{l.slice(2)}</h2>:l.startsWith('## ')?<h3 key={i}>{l.slice(3)}</h3>:l.startsWith('### ')?<h4 key={i}>{l.slice(4)}</h4>:<p key={i}>{l}</p>)}</div>}
+
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/>
+      <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+      <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.347 2.825.957 4.039l3.007-2.332z"/>
+      <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/>
+    </svg>
+  );
+}
+
+function LoginArea({ signin }: { signin: string }) {
+  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [googleEmail, setGoogleEmail] = useState('');
+  const [googleName, setGoogleName] = useState('');
+
+  async function handleEmailLogin(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login-email', email }),
+      });
+      const data: any = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Não foi possível autenticar.');
+      }
+      window.location.reload();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'register-email', email, name }),
+      });
+      const data: any = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Não foi possível cadastrar.');
+      }
+      window.location.reload();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogleLogin(customEmail?: string, customName?: string) {
+    setLoading(true);
+    setError('');
+    try {
+      const chosenEmail = customEmail || googleEmail || 'aluno.google@br3academy.com.br';
+      const chosenName = customName || googleName || 'Aluno Google';
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'login-google',
+          email: chosenEmail,
+          name: chosenName,
+        }),
+      });
+      const data: any = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Falha ao autenticar com Google.');
+      }
+      window.location.reload();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="login">
+      <div className="login-brand-wrap">
+        <img className="login-logo" src="/images/logo.png?v=clean" alt="BR3Tech" />
+      </div>
+      <span className="eyebrow">BR3 ACADEMY</span>
+      <h1>Sua área do aluno.<br />Sua próxima conquista.</h1>
+      <p>Medir. Interpretar. Diagnosticar.<br />Sua formação em smartphones Android começa aqui.</p>
+
+      <div className="login-card">
+        {/* Opção 1: Conta Google */}
+        <button
+          type="button"
+          className="btn-google"
+          disabled={loading}
+          onClick={() => setShowGoogleModal(true)}
+        >
+          <GoogleIcon />
+          <span>Continuar com o Google</span>
+        </button>
+
+        {/* Divisor */}
+        <div className="login-divider">
+          <span>ou acesse com seu e-mail cadastrado</span>
+        </div>
+
+        {/* Opção 2: E-mail cadastrado */}
+        {mode === 'login' ? (
+          <form onSubmit={handleEmailLogin} className="login-form">
+            <label className="login-label">E-mail cadastrado</label>
+            <div className="login-input-wrap">
+              <Mail size={17} className="login-input-icon" />
+              <input
+                type="email"
+                placeholder="aluno@exemplo.com"
+                value={email}
+                onChange={e => { setEmail(e.target.value); setError(''); }}
+                required
+                disabled={loading}
+                className="login-input"
+              />
+            </div>
+
+            {error && (
+              <div className="login-alert">
+                <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button type="submit" className="btn primary full" disabled={loading || !email}>
+              {loading ? 'Verificando...' : 'Entrar com e-mail cadastrado'} <ArrowRight size={17} />
+            </button>
+
+            {error && (
+              <button
+                type="button"
+                className="login-switch-btn"
+                onClick={() => { setMode('register'); setError(''); }}
+              >
+                Primeiro acesso? Cadastre seu e-mail aqui
+              </button>
+            )}
+          </form>
+        ) : (
+          <form onSubmit={handleRegister} className="login-form">
+            <label className="login-label">Nome completo</label>
+            <div className="login-input-wrap">
+              <User size={17} className="login-input-icon" />
+              <input
+                type="text"
+                placeholder="Seu nome completo"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+                disabled={loading}
+                className="login-input"
+              />
+            </div>
+
+            <label className="login-label">E-mail para cadastro</label>
+            <div className="login-input-wrap">
+              <Mail size={17} className="login-input-icon" />
+              <input
+                type="email"
+                placeholder="aluno@exemplo.com"
+                value={email}
+                onChange={e => { setEmail(e.target.value); setError(''); }}
+                required
+                disabled={loading}
+                className="login-input"
+              />
+            </div>
+
+            {error && (
+              <div className="login-alert">
+                <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button type="submit" className="btn primary full" disabled={loading || !email}>
+              {loading ? 'Cadastrando...' : 'Cadastrar e acessar Academy'} <ArrowRight size={17} />
+            </button>
+
+            <button
+              type="button"
+              className="login-switch-btn"
+              onClick={() => { setMode('login'); setError(''); }}
+            >
+              Já é cadastrado? Entrar com e-mail
+            </button>
+          </form>
+        )}
+
+        <div className="login-footer-meta">
+          <ShieldCheck size={14} />
+          <span>Ambiente seguro de formação técnica BR3Tech</span>
+        </div>
+      </div>
+
+      {/* Modal de Escolha da Conta Google */}
+      {showGoogleModal && (
+        <div className="google-modal-backdrop" onClick={() => setShowGoogleModal(false)}>
+          <div className="google-modal" onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <GoogleIcon />
+              <span style={{ fontSize: 14, fontWeight: 500, color: '#5f6368' }}>Fazer login com o Google</span>
+            </div>
+            <h3>Escolha uma conta</h3>
+            <p>para prosseguir para <b>BR3 Academy</b></p>
+
+            <div
+              className="google-account-item"
+              onClick={() => {
+                setShowGoogleModal(false);
+                handleGoogleLogin('aluno.google@br3academy.com.br', 'Aluno Google');
+              }}
+            >
+              <div className="google-avatar">G</div>
+              <div className="google-account-info">
+                <div className="google-account-name">Aluno Google (Acesso Rápido)</div>
+                <div className="google-account-email">aluno.google@br3academy.com.br</div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 18, borderTop: '1px solid #e0e0e0', paddingTop: 14 }}>
+              <label style={{ fontSize: 12, fontWeight: 500, color: '#3c4043', display: 'block', marginBottom: 6 }}>
+                Ou use outra conta Google:
+              </label>
+              <input
+                type="email"
+                placeholder="seu.email@gmail.com"
+                value={googleEmail}
+                onChange={e => setGoogleEmail(e.target.value)}
+                className="google-modal-input"
+              />
+              <input
+                type="text"
+                placeholder="Nome da conta (opcional)"
+                value={googleName}
+                onChange={e => setGoogleName(e.target.value)}
+                className="google-modal-input"
+              />
+            </div>
+
+            <div className="google-modal-actions">
+              <button
+                type="button"
+                className="google-btn-cancel"
+                onClick={() => setShowGoogleModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="google-btn-confirm"
+                disabled={!googleEmail}
+                onClick={() => {
+                  setShowGoogleModal(false);
+                  handleGoogleLogin(googleEmail, googleName);
+                }}
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 export default function Academy({signedIn,signin,signout}:{signedIn:boolean;signin:string;signout:string}){
 const [guided,setGuided]=useState(true);
 const [focusMode,setFocusMode]=useState(true),[nativeFullscreen,setNativeFullscreen]=useState(false),[canFullscreen,setCanFullscreen]=useState(false);
@@ -23,22 +310,22 @@ async function toggleFullscreen(){try{if(document.fullscreenElement)await docume
 function exitFocus(){setFocusMode(false);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});}
 function go(v:string,l?:string){if(v==='aula')setFocusMode(true);setView(v);setMobile(false);if(l)setLessonId(l);location.hash=v+(l?'/'+encodeURIComponent(l):'');window.scrollTo({top:0,behavior:'smooth'})}
 async function post(body:any,refresh=true){setBusy(true);try{const r=await fetch('/api/academy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j:any=await r.json();if(!r.ok)throw new Error(j.error);if(refresh)await load();return j}catch(e){setToast((e as Error).message);return null}finally{setBusy(false)}}
-if(!signedIn)return <div className="login"><img className="login-logo" src="/images/logo.png" alt="BR3Tech"/><span className="eyebrow">BR3 ACADEMY</span><h1>Sua área do aluno.<br/>Sua próxima conquista.</h1><p>Medir. Interpretar. Diagnosticar.<br/>Sua formação em smartphones Android começa aqui.</p><a className="btn primary" href={signin} target="_top">Entrar com ChatGPT <ArrowRight size={18}/></a><small>Acesse aulas, exercícios e seu progresso com a autenticação disponível nesta plataforma.</small></div>;
-if(!data)return <div className="loading"><img src="/images/logo.png" alt="BR3Tech"/><h2>{error?'Não foi possível carregar a Academy':'Preparando sua bancada digital…'}</h2>{error?<><p>{error}</p><button className="btn primary" onClick={load}>Tentar novamente</button></>:<div className="loader"/>}</div>;
+if(!signedIn)return <LoginArea signin={signin} />;
+if(!data)return <div className="loading"><img src="/images/logo.png?v=clean" alt="BR3Tech"/><h2>{error?'Não foi possível carregar a Academy':'Preparando sua bancada digital…'}</h2>{error?<><p>{error}</p><button className="btn primary" onClick={load}>Tentar novamente</button></>:<div className="loader"/>}</div>;
 const lessons=data.lessons,available=lessons.filter((x:any)=>x.ready),studied=data.progress.filter((x:any)=>x.studied).length,pct=Math.round(studied/lessons.length*100),current=lessons.find((x:any)=>x.id===lessonId)||lessons[0],selectedQuiz=data.quizzes.find((x:any)=>x.id===quizId),last=lessons.find((l:any)=>l.id===data.journeyHistory?.find((j:any)=>!j.completed)?.lesson_id)||available.find((l:any)=>!data.progress.some((p:any)=>p.lesson_id===l.id&&p.studied))||available[0];
 const matching=data.flows.filter((f:any)=>(cat==='all'||f.modulo===cat)&&(!favOnly||data.favorites.includes(f.numero))&&normalize([f.numero,f.titulo_original,f.sintoma_sintese_pdf,f.ferramentas_declaradas_pdf].join(' ')).includes(normalize(query)));
 const known=data.progress.find((x:any)=>x.lesson_id===current.id);
 const isFocus=view==='aula'&&guided&&focusMode;
 return <div className={'app '+(isFocus?'focus-mode':'')}>
 {mobile&&<button className="scrim" aria-label="Fechar menu" onClick={()=>setMobile(false)}/>}
-<aside className={'sidebar '+(mobile?'open':'')}><a className="brand" href="#dashboard" onClick={()=>go('dashboard')}><img src="/images/logo.png" alt="BR3Tech"/><div><b>BR3 <span>Academy</span></b><small>FORMAÇÃO TÉCNICA</small></div></a><div className="nav-label">SEU AMBIENTE DE ESTUDO</div><nav>{nav.map(([id,label,Icon])=><button key={id} className={'nav-item '+(view===id?'active':'')} onClick={()=>go(id)}><Icon size={19}/><span>{label}</span>{id==='biblioteca'&&<small>100</small>}</button>)}{data.user.admin&&<><div className="nav-divider"/><button className={'nav-item '+(view==='admin'?'active':'')} onClick={()=>go('admin')}><Settings size={19}/><span>Administração</span></button></>}</nav><div className="sidebar-bottom"><div className="principle"><ShieldCheck size={21}/><p>Diagnóstico com método.<br/><b>Segurança em cada decisão.</b></p></div><div className="profile"><span className="avatar">{data.user.name.slice(0,1).toUpperCase()}</span><div><b>{data.user.name.split('@')[0]}</b><small>{data.user.admin?'Responsável pela Academy':'Área do aluno'}</small></div><a href={signout} target="_top" title="Sair"><LogOut size={17}/></a></div></div></aside>
-<div className="workspace"><header className="topbar"><button className="mobile-menu icon-button" onClick={()=>setMobile(true)} aria-label="Abrir menu"><Menu/></button><div className="breadcrumb">Academy <ChevronRight size={14}/> <strong>{labels[view]}</strong></div><div className="header-search"><Search size={16}/><input aria-label="Pesquisar sintomas" placeholder="Buscar sintoma ou fluxograma…" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')go('biblioteca')}}/></div><span className="header-pill"><span/> Formação Android</span></header>
-{isFocus&&<header className="focus-bar"><div className="focus-course"><img src="/images/logo.png" alt="BR3Tech"/><div><span>MÓDULO {current.module} • {current.id}</span><b>{current.title}</b></div></div><div className="focus-actions">{canFullscreen&&<button className="focus-fullscreen" onClick={toggleFullscreen} title={nativeFullscreen?'Restaurar janela':'Ocultar barras do navegador'}>{nativeFullscreen?<Minimize size={16}/>:<Maximize size={16}/>}<span>{nativeFullscreen?'Restaurar':'Tela cheia'}</span></button>}<button className="focus-exit" onClick={exitFocus}><X size={17}/><span>Sair do foco</span></button></div></header>}
+<aside className={'sidebar '+(mobile?'open':'')}><a className="brand" href="#dashboard" onClick={()=>go('dashboard')}><img src="/images/logo.png?v=clean" alt="BR3Tech"/><div><b>BR3 <span>Academy</span></b><small>FORMAÇÃO TÉCNICA</small></div></a><div className="nav-label">SEU AMBIENTE DE ESTUDO</div><nav>{nav.map(([id,label,Icon])=><button key={id} className={'nav-item '+(view===id?'active':'')} onClick={()=>go(id)}><Icon size={19}/><span>{label}</span>{id==='biblioteca'&&<small>100</small>}</button>)}{data.user.admin&&<><div className="nav-divider"/><button className={'nav-item '+(view==='admin'?'active':'')} onClick={()=>go('admin')}><Settings size={19}/><span>Administração</span></button></>}</nav><div className="sidebar-bottom"><div className="principle"><ShieldCheck size={21}/><p>Diagnóstico com método.<br/><b>Segurança em cada decisão.</b></p></div><div className="profile"><span className="avatar">{data.user.name.slice(0,1).toUpperCase()}</span><div><b>{data.user.name.split('@')[0]}</b><small>{data.user.admin?'Responsável pela Academy':'Área do aluno'}</small></div><a href={signout} target="_top" title="Sair"><LogOut size={17}/></a></div></div></aside>
+<div className="workspace"><header className="topbar"><button className="mobile-menu icon-button" onClick={()=>setMobile(true)} aria-label="Abrir menu"><Menu/></button><div className="topbar-brand"><img src="/images/logo.png?v=clean" alt="BR3Tech" className="topbar-logo" /><div className="breadcrumb">Academy <ChevronRight size={14}/> <strong>{labels[view]}</strong></div></div><div className="header-search"><Search size={16}/><input aria-label="Pesquisar sintomas" placeholder="Buscar sintoma ou fluxograma…" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')go('biblioteca')}}/></div><span className="header-pill"><span/> Formação Android</span></header>
+{isFocus&&<header className="focus-bar"><div className="focus-course"><img src="/images/logo.png?v=clean" alt="BR3Tech"/><div><span>MÓDULO {current.module} • {current.id}</span><b>{current.title}</b></div></div><div className="focus-actions">{canFullscreen&&<button className="focus-fullscreen" onClick={toggleFullscreen} title={nativeFullscreen?'Restaurar janela':'Ocultar barras do navegador'}>{nativeFullscreen?<Minimize size={16}/>:<Maximize size={16}/>}<span>{nativeFullscreen?'Restaurar':'Tela cheia'}</span></button>}<button className="focus-exit" onClick={exitFocus}><X size={17}/><span>Sair do foco</span></button></div></header>}
 <main>
-{view==='conta'&&<><Heading eyebrow="SEU ESPAÇO NA ACADEMY" title="Minha conta e minha jornada." text="Suas aulas, anotações e resultados ficam vinculados à identidade com que você acessou a Academy."/><div className="student-account-grid"><section className="panel student-identity"><span className="avatar">{data.user.name.slice(0,1).toUpperCase()}</span><h2>{data.user.name}</h2><p className="muted">{data.user.email}</p><span className="quiet-tag">{data.user.admin?'Responsável pela Academy':'Aluno'}</span><dl><dt>Acesso atual</dt><dd>Autenticação da plataforma ChatGPT</dd><dt>Curso</dt><dd>Diagnóstico de Smartphones Android</dd><dt>Registros</dt><dd>Progresso, anotações, exercícios e avaliações individuais</dd></dl><a className="btn secondary" href={signout} target="_top"><LogOut size={16}/>Sair da conta</a></section><section className="panel"><h2>Continue de onde parou</h2><p className="muted">O percurso interativo salva as etapas concluídas. Abra a aula para retomar sua atividade.</p><div className="next-lesson"><BookOpen size={25}/><div><span className="eyebrow">{last.id} • MÓDULO {last.module}</span><h3>{last.title}</h3></div></div><button className="btn primary" onClick={()=>go('aula',last.id)}>Retomar aula <ArrowRight size={17}/></button><div className="student-shortcuts"><button className="btn secondary" onClick={()=>go('avaliacoes')}><ClipboardCheck size={16}/>Minhas avaliações</button><button className="btn secondary" onClick={()=>go('laboratorio')}><FlaskConical size={16}/>Minhas simulações</button><button className="btn secondary" onClick={()=>go('biblioteca')}><Star size={16}/>Biblioteca de diagnóstico</button></div></section></div><div className="stats"><Stat icon={CheckCircle2} label="Aulas estudadas" value={studied} foot={lessons.length+' aulas previstas'}/><Stat icon={GitBranch} label="Percursos concluídos" value={data.journeyHistory.filter((j:any)=>j.completed).length} foot="Inclui percursos de referência"/><Stat icon={ClipboardCheck} label="Práticas aprovadas" value={data.practices.filter((p:any)=>p.status==='approved').length} foot="Revisadas pelo instrutor"/><Stat icon={GraduationCap} label="Avaliações aprovadas" value={new Set(data.attempts.filter((a:any)=>a.passed).map((a:any)=>a.quiz_id)).size} foot="Avaliações distintas"/></div><section className="panel"><h2>Atividades recentes</h2>{data.journeyHistory.length?data.journeyHistory.slice(0,8).map((j:any)=><div className="history-row" key={j.lesson_id}><BookOpen size={18}/><b>{j.lesson_id}</b><span>{lessons.find((l:any)=>l.id===j.lesson_id)?.title}</span><small>{j.completed?'Percurso concluído':'Em andamento'} • {new Date(j.updated).toLocaleDateString('pt-BR')}</small><button className="text-btn" onClick={()=>go('aula',j.lesson_id)}>Abrir <ArrowRight size={15}/></button></div>):<p className="muted">Comece uma aula interativa para acompanhar suas atividades aqui.</p>}</section><section className="panel"><h2>Certificação</h2><p className="muted">A marcação de estudo não comprova horas cumpridas. O certificado de curso livre depende da conclusão dos conteúdos obrigatórios, das práticas revisadas e da avaliação final. A emissão ainda não está disponível.</p></section></>}
+{view==='conta'&&<><Heading eyebrow="SEU ESPAÇO NA ACADEMY" title="Minha conta e minha jornada." text="Suas aulas, anotações e resultados ficam vinculados à identidade com que você acessou a Academy."/><div className="student-account-grid"><section className="panel student-identity"><span className="avatar">{data.user.name.slice(0,1).toUpperCase()}</span><h2>{data.user.name}</h2><p className="muted">{data.user.email}</p><span className="quiet-tag">{data.user.admin?'Responsável pela Academy':'Aluno'}</span><dl><dt>Acesso atual</dt><dd>{data.user.email?.toLowerCase().includes('gmail') || data.user.email?.toLowerCase().includes('google') ? 'Conta Google' : 'E-mail cadastrado'}</dd><dt>Curso</dt><dd>Diagnóstico de Smartphones Android</dd><dt>Registros</dt><dd>Progresso, anotações, exercícios e avaliações individuais</dd></dl><a className="btn secondary" href={signout} target="_top"><LogOut size={16}/>Sair da conta</a></section><section className="panel"><h2>Continue de onde parou</h2><p className="muted">O percurso interativo salva as etapas concluídas. Abra a aula para retomar sua atividade.</p><div className="next-lesson"><BookOpen size={25}/><div><span className="eyebrow">{last.id} • MÓDULO {last.module}</span><h3>{last.title}</h3></div></div><button className="btn primary" onClick={()=>go('aula',last.id)}>Retomar aula <ArrowRight size={17}/></button><div className="student-shortcuts"><button className="btn secondary" onClick={()=>go('avaliacoes')}><ClipboardCheck size={16}/>Minhas avaliações</button><button className="btn secondary" onClick={()=>go('laboratorio')}><FlaskConical size={16}/>Minhas simulações</button><button className="btn secondary" onClick={()=>go('biblioteca')}><Star size={16}/>Biblioteca de diagnóstico</button></div></section></div><div className="stats"><Stat icon={CheckCircle2} label="Aulas estudadas" value={studied} foot={lessons.length+' aulas previstas'}/><Stat icon={GitBranch} label="Percursos concluídos" value={data.journeyHistory.filter((j:any)=>j.completed).length} foot="Inclui percursos de referência"/><Stat icon={ClipboardCheck} label="Práticas aprovadas" value={data.practices.filter((p:any)=>p.status==='approved').length} foot="Revisadas pelo instrutor"/><Stat icon={GraduationCap} label="Avaliações aprovadas" value={new Set(data.attempts.filter((a:any)=>a.passed).map((a:any)=>a.quiz_id)).size} foot="Avaliações distintas"/></div><section className="panel"><h2>Atividades recentes</h2>{data.journeyHistory.length?data.journeyHistory.slice(0,8).map((j:any)=><div className="history-row" key={j.lesson_id}><BookOpen size={18}/><b>{j.lesson_id}</b><span>{lessons.find((l:any)=>l.id===j.lesson_id)?.title}</span><small>{j.completed?'Percurso concluído':'Em andamento'} • {new Date(j.updated).toLocaleDateString('pt-BR')}</small><button className="text-btn" onClick={()=>go('aula',j.lesson_id)}>Abrir <ArrowRight size={15}/></button></div>):<p className="muted">Comece uma aula interativa para acompanhar suas atividades aqui.</p>}</section><section className="panel"><h2>Certificação</h2><p className="muted">A marcação de estudo não comprova horas cumpridas. O certificado de curso livre depende da conclusão dos conteúdos obrigatórios, das práticas revisadas e da avaliação final. A emissão ainda não está disponível.</p></section></>}
 {view==='dashboard'&&<>
 <div className="page-heading"><div><span className="eyebrow">OLÁ, {data.user.name.split(' ')[0]} • ÁREA DO ALUNO</span><h1>Um bom reparo começa<br className="mobile-break"/> com um bom diagnóstico.</h1><p>Aprenda a medir, interpretar e diagnosticar antes de substituir componentes.</p></div><span className="quiet-tag"><ShieldCheck size={15}/> Conteúdo com rastreabilidade</span></div>
-<section className="hero"><div className="hero-content"><span className="pill"><span/> FORMAÇÃO PROFISSIONAL</span><h2>Diagnóstico avançado<br/>de smartphones <em>Android.</em></h2><p>Da eletrônica básica ao raciocínio de bancada.<br/>Uma formação progressiva, com o método BR3Tech.</p><div className="hero-meta"><span><BookOpen size={15}/>13 módulos</span><span><GitBranch size={15}/>100 fluxogramas</span><span><Clock size={15}/>180 h estimadas</span></div><button className="btn primary" onClick={()=>go('aula',last.id)}>{studied?'Continuar meus estudos':'Começar pelos fundamentos'}<ArrowRight size={17}/></button><small>Textos disponíveis para estudo • videoaulas em produção</small></div><div className="hero-image"><img src="/images/bench.jpg" alt="Bancada de manutenção de smartphones ilustrada no guia BR3Tech"/><div className="image-caption"><span className="led"/> DA MEDIÇÃO À DECISÃO</div><div className="reading-card"><GitBranch size={19}/><span>Um teste. Uma evidência.<b>Uma próxima decisão.</b></span></div></div></section>
+<section className="hero"><div className="hero-content"><span className="pill"><span/> FORMAÇÃO PROFISSIONAL</span><h2>Diagnóstico avançado<br/>de smartphones <em>Android.</em></h2><p>Da eletrônica básica ao raciocínio de bancada.<br/>Uma formação progressiva, com o método BR3Tech.</p><div className="hero-meta"><span><BookOpen size={15}/>13 módulos</span><span><GitBranch size={15}/>100 fluxogramas</span><span><Clock size={15}/>180 h estimadas</span></div><button className="btn primary" onClick={()=>go('aula',last.id)}>{studied?'Continuar meus estudos':'Começar pelos fundamentos'}<ArrowRight size={17}/></button><small>Textos disponíveis para estudo • videoaulas em produção</small></div><div className="hero-image"><img src="/images/br3tech-wallpaper.png" alt="BR3Tech Bancada Digital"/><div className="image-caption"><span className="led"/> DA MEDIÇÃO À DECISÃO</div><div className="reading-card"><GitBranch size={19}/><span>Um teste. Uma evidência.<b>Uma próxima decisão.</b></span></div></div></section>
 <div className="stats"><Stat icon={BookOpen} label="Módulos da formação" value="13" foot="Do básico à validação"/><Stat icon={GitBranch} label="Fluxogramas catalogados" value="100" foot="Referências originais preservadas"/><Stat icon={CheckCircle2} label="Aulas prontas para estudo" value={available.length} foot="Textos e atividades disponíveis"/><Stat icon={GraduationCap} label="Seu progresso de estudo" value={pct+'%'} foot={studied+' de '+lessons.length+' aulas previstas'}/></div>
 <div className="dashboard-lower"><section className="panel continue-panel"><div className="section-heading"><h2>Seu próximo passo</h2><button className="text-btn" onClick={()=>go('curso')}>Ver formação <ArrowUpRight size={16}/></button></div><div className="next-lesson"><span className="lesson-icon"><BookOpen/></span><div><span className="eyebrow">MÓDULO {last.module} • {last.id}</span><h3>{last.title}</h3><p>{last.minutes} min estimados de estudo e prática</p></div><button className="icon-button round" aria-label="Abrir próxima aula" onClick={()=>go('aula',last.id)}><ArrowRight/></button></div><div className="progress-track"><span style={{width:pct+'%'}}/></div><div className="progress-label"><span>{studied} aulas marcadas como estudadas</span><b>{pct}%</b></div><div className="hint">O estudo registrado é separado da aprovação de práticas e avaliações.</div></section><section className="lab-teaser"><FlaskConical size={29}/><span className="eyebrow">APRENDA TOMANDO DECISÕES</span><h2>Sua bancada.<br/>Em modo simulação.</h2><p>Escolha testes, interprete medições fictícias e justifique seu diagnóstico.</p><button className="text-btn" onClick={()=>go('laboratorio')}>Entrar no laboratório <ArrowRight size={17}/></button></section></div>
 <div className="section-heading"><h2>Explore sua formação</h2><button className="text-btn" onClick={()=>go('curso')}>Todos os módulos <ArrowUpRight size={16}/></button></div><div className="module-grid">{data.modules.slice(0,3).map((m:any)=>moduleCard(m))}</div><div className="release-note"><ShieldCheck size={18}/><p><b>Formação em expansão.</b> Fundamentos, ferramentas e aula 001 disponíveis. Os 100 fluxogramas podem ser consultados; as demais aulas completas serão liberadas após revisão.</p><button className="text-btn" onClick={()=>go('revisoes')}>Ver revisões <ArrowRight size={15}/></button></div>
@@ -73,7 +360,7 @@ return <div className={'app '+(isFocus?'focus-mode':'')}>
 <section className="panel"><h2>Justificativas do laboratório</h2>{data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada.</p>}</section>
 <section className="panel"><h2>Ampliar banco de questões</h2><div className="two-cols"><label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label><label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label></div><label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label><label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label><label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label><label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label><button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button></section>
 <section className="panel"><h2>Resultados de avaliações</h2>{data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}</section></>}
-</main><footer><span>BR3 Academy <b>•</b> Medir. Interpretar. Diagnosticar.</span><span>Curso livre • Conteúdo em produção</span></footer></div>
+</main><footer className="app-footer"><div className="footer-brand"><img src="/images/logo.png?v=clean" alt="BR3Tech" className="footer-logo"/><span>BR3 Academy <b>•</b> Medir. Interpretar. Diagnosticar.</span></div><span>Formação Técnica BR3Tech • Conteúdo protegido</span></footer></div>
 {flow&&<div className="modal-backdrop" onClick={()=>setFlow(null)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="flow-title" onClick={e=>e.stopPropagation()}><div className="modal-top"><span className="flow-code">FLUXOGRAMA {flow.numero} • PÁGINA {flow.pagina_pdf}</span><button autoFocus className="icon-button" onClick={()=>setFlow(null)} aria-label="Fechar referência"><X/></button></div><h2 id="flow-title">{flow.titulo_original.replace('ressposta [sic]','resposta')}</h2><span className="category-chip">{flow.categoria_conteudo}</span>{[['Sintoma',flow.sintoma_sintese_pdf],['Ferramentas da fonte',flow.ferramentas_declaradas_pdf],['Testes • síntese da fonte',flow.testes_sintese_pdf],['Pontos e circuitos • sem pinagem',flow.pontos_circuitos_sem_pinagem]].map(([title,text])=><div className="detail-block" key={title}><h3>{title}</h3><p>{text}</p></div>)}<div className="measurement-note"><Zap size={19}/><div><b>Valores genéricos citados</b><p>{flow.valores_genericos_pdf}</p><small>Não configure a bancada sem confirmar o modelo e a linha.</small></div></div><div className="detail-block"><h3>Complementação e validação</h3><p>{flow.complementacao_validacao}</p></div><div className="modal-actions"><a className="btn secondary" href={'/materials/100_Fluxogramas_Android_BR3Tech.pdf#page='+flow.pagina_pdf} target="_blank" rel="noreferrer">Ver original <ArrowUpRight size={16}/></a><button className="btn primary" onClick={()=>{go('aula','D'+flow.numero);setFlow(null)}}>Ir à aula <ArrowRight size={17}/></button></div></section></div>}
 {toast&&<div className="toast" role="status"><span>{toast}</span><button className="icon-button" onClick={()=>setToast('')} aria-label="Fechar mensagem"><X size={15}/></button></div>}
 </div>;

@@ -22,21 +22,44 @@ export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
   const requestHeaders = await headers();
   const userId = requestHeaders.get(USER_ID_HEADER);
   const email = requestHeaders.get(USER_EMAIL_HEADER);
-  if (!userId || !email) return null;
+  if (userId && email) {
+    const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
+    const fullName =
+      encodedFullName &&
+      requestHeaders.get(USER_FULL_NAME_ENCODING_HEADER) === PERCENT_ENCODED_UTF8
+        ? safeDecodeURIComponent(encodedFullName)
+        : null;
 
-  const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get(USER_FULL_NAME_ENCODING_HEADER) === PERCENT_ENCODED_UTF8
-      ? safeDecodeURIComponent(encodedFullName)
-      : null;
+    return {
+      userId,
+      displayName: fullName ?? email,
+      email,
+      fullName,
+    };
+  }
 
-  return {
-    userId,
-    displayName: fullName ?? email,
-    email,
-    fullName,
-  };
+  // Fallback to br3_session cookie for Google and registered email logins
+  const cookieHeader = requestHeaders.get("cookie");
+  if (cookieHeader) {
+    const match = cookieHeader.match(/(?:^|;\s*)br3_session=([^;]*)/);
+    if (match) {
+      try {
+        const decoded = JSON.parse(decodeURIComponent(match[1]));
+        if (decoded?.userId && decoded?.email) {
+          return {
+            userId: decoded.userId,
+            displayName: decoded.displayName || decoded.fullName || decoded.email,
+            email: decoded.email,
+            fullName: decoded.fullName || null,
+          };
+        }
+      } catch {
+        // ignore invalid cookie format
+      }
+    }
+  }
+
+  return null;
 }
 
 export async function requireChatGPTUser(
@@ -55,7 +78,7 @@ export function chatGPTSignInPath(returnTo: string): string {
 
 export function chatGPTSignOutPath(returnTo = "/"): string {
   const safeReturnTo = safeRelativeReturnPath(returnTo);
-  return `${SIGN_OUT_PATH}?return_to=${encodeURIComponent(safeReturnTo)}`;
+  return `/api/auth/signout?return_to=${encodeURIComponent(safeReturnTo)}`;
 }
 
 function safeRelativeReturnPath(value: string): string {

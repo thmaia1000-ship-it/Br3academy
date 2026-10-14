@@ -40,3 +40,67 @@
 @media(max-width:850px){.lesson-layout .step-learning-layout.with-visuals,.focus-mode .lesson-layout .step-learning-layout.with-visuals{display:flex;flex-direction:column;gap:22px}.step-learning-layout.with-visuals .step-instruction{display:contents}.step-learning-layout.with-visuals .guided-content{order:0;width:100%}.step-learning-layout.with-visuals .step-visuals{order:1;width:100%}.step-learning-layout.with-visuals .guided-exercise{order:2;width:100%;margin-top:0}}
 
 .student-account-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:24px;margin-bottom:24px}.student-identity>.avatar{width:64px;height:64px;font-size:26px;margin-bottom:18px}.student-identity dl{margin:24px 0}.student-identity dt{color:var(--muted);font-size:12px;margin-top:18px}.student-identity dd{margin:6px 0 0;overflow-wrap:anywhere}.student-shortcuts{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}@media(max-width:780px){.student-account-grid{grid-template-columns:1fr}.student-identity p{overflow-wrap:anywhere}}
+
+.login-card{width:100%;max-width:440px;background:#111a14;border:1px solid #2f442b;border-radius:14px;padding:30px 26px;box-shadow:0 16px 40px rgba(0,0,0,0.45);margin-top:10px}
+.btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#ffffff;color:#1f1f1f;font-weight:600;font-size:14px;padding:13px 18px;border-radius:8px;border:1px solid #dadce0;cursor:pointer;transition:all .2s ease;box-shadow:0 1px 3px rgba(0,0,0,0.12)}
+.btn-google:hover:not(:disabled){background:#f8f9fa;box-shadow:0 2px 8px rgba(0,0,0,0.22)}
+.btn-google:disabled{opacity:.65;cursor:not-allowed}
+.login-divider{display:flex;align-items:center;margin:22px 0;color:#6f906b;font-size:11px;text-transform:uppercase;letter-spacing:.8px}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#253922}
+.login-divider span{padding:0 14px}
+.login-form{display:flex;flex-direction:column;gap:15px;text-align:left}
+.login-label{font-size:12px;font-weight:500;color:#a4be98;margin-bottom:-7px}
+.login-input-wrap{position:relative;display:flex;align-items:center}
+.login-input-icon{position:absolute;left:14px;color:#6f906b;pointer-events:none}
+.login-input{width:100%;padding:12px 14px 12px 42px;background:#090f0c;border:1px solid #2d4529;border-radius:8px;color:#eef4ec;font-size:14px;outline:none;transition:all .2s ease}
+.login-input:focus{border-color:#55c868;box-shadow:0 0 0 3px rgba(85,200,104,0.15)}
+.login-input:disabled{opacity:.6}
+.login-alert{background:#2b1313;border:1px solid #732626;color:#fca5a5;padding:11px 14px;border-radius:8px;font-size:12px;display:flex;align-items:flex-start;gap:9px;line-height:1.45;text-align:left}
+.login-switch-btn{background:none;border:none;color:#79ba75;font-size:12px;cursor:pointer;padding:4px;text-align:center;transition:color .2s}
+.login-switch-btn:hover{color:#a3e69f;text-decoration:underline}
+.login-footer-meta{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:6px;color:#6f906b;font-size:11px}
+.google-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px}
+.google-modal{background:#ffffff;color:#202124;border-radius:12px;width:100%;max-width:420px;padding:28px;box-shadow:0 20px 48px rgba(0,0,0,0.5);text-align:left}
+.google-modal h3{font-size:18px;font-weight:500;color:#202124;margin:0 0 6px}
+.google-modal p{font-size:13px;color:#5f6368;margin:0 0 20px}
+.google-account-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid #dadce0;border-radius:8px;cursor:pointer;margin-bottom:12px;background:#f8f9fa;transition:all .2s}
+.google-account-item:hover{background:#f1f3f4;border-color:#bdc1c6}
+.google-avatar{width:38px;height:38px;border-radius:50%;background:#4285f4;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px}
+.google-account-info{flex:1;min-width:0}
+.google-account-name{font-size:14px;font-weight:500;color:#202124}
+.google-account-email{font-size:12px;color:#5f6368}
+.google-modal-input{width:100%;padding:11px 12px;border:1px solid #dadce0;border-radius:6px;font-size:13px;color:#202124;margin-bottom:12px;outline:none}
+.google-modal-input:focus{border-color:#1a73e8;box-shadow:0 0 0 2px rgba(26,115,232,0.2)}
+.google-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.google-btn-cancel{background:transparent;border:none;color:#1a73e8;font-weight:500;font-size:13px;padding:8px 16px;cursor:pointer;border-radius:4px}
+.google-btn-cancel:hover{background:#f1f3f4}
+.google-btn-confirm{background:#1a73e8;border:none;color:#ffffff;font-weight:500;font-size:13px;padding:8px 18px;cursor:pointer;border-radius:4px}
+.google-btn-confirm:hover{background:#1557b0}
+
+/* ==========================================================================
+   Visual Identity & Harmonic Branding (BR3Tech)
+   ========================================================================== */
+.topbar-brand{display:flex;align-items:center;gap:14px}
+.topbar-logo{height:36px;width:auto;max-width:52px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(120,240,60,0.25));transition:transform .25s cubic-bezier(0.4,0,0.2,1),filter .25s ease}
+.topbar-logo:hover{transform:scale(1.06);filter:drop-shadow(0 0 16px rgba(120,240,60,0.48))}
+.brand img{width:54px;height:auto;max-height:44px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(120,240,60,0.25));transition:transform .25s ease,filter .25s ease}
+.brand:hover img{transform:scale(1.05);filter:drop-shadow(0 0 18px rgba(120,240,60,0.48))}
+
+.app-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--border);padding:22px 35px;font-size:10px;color:#7e9a8b;background:#090f0c;flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-logo{height:28px;width:auto;max-width:44px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(120,240,60,0.2));transition:transform .2s ease}
+.footer-brand:hover .footer-logo{transform:scale(1.06)}
+.footer-brand span{font-size:10px;color:#9ebbb0}
+.footer-brand b{color:var(--green);margin:0 4px}
+
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:radial-gradient(ellipse at 50% 25%,rgba(45,80,36,0.36),transparent 65%),linear-gradient(180deg,rgba(11,16,13,0.86),rgba(8,12,10,0.96)),url('/images/br3tech-wallpaper.png') center center/cover no-repeat fixed;padding:40px 20px}
+.login-brand-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:20px}
+.login-brand-wrap::before{content:'';position:absolute;width:240px;height:160px;background:radial-gradient(ellipse at center,rgba(120,240,60,0.22) 0%,rgba(60,160,30,0.08) 50%,transparent 70%);pointer-events:none;border-radius:50%;filter:blur(10px)}
+.login-logo{position:relative;width:170px;height:auto;max-height:120px;object-fit:contain;filter:drop-shadow(0 8px 24px rgba(120,240,60,0.4));transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),filter .3s ease}
+.login-logo:hover{transform:scale(1.05);filter:drop-shadow(0 10px 34px rgba(120,240,60,0.6))}
+.login-card{border-color:#365330;box-shadow:0 20px 50px rgba(0,0,0,0.6),0 0 25px rgba(80,180,40,0.08);backdrop-filter:blur(12px)}
+
+.loading img{width:140px;height:auto;max-height:100px;object-fit:contain;margin-bottom:24px;filter:drop-shadow(0 0 20px rgba(120,240,60,0.35));animation:pulseLogo 2.4s ease-in-out infinite}
+@keyframes pulseLogo{0%,100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(120,240,60,0.25))}50%{transform:scale(1.05);filter:drop-shadow(0 0 26px rgba(120,240,60,0.52))}}
+
+
