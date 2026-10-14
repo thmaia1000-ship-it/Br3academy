@@ -44,7 +44,7 @@ try {
   let r = await mf.dispatchFetch('http://academy.test/api/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'login-password', login: 'admin', password: 'admin123' }),
+    body: JSON.stringify({ action: 'login-password', login: 'admin', password: '240424Mbm@' }),
   });
   assert.equal(r.status, 200);
   let j = await r.json();

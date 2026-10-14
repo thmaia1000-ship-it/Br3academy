@@ -6,6 +6,20 @@ export const dynamic = 'force-dynamic';
 async function ensureCredentialsTable() {
   try {
     await db().prepare(`
+      CREATE TABLE IF NOT EXISTS users (
+        id text PRIMARY KEY NOT NULL,
+        name text NOT NULL,
+        email text NOT NULL,
+        created text NOT NULL
+      )
+    `).run();
+    await db().prepare(`
+      CREATE TABLE IF NOT EXISTS owner (
+        id integer PRIMARY KEY NOT NULL,
+        user_id text NOT NULL
+      )
+    `).run();
+    await db().prepare(`
       CREATE TABLE IF NOT EXISTS user_credentials (
         user_id text PRIMARY KEY NOT NULL,
         username text NOT NULL,
@@ -55,44 +69,32 @@ export async function POST(request: Request) {
         .bind(login, login)
         .first();
 
-      // If database has 0 users in user_credentials, check if we should bootstrap initial admin
+      // If user is admin and not yet in user_credentials, bootstrap master admin
+      if (!cred && (login.toLowerCase() === 'admin' || login.toLowerCase() === 'admin@br3academy.com.br')) {
+        const userId = 'usr_admin_master';
+        const salt = generateSalt();
+        const passwordHash = await hashPassword(password, salt);
+        const now = new Date().toISOString();
+
+        await db().batch([
+          db().prepare('INSERT INTO users(id, name, email, created) VALUES(?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, email=excluded.email').bind(userId, 'Administrador BR3', 'admin@br3academy.com.br', now),
+          db().prepare('INSERT OR REPLACE INTO user_credentials(user_id, username, password_hash, salt, role, status, created, updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?)').bind(userId, 'admin', passwordHash, salt, 'admin', 'active', now, now),
+          db().prepare('INSERT OR REPLACE INTO owner(id, user_id) VALUES(1, ?)').bind(userId),
+        ]);
+
+        cred = {
+          id: userId,
+          name: 'Administrador BR3',
+          email: 'admin@br3academy.com.br',
+          username: 'admin',
+          password_hash: passwordHash,
+          salt: salt,
+          role: 'admin',
+          status: 'active',
+        };
+      }
+
       if (!cred) {
-        const countRow: any = await db().prepare('SELECT COUNT(*) as count FROM user_credentials').first().catch(() => ({ count: 0 }));
-        if (!countRow || countRow.count === 0) {
-          // If fresh system, allow bootstrap with admin/admin or initial admin credentials
-          const isInitialAdmin = login.toLowerCase() === 'admin' || login.toLowerCase() === 'thiago@br3academy.com.br';
-          if (isInitialAdmin) {
-            const userId = 'usr_admin_' + crypto.randomUUID().slice(0, 8);
-            const salt = generateSalt();
-            const passwordHash = await hashPassword(password || 'admin123', salt);
-            const now = new Date().toISOString();
-
-            await db().batch([
-              db().prepare('INSERT INTO users(id, name, email, created) VALUES(?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, email=excluded.email').bind(userId, 'Administrador BR3', 'admin@br3academy.com.br', now),
-              db().prepare('INSERT OR REPLACE INTO user_credentials(user_id, username, password_hash, salt, role, status, created, updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?)').bind(userId, 'admin', passwordHash, salt, 'admin', 'active', now, now),
-              db().prepare('INSERT OR IGNORE INTO owner(id, user_id) VALUES(1, ?)').bind(userId),
-            ]);
-
-            const sessionUser = {
-              userId,
-              displayName: 'Administrador BR3',
-              email: 'admin@br3academy.com.br',
-              fullName: 'Administrador BR3',
-              role: 'admin',
-              provider: 'password',
-            };
-
-            const cookieValue = encodeURIComponent(JSON.stringify(sessionUser));
-            return new Response(JSON.stringify({ ok: true, user: sessionUser, bootstrapped: true }), {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json',
-                'Set-Cookie': `br3_session=${cookieValue}; Path=/; Max-Age=2592000; HttpOnly; SameSite=Lax`,
-              },
-            });
-          }
-        }
-
         // If not found in user_credentials, check if user exists in users table without password
         const existingInUsers: any = await db()
           .prepare('SELECT id, name, email FROM users WHERE LOWER(email) = LOWER(?)')
