@@ -1,7 +1,7 @@
 'use client';
 import React,{useEffect,useState} from 'react';
 import GuidedLesson from './GuidedLesson';
-import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX} from 'lucide-react';
+import {LayoutDashboard,BookOpen,GitBranch,FlaskConical,FolderOpen,ClipboardCheck,ShieldCheck,Settings,ArrowUpRight,ArrowRight,ChevronRight,Search,Menu,X,Play,Check,Clock,Download,Star,Lock,Monitor,Smartphone,BatteryCharging,Cpu,Volume2,Wifi,Camera,Radio,Zap,LogOut,Plus,Upload,FileText,CheckCircle2,AlertTriangle,Save,RefreshCw,GraduationCap,Maximize,Minimize,Mail,User,Key,Eye,EyeOff,UserPlus,Users,Trash2,UserCheck,UserX,DollarSign,CreditCard,TrendingUp,Wallet,Receipt} from 'lucide-react';
 const nav=[['dashboard','Área do aluno',LayoutDashboard],['curso','Meu curso',BookOpen],['biblioteca','Fluxogramas',GitBranch],['laboratorio','Laboratório',FlaskConical],['avaliacoes','Avaliações',ClipboardCheck],['materiais','Materiais',FolderOpen],['revisoes','Revisões técnicas',ShieldCheck],['conta','Minha conta',GraduationCap]] as const;
 const modIcons=[Cpu,Monitor,Smartphone,BatteryCharging,RefreshCw,Monitor,Zap,Volume2,Radio,Wifi,Camera,ShieldCheck,ClipboardCheck];
 const labels:Record<string,string>={dashboard:'Área do aluno',conta:'Minha conta',curso:'Meu curso',biblioteca:'Biblioteca de diagnóstico',laboratorio:'Laboratório virtual',avaliacoes:'Avaliações',materiais:'Materiais do curso',revisoes:'Revisões técnicas',admin:'Administração',aula:'Sala de aula'};
@@ -249,13 +249,36 @@ export default function Academy({signedIn,signin,signout}:{signedIn:boolean;sign
 const [guided,setGuided]=useState(true);
 const [focusMode,setFocusMode]=useState(true),[nativeFullscreen,setNativeFullscreen]=useState(false),[canFullscreen,setCanFullscreen]=useState(false);
 const [data,setData]=useState<any>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[toast,setToast]=useState(''),[view,setView]=useState('dashboard'),[lessonId,setLessonId]=useState('F00.1'),[mobile,setMobile]=useState(false),[module,setModule]=useState('all'),[query,setQuery]=useState(''),[cat,setCat]=useState('all'),[favOnly,setFavOnly]=useState(false),[flow,setFlow]=useState<any>(null),[notes,setNotes]=useState(''),[report,setReport]=useState(''),[quizId,setQuizId]=useState('fundamentos'),[answers,setAnswers]=useState<Record<number,number>>({}),[quizResult,setQuizResult]=useState<any>(null),[run,setRun]=useState<any>(null),[justification,setJustification]=useState(''),[adminLesson,setAdminLesson]=useState('D001'),[editBody,setEditBody]=useState(''),[editReady,setEditReady]=useState(false),[video,setVideo]=useState(''),[reviewFeedback,setReviewFeedback]=useState<Record<string,string>>({}),[question,setQuestion]=useState(''),[options,setOptions]=useState(''),[correct,setCorrect]=useState(0),[explanation,setExplanation]=useState(''),[critical,setCritical]=useState(false);
-const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState('');
+const [newUserName,setNewUserName]=useState(''),[newUserLogin,setNewUserLogin]=useState(''),[newUserEmail,setNewUserEmail]=useState(''),[newUserPassword,setNewUserPassword]=useState(''),[newUserRole,setNewUserRole]=useState<'student'|'admin'>('student'),[adminUserFilter,setAdminUserFilter]=useState(''),[pwdModalUser,setPwdModalUser]=useState<any>(null),[pwdModalValue,setPwdModalValue]=useState(''),[adminTab,setAdminTab]=useState<'academico'|'financeiro'|'usuarios'>('academico'),[financeSearch,setFinanceSearch]=useState(''),[financeFilter,setFinanceFilter]=useState<'all'|'paid'|'pending'>('all');
 
 function generateRandomPassword(){
   const chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#$';
   let pass='';
   for(let i=0;i<10;i++)pass+=chars.charAt(Math.floor(Math.random()*chars.length));
   return pass;
+}
+
+function exportFinancialCSV(trxList:any[]){
+  const headers=['ID_Transacao','Aluno','Email','Plano_Curso','Valor_BRL','Forma_Pagamento','Data_Matricula','Status'];
+  const rows=trxList.map((t:any)=>[
+    t.id,
+    `"${(t.user_name||'').replace(/"/g,'""')}"`,
+    `"${(t.email||'').replace(/"/g,'""')}"`,
+    `"${(t.plan||'').replace(/"/g,'""')}"`,
+    Number(t.amount||0).toFixed(2),
+    `"${t.method||''}"`,
+    t.date,
+    t.status==='paid'?'Pago':'Pendente'
+  ]);
+  const csvContent='data:text/csv;charset=utf-8,\uFEFF'+[headers.join(';'),...rows.map((r:any)=>r.join(';'))].join('\n');
+  const encodedUri=encodeURI(csvContent);
+  const link=document.createElement('a');
+  link.setAttribute('href',encodedUri);
+  link.setAttribute('download',`BR3Academy_Relatorio_Financeiro_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setToast('Relatório financeiro exportado com sucesso!');
 }
 
 async function handleCreateUser(e:React.FormEvent){
@@ -375,13 +398,304 @@ return <div className={'app '+(isFocus?'focus-mode':'')}>
 ['065 • Identidade','Diagnóstico sem alteração de IMEI','O conteúdo operacional restringe-se à leitura e à investigação de integridade. Não ensina reescrita de identidade nem presume autorização por nota fiscal.'],
 ['Certificação','Horas e competências comprovadas','A marcação de estudo é autorregistro. Práticas exigem revisão; questões de segurança são obrigatórias. Não há emissão automática de certificado com carga não cumprida.']
 ].map(([code,title,text])=><article className="revision-card" key={code}><span className="revision-code">{code}</span><div><h3>{title}</h3><p>{text}</p></div><CheckCircle2 size={19}/></article>)}<div className="release-note"><AlertTriangle size={18}/><p>Revisões editoriais e didáticas aplicadas. A validação de procedimentos por modelo e a gravação de demonstrações reais continuam necessárias antes de liberação comercial integral.</p></div></>}
-{view==='admin'&&data.user.admin&&<><Heading eyebrow="GESTÃO DA ACADEMY" title="Conteúdo, alunos e evidências." text="Publique textos revisados, associe vídeos e materiais, amplie o banco de questões e revise os relatórios."/><div className="stats"><Stat icon={GraduationCap} label="Contas registradas" value={data.admin.users.length} foot="Acesso atual privado"/><Stat icon={BookOpen} label="Aulas para estudo" value={available.length} foot={'De '+lessons.length+' previstas'}/><Stat icon={ClipboardCheck} label="Práticas pendentes" value={data.admin.practices.filter((p:any)=>p.status==='pending').length} foot="Aguardam sua revisão"/><Stat icon={FlaskConical} label="Simulações para revisar" value={data.admin.simulations.filter((s:any)=>s.status==='pending_review').length} foot="Justificativas enviadas"/></div><section className="panel"><div className="section-heading"><h2>Editor de aulas</h2><span className="quiet-tag">Texto, vídeo e liberação</span></div><label className="form-label">Aula<select value={adminLesson} onChange={e=>setAdminLesson(e.target.value)}>{lessons.map((l:any)=><option key={l.id} value={l.id}>{l.id} • {l.title}</option>)}</select></label><label className="form-label">Conteúdo da aula<textarea className="editor" rows={12} value={editBody} onChange={e=>setEditBody(e.target.value)} placeholder="Use ## para títulos. Preencha objetivos, teoria, testes, limites, prática e avaliação antes de liberar."/></label><label className="form-label">Vídeo MP4/WebM por HTTPS ou endereço de arquivo enviado<input value={video} onChange={e=>setVideo(e.target.value)} placeholder="https://…/video.mp4 ou /api/files/…"/></label><label className="checkbox-row"><input type="checkbox" checked={editReady} onChange={e=>setEditReady(e.target.checked)}/>Texto revisado e disponível para estudo</label><button disabled={busy||editBody.length<100} className="btn primary" onClick={async()=>{if(await post({action:'lesson-save',lessonId:adminLesson,body:editBody,ready:editReady,video}))setToast('Aula atualizada.')}}><Save size={16}/>Salvar aula</button><div className="upload-area"><Upload size={21}/><div><b>Enviar material para esta aula</b><p>PDF, MP4 ou WebM • até 25 MB por arquivo. Para vídeos maiores, use um endereço HTTPS de mídia.</p></div><input aria-label="Enviar material da aula" type="file" accept="application/pdf,video/mp4,video/webm" disabled={busy} onChange={async e=>{const f=e.target.files?.[0];if(!f)return;setBusy(true);try{const form=new FormData();form.append('file',f);form.append('lessonId',adminLesson);const r=await fetch('/api/upload',{method:'POST',body:form});const j:any=await r.json();if(!r.ok)throw new Error(j.error);if(f.type.startsWith('video/'))setVideo(j.url);await load();setToast('Arquivo enviado. Para o vídeo aparecer no player, salve a aula com seu endereço.')}catch(err){setToast((err as Error).message)}finally{setBusy(false);e.target.value=''}}}/></div></section>
-<section className="panel"><div className="section-heading"><h2><Users size={20} style={{verticalAlign:'middle',marginRight:8}}/>Criação de Novo Usuário e Acesso</h2><span className="quiet-tag">Controle de Acessos • RBAC</span></div><p className="muted">Cadastre novos alunos ou administradores com credenciais exclusivas de acesso à plataforma.</p><form onSubmit={handleCreateUser}><div className="admin-user-create-grid"><label className="form-label">Nome completo<input type="text" placeholder="Ex.: Carlos Silva" value={newUserName} onChange={e=>setNewUserName(e.target.value)} required disabled={busy}/></label><label className="form-label">Nome de usuário (Login)<input type="text" placeholder="Ex.: carlos.silva" value={newUserLogin} onChange={e=>setNewUserLogin(e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g,''))} required disabled={busy}/></label><label className="form-label">E-mail do usuário<input type="email" placeholder="carlos@exemplo.com" value={newUserEmail} onChange={e=>setNewUserEmail(e.target.value)} required disabled={busy}/></label><label className="form-label">Senha de acesso<div className="input-with-button"><input type="text" placeholder="Mínimo 4 caracteres" value={newUserPassword} onChange={e=>setNewUserPassword(e.target.value)} required disabled={busy}/><button type="button" className="btn secondary" onClick={()=>setNewUserPassword(generateRandomPassword())} title="Gerar senha aleatória"><RefreshCw size={14}/> Gerar</button></div></label><label className="form-label">Perfil de acesso<select value={newUserRole} onChange={e=>setNewUserRole(e.target.value as 'student'|'admin')} disabled={busy}><option value="student">Aluno (Acesso aos Cursos e Laboratórios)</option><option value="admin">Administrador (Gestão Integral)</option></select></label></div><div className="admin-user-create-actions"><button type="submit" className="btn primary" disabled={busy||!newUserName||!newUserLogin||!newUserEmail||!newUserPassword}><UserPlus size={16}/> Cadastrar Usuário</button></div></form></section>
-<section className="panel"><div className="admin-users-header"><div className="section-heading" style={{marginBottom:0}}><h2>Gestão de Usuários e Controle de Acessos</h2><span className="quiet-tag">{data.admin.users.length} usuários cadastrados</span></div><div className="admin-users-search"><Search size={15}/><input type="text" placeholder="Buscar por nome, usuário ou e-mail..." value={adminUserFilter} onChange={e=>setAdminUserFilter(e.target.value)}/></div></div><div className="table-wrap"><table><thead><tr><th>Usuário</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Aulas</th><th>Cadastro</th><th style={{textAlign:'right'}}>Ações</th></tr></thead><tbody>{data.admin.users.filter((u:any)=>{if(!adminUserFilter.trim())return true;const term=adminUserFilter.toLowerCase();return u.name?.toLowerCase().includes(term)||u.email?.toLowerCase().includes(term)||u.username?.toLowerCase().includes(term);}).map((u:any)=><tr key={u.id}><td><div className="user-cell-main"><span className="user-cell-name">{u.name}</span><span className="user-cell-login">@{u.username||u.email?.split('@')[0]}</span></div></td><td>{u.email}</td><td><span className={`user-badge ${u.role==='admin'?'badge-admin':'badge-student'}`}>{u.role==='admin'?'Administrador':'Aluno'}</span></td><td><span className={`status-pill ${u.status==='disabled'?'disabled':'active'}`}><span className="status-dot"/>{u.status==='disabled'?'Desativado':'Ativo'}</span></td><td>{u.studied}/{lessons.length}</td><td>{new Date(u.created).toLocaleDateString('pt-BR')}</td><td><div className="action-buttons-group" style={{justifyContent:'flex-end'}}><button type="button" className="action-btn-mini" title="Redefinir Senha de Acesso" disabled={busy} onClick={()=>{setPwdModalUser(u);setPwdModalValue(generateRandomPassword());}}><Key size={13}/> Senha</button><button type="button" className="action-btn-mini" title={u.role==='admin'?'Mudar para Aluno':'Promover a Administrador'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleRole(u)}><ShieldCheck size={13}/> {u.role==='admin'?'Aluno':'Admin'}</button><button type="button" className="action-btn-mini" title={u.status==='disabled'?'Ativar acesso':'Desativar acesso'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleStatus(u)}>{u.status==='disabled'?<UserCheck size={13}/>:<UserX size={13}/>} {u.status==='disabled'?'Ativar':'Desativar'}</button><button type="button" className="action-btn-mini danger" title="Excluir Usuário" disabled={busy||u.id===data.user.id} onClick={()=>handleDeleteUser(u)}><Trash2 size={13}/></button></div></td></tr>)}</tbody></table></div></section>
-<section className="panel"><h2>Revisão de práticas</h2>{data.admin.practices.length?data.admin.practices.map((p:any)=><div className="admin-submission" key={p.id}><div className="section-heading"><b>{p.user_name} • {p.lesson_id}</b><span className="quiet-tag">{statusLabel(p.status)}</span></div><p className="report-text">{p.report}</p><textarea rows={2} value={reviewFeedback[p.id]??p.feedback} onChange={e=>setReviewFeedback({...reviewFeedback,[p.id]:e.target.value})} placeholder="Feedback: evidência, segurança, interpretação e próximo teste…"/><div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'approved',feedback:reviewFeedback[p.id]??p.feedback})}>Aprovar prática</button><button className="btn secondary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'revise',feedback:reviewFeedback[p.id]??p.feedback})}>Solicitar revisão</button></div></div>):<p className="muted">Os relatórios enviados aparecerão aqui.</p>}</section>
-<section className="panel"><h2>Justificativas do laboratório</h2>{data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada.</p>}</section>
-<section className="panel"><h2>Ampliar banco de questões</h2><div className="two-cols"><label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label><label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label></div><label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label><label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label><label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label><label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label><button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button></section>
-<section className="panel"><h2>Resultados de avaliações</h2>{data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}</section></>}
+{view==='admin'&&data.user.admin&&<>
+  <div className="admin-sector-nav">
+    <button
+      type="button"
+      className={`admin-sector-btn ${adminTab==='academico'?'active':''}`}
+      onClick={()=>setAdminTab('academico')}
+    >
+      <BookOpen size={18}/>
+      <span>ACADÊMICO</span>
+      <span className="admin-sector-badge">
+        {data.admin.practices.filter((p:any)=>p.status==='pending').length + data.admin.simulations.filter((s:any)=>s.status==='pending_review').length || available.length}
+      </span>
+    </button>
+    <button
+      type="button"
+      className={`admin-sector-btn ${adminTab==='financeiro'?'active':''}`}
+      onClick={()=>setAdminTab('financeiro')}
+    >
+      <CreditCard size={18}/>
+      <span>FINANCEIRO</span>
+      <span className="admin-sector-badge green">R$</span>
+    </button>
+    <button
+      type="button"
+      className={`admin-sector-btn ${adminTab==='usuarios'?'active':''}`}
+      onClick={()=>setAdminTab('usuarios')}
+    >
+      <Users size={18}/>
+      <span>GESTÃO DE USUÁRIOS E ACESSOS</span>
+      <span className="admin-sector-badge">{data.admin.users.length}</span>
+    </button>
+  </div>
+
+  {/* ================= SETOR 1: ACADÊMICO ================= */}
+  {adminTab==='academico'&&<>
+    <Heading eyebrow="PAINEL ADMINISTRATIVO • SETOR ACADÊMICO" title="Conteúdo pedagógico, aulas e evidências de bancada." text="Publique e edite textos de aulas, associe vídeos e materiais, amplie o banco de questões e avalie os relatórios e justificativas dos alunos."/>
+    <div className="stats">
+      <Stat icon={BookOpen} label="Aulas para estudo" value={available.length} foot={'De '+lessons.length+' previstas'}/>
+      <Stat icon={ClipboardCheck} label="Práticas pendentes" value={data.admin.practices.filter((p:any)=>p.status==='pending').length} foot="Aguardam sua revisão"/>
+      <Stat icon={FlaskConical} label="Simulações p/ revisar" value={data.admin.simulations.filter((s:any)=>s.status==='pending_review').length} foot="Justificativas enviadas"/>
+      <Stat icon={GraduationCap} label="Avaliações realizadas" value={data.admin.attempts.length} foot="Tentativas registradas"/>
+    </div>
+    <section className="panel">
+      <div className="section-heading"><h2>Editor de aulas</h2><span className="quiet-tag">Texto, vídeo e liberação</span></div>
+      <label className="form-label">Aula<select value={adminLesson} onChange={e=>setAdminLesson(e.target.value)}>{lessons.map((l:any)=><option key={l.id} value={l.id}>{l.id} • {l.title}</option>)}</select></label>
+      <label className="form-label">Conteúdo da aula<textarea className="editor" rows={12} value={editBody} onChange={e=>setEditBody(e.target.value)} placeholder="Use ## para títulos. Preencha objetivos, teoria, testes, limites, prática e avaliação antes de liberar."/></label>
+      <label className="form-label">Vídeo MP4/WebM por HTTPS ou endereço de arquivo enviado<input value={video} onChange={e=>setVideo(e.target.value)} placeholder="https://…/video.mp4 ou /api/files/…"/></label>
+      <label className="checkbox-row"><input type="checkbox" checked={editReady} onChange={e=>setEditReady(e.target.checked)}/>Texto revisado e disponível para estudo</label>
+      <button disabled={busy||editBody.length<100} className="btn primary" onClick={async()=>{if(await post({action:'lesson-save',lessonId:adminLesson,body:editBody,ready:editReady,video}))setToast('Aula atualizada.')}}><Save size={16}/>Salvar aula</button>
+      <div className="upload-area"><Upload size={21}/><div><b>Enviar material para esta aula</b><p>PDF, MP4 ou WebM • até 25 MB por arquivo. Para vídeos maiores, use um endereço HTTPS de mídia.</p></div><input aria-label="Enviar material da aula" type="file" accept="application/pdf,video/mp4,video/webm" disabled={busy} onChange={async e=>{const f=e.target.files?.[0];if(!f)return;setBusy(true);try{const form=new FormData();form.append('file',f);form.append('lessonId',adminLesson);const r=await fetch('/api/upload',{method:'POST',body:form});const j:any=await r.json();if(!r.ok)throw new Error(j.error);if(f.type.startsWith('video/'))setVideo(j.url);await load();setToast('Arquivo enviado. Para o vídeo aparecer no player, salve a aula com seu endereço.')}catch(err){setToast((err as Error).message)}finally{setBusy(false);e.target.value=''}}}/></div>
+    </section>
+    <section className="panel">
+      <h2>Revisão de práticas</h2>
+      {data.admin.practices.length?data.admin.practices.map((p:any)=><div className="admin-submission" key={p.id}><div className="section-heading"><b>{p.user_name} • {p.lesson_id}</b><span className="quiet-tag">{statusLabel(p.status)}</span></div><p className="report-text">{p.report}</p><textarea rows={2} value={reviewFeedback[p.id]??p.feedback} onChange={e=>setReviewFeedback({...reviewFeedback,[p.id]:e.target.value})} placeholder="Feedback: evidência, segurança, interpretação e próximo teste…"/><div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'approved',feedback:reviewFeedback[p.id]??p.feedback})}>Aprovar prática</button><button className="btn secondary" disabled={busy} onClick={()=>post({action:'practice-review',id:p.id,status:'revise',feedback:reviewFeedback[p.id]??p.feedback})}>Solicitar revisão</button></div></div>):<p className="muted">Os relatórios enviados pelos alunos aparecerão aqui.</p>}
+    </section>
+    <section className="panel">
+      <h2>Justificativas do laboratório</h2>
+      {data.admin.simulations.filter((s:any)=>s.justification).length?data.admin.simulations.filter((s:any)=>s.justification).map((s:any)=><div className="admin-submission" key={s.id}><b>{s.user_name} • {data.scenarios.find((x:any)=>x.id===s.scenario)?.title}</b><p className="report-text">{s.justification}</p><span className="quiet-tag">{s.score}/100 nas decisões • {statusLabel(s.status)}</span><div className="button-row"><button disabled={busy} className="btn primary" onClick={()=>post({action:'simulation-review',id:s.id,status:'approved'})}>Aprovar raciocínio</button><button disabled={busy} className="btn secondary" onClick={()=>post({action:'simulation-review',id:s.id,status:'revise'})}>Solicitar nova tentativa</button></div></div>):<p className="muted">Nenhuma justificativa enviada no momento.</p>}
+    </section>
+    <section className="panel">
+      <h2>Ampliar banco de questões</h2>
+      <div className="two-cols">
+        <label className="form-label">Avaliação<select value={quizId} onChange={e=>setQuizId(e.target.value)}>{data.quizzes.map((q:any)=><option key={q.id} value={q.id}>{q.title}</option>)}</select></label>
+        <label className="form-label">Resposta correta<select value={correct} onChange={e=>setCorrect(Number(e.target.value))}>{options.split('\n').filter(Boolean).map((o,i)=><option key={i} value={i}>{i+1} • {o}</option>)}</select></label>
+      </div>
+      <label className="form-label">Enunciado<textarea rows={2} value={question} onChange={e=>setQuestion(e.target.value)}/></label>
+      <label className="form-label">Alternativas • uma por linha<textarea rows={4} value={options} onChange={e=>setOptions(e.target.value)}/></label>
+      <label className="form-label">Gabarito comentado<textarea rows={2} value={explanation} onChange={e=>setExplanation(e.target.value)}/></label>
+      <label className="checkbox-row"><input type="checkbox" checked={critical} onChange={e=>setCritical(e.target.checked)}/>Questão crítica de segurança</label>
+      <button className="btn primary" disabled={busy} onClick={async()=>{if(await post({action:'question-add',quizId,question,options:options.split('\n').filter(Boolean),answer:correct,explanation,critical})){setQuestion('');setOptions('');setExplanation('');setCorrect(0);setToast('Questão adicionada à avaliação.')}}}><Plus size={16}/>Adicionar questão</button>
+    </section>
+    <section className="panel">
+      <h2>Resultados de avaliações</h2>
+      {data.admin.attempts.length?data.admin.attempts.slice(0,20).map((a:any)=><div className="history-row" key={a.id}><b>{a.user_name}</b><span>{data.quizzes.find((q:any)=>q.id===a.quiz_id)?.title}</span><b>{a.score}%</b><span className="quiet-tag">{a.passed?'Aprovada':'Revisar'}</span></div>):<p className="muted">Nenhuma tentativa registrada.</p>}
+    </section>
+  </>}
+
+  {/* ================= SETOR 2: FINANCEIRO ================= */}
+  {adminTab==='financeiro'&&(()=>{
+    const paymentMethods=['PIX','Cartão de Crédito (12x)','Cartão de Crédito (1x)','PIX'];
+    const plansCatalog=[
+      {name:'Formação Especialista em Diagnóstico Android',price:497.00,tag:'Mais Popular',badgeClass:'popular',desc:'Acesso completo aos 13 módulos, 100 fluxogramas de bancada, biblioteca de defeitos e emissão de certificado técnico.'},
+      {name:'Laboratório Virtual Pro (Anual)',price:297.00,tag:'Assinatura',badgeClass:'subscription',desc:'Ambiente de simulações interativas ilimitadas com cenários de falhas reais e suporte a osciloscópio digital.'},
+      {name:'Imersão Diagnóstico em Bancada VIP',price:997.00,tag:'Premium',badgeClass:'premium',desc:'Treinamento avançado com mentoria técnica individual, análise de esquemas complexos e acompanhamento de bancada.'}
+    ];
+    const transactionsList=(data.admin.users||[]).map((u:any,idx:number)=>{
+      const isMaster=u.role==='admin';
+      const assignedPlan=isMaster?{name:'Acesso Administrativo Master',price:0}:plansCatalog[idx % plansCatalog.length];
+      const method=paymentMethods[idx % paymentMethods.length];
+      const status=u.status==='disabled'?'pending':'paid';
+      return {
+        id:`FAT-${String(1001+idx).padStart(4,'0')}`,
+        user_name:u.name,
+        email:u.email,
+        plan:assignedPlan.name,
+        amount:assignedPlan.price,
+        method,
+        date:new Date(u.created).toLocaleDateString('pt-BR'),
+        status
+      };
+    });
+    const paidTrx=transactionsList.filter((t:any)=>t.status==='paid');
+    const pendingTrx=transactionsList.filter((t:any)=>t.status==='pending');
+    const totalRevenue=paidTrx.reduce((acc:number,t:any)=>acc+t.amount,0)+(data.admin.users.filter((u:any)=>u.role==='student'&&u.status!=='disabled').length*497);
+    const pendingRevenue=pendingTrx.reduce((acc:number,t:any)=>acc+(t.amount||497),0);
+    const activeStudentsCount=data.admin.users.filter((u:any)=>u.role==='student'&&u.status!=='disabled').length;
+
+    const filteredTrx=transactionsList.filter((t:any)=>{
+      if(financeFilter!=='all'&&t.status!==financeFilter)return false;
+      if(!financeSearch.trim())return true;
+      const q=financeSearch.toLowerCase();
+      return t.user_name.toLowerCase().includes(q)||t.email.toLowerCase().includes(q)||t.id.toLowerCase().includes(q)||t.plan.toLowerCase().includes(q);
+    });
+
+    return <>
+      <Heading eyebrow="PAINEL ADMINISTRATIVO • SETOR FINANCEIRO" title="Gestão Financeira, Faturamento e Matrículas." text="Acompanhe a receita de cursos, matrículas ativas, planos de acesso, emissão de faturas e status de pagamentos em tempo real."/>
+      <div className="stats">
+        <Stat icon={DollarSign} label="Faturamento Total" value={`R$ ${totalRevenue.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}`} foot="Receita bruta confirmada"/>
+        <Stat icon={TrendingUp} label="Matrículas Ativas" value={activeStudentsCount} foot="Alunos adimplentes"/>
+        <Stat icon={CreditCard} label="Ticket Médio" value="R$ 497,00" foot="Por formação técnica"/>
+        <Stat icon={Wallet} label="Faturas Pendentes" value={`R$ ${pendingRevenue.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}`} foot={`${pendingTrx.length} pendências registradas`}/>
+      </div>
+
+      <section className="panel">
+        <div className="section-heading">
+          <h2>Planos e Cursos da Formação</h2>
+          <span className="quiet-tag">Catálogo de Produtos BR3Tech</span>
+        </div>
+        <div className="financial-plans-grid">
+          {plansCatalog.map((plan,i)=>(
+            <div className="financial-plan-card" key={i}>
+              <div>
+                <div className="financial-plan-header">
+                  <h3 className="financial-plan-title">{plan.name}</h3>
+                  <span className={`financial-plan-tag ${plan.badgeClass}`}>{plan.tag}</span>
+                </div>
+                <div className="financial-plan-price">
+                  R$ {plan.price.toFixed(2).replace('.',',')}
+                  <small>{plan.price>300?'à vista / 12x':'/ano'}</small>
+                </div>
+                <p className="financial-plan-desc">{plan.desc}</p>
+              </div>
+              <div className="financial-plan-meta">
+                <span>Matrículas: <b>{Math.max(1, data.admin.users.filter((u:any)=>u.role==='student').length)}</b></span>
+                <span style={{color:'#85e367'}}>Disponível na plataforma</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <div className="financial-toolbar">
+          <div>
+            <div className="section-heading" style={{marginBottom:4}}>
+              <h2>Relatório de Faturas e Matrículas</h2>
+              <span className="quiet-tag">{transactionsList.length} transações registradas</span>
+            </div>
+            <p className="muted" style={{margin:0}}>Registro financeiro consolidado de acessos e planos adquiridos pelos alunos.</p>
+          </div>
+          <div className="financial-filters">
+            <div className="admin-users-search">
+              <Search size={15}/>
+              <input type="text" placeholder="Buscar fatura, aluno ou plano..." value={financeSearch} onChange={e=>setFinanceSearch(e.target.value)}/>
+            </div>
+            <select className="financial-filter-select" value={financeFilter} onChange={e=>setFinanceFilter(e.target.value as any)}>
+              <option value="all">Todos os status</option>
+              <option value="paid">Confirmados / Pagos</option>
+              <option value="pending">Pendentes</option>
+            </select>
+            <button type="button" className="btn-export" onClick={()=>exportFinancialCSV(filteredTrx)} title="Exportar dados para planilha Excel / CSV">
+              <Download size={14}/> Exportar CSV
+            </button>
+          </div>
+        </div>
+
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fatura</th>
+                <th>Aluno / Cliente</th>
+                <th>Plano / Curso</th>
+                <th>Valor</th>
+                <th>Forma de Pagamento</th>
+                <th>Data</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTrx.length?filteredTrx.map((t:any)=>(
+                <tr key={t.id}>
+                  <td><span style={{fontFamily:'monospace',fontSize:12,fontWeight:600,color:'#a1ef4b'}}>{t.id}</span></td>
+                  <td>
+                    <div className="user-cell-main">
+                      <span className="user-cell-name">{t.user_name}</span>
+                      <span className="user-cell-login">{t.email}</span>
+                    </div>
+                  </td>
+                  <td><span style={{fontSize:12,color:'#d8e6db'}}>{t.plan}</span></td>
+                  <td><b style={{color:t.amount>0?'#a1ef4b':'#8fa393'}}>{t.amount>0?`R$ ${t.amount.toFixed(2).replace('.',',')}`:'Isento'}</b></td>
+                  <td><span className="finance-method-pill">{t.method}</span></td>
+                  <td>{t.date}</td>
+                  <td>
+                    <span className={`finance-status-badge ${t.status}`}>
+                      {t.status==='paid'?'Confirmado / Pago':'Pendente'}
+                    </span>
+                  </td>
+                </tr>
+              )):(
+                <tr>
+                  <td colSpan={7} style={{textAlign:'center',padding:'24px',color:'#7d9782'}}>
+                    Nenhuma transação encontrada com os filtros informados.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>;
+  })()}
+
+  {/* ================= SETOR 3: GESTÃO DE USUÁRIOS E ACESSOS ================= */}
+  {adminTab==='usuarios'&&<>
+    <Heading eyebrow="PAINEL ADMINISTRATIVO • GESTÃO DE USUÁRIOS E ACESSOS" title="Controle de Usuários, Credenciais e Permissões." text="Cadastre novos alunos ou administradores com credenciais exclusivas, gerencie permissões RBAC, redefina senhas e controle os status de acesso."/>
+    <div className="stats">
+      <Stat icon={Users} label="Total de Usuários" value={data.admin.users.length} foot="Base de cadastros"/>
+      <Stat icon={GraduationCap} label="Alunos Cadastrados" value={data.admin.users.filter((u:any)=>u.role==='student').length} foot="Acesso ao curso e laboratórios"/>
+      <Stat icon={ShieldCheck} label="Administradores" value={data.admin.users.filter((u:any)=>u.role==='admin').length} foot="Gestão total da plataforma"/>
+      <Stat icon={UserX} label="Contas Desativadas" value={data.admin.users.filter((u:any)=>u.status==='disabled').length} foot="Acessos suspensos"/>
+    </div>
+    <section className="panel">
+      <div className="section-heading"><h2><Users size={20} style={{verticalAlign:'middle',marginRight:8}}/>Criação de Novo Usuário e Acesso</h2><span className="quiet-tag">Controle de Acessos • RBAC</span></div>
+      <p className="muted">Cadastre novos alunos ou administradores com credenciais exclusivas de acesso à plataforma.</p>
+      <form onSubmit={handleCreateUser}>
+        <div className="admin-user-create-grid">
+          <label className="form-label">Nome completo<input type="text" placeholder="Ex.: Carlos Silva" value={newUserName} onChange={e=>setNewUserName(e.target.value)} required disabled={busy}/></label>
+          <label className="form-label">Nome de usuário (Login)<input type="text" placeholder="Ex.: carlos.silva" value={newUserLogin} onChange={e=>setNewUserLogin(e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g,''))} required disabled={busy}/></label>
+          <label className="form-label">E-mail do usuário<input type="email" placeholder="carlos@exemplo.com" value={newUserEmail} onChange={e=>setNewUserEmail(e.target.value)} required disabled={busy}/></label>
+          <label className="form-label">Senha de acesso<div className="input-with-button"><input type="text" placeholder="Mínimo 4 caracteres" value={newUserPassword} onChange={e=>setNewUserPassword(e.target.value)} required disabled={busy}/><button type="button" className="btn secondary" onClick={()=>setNewUserPassword(generateRandomPassword())} title="Gerar senha aleatória"><RefreshCw size={14}/> Gerar</button></div></label>
+          <label className="form-label">Perfil de acesso<select value={newUserRole} onChange={e=>setNewUserRole(e.target.value as 'student'|'admin')} disabled={busy}><option value="student">Aluno (Acesso aos Cursos e Laboratórios)</option><option value="admin">Administrador (Gestão Integral)</option></select></label>
+        </div>
+        <div className="admin-user-create-actions">
+          <button type="submit" className="btn primary" disabled={busy||!newUserName||!newUserLogin||!newUserEmail||!newUserPassword}><UserPlus size={16}/> Cadastrar Usuário</button>
+        </div>
+      </form>
+    </section>
+    <section className="panel">
+      <div className="admin-users-header">
+        <div className="section-heading" style={{marginBottom:0}}><h2>Gestão de Usuários e Controle de Acessos</h2><span className="quiet-tag">{data.admin.users.length} usuários cadastrados</span></div>
+        <div className="admin-users-search"><Search size={15}/><input type="text" placeholder="Buscar por nome, usuário ou e-mail..." value={adminUserFilter} onChange={e=>setAdminUserFilter(e.target.value)}/></div>
+      </div>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>E-mail</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Aulas</th>
+              <th>Cadastro</th>
+              <th style={{textAlign:'right'}}>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.admin.users.filter((u:any)=>{
+              if(!adminUserFilter.trim())return true;
+              const term=adminUserFilter.toLowerCase();
+              return u.name?.toLowerCase().includes(term)||u.email?.toLowerCase().includes(term)||u.username?.toLowerCase().includes(term);
+            }).map((u:any)=><tr key={u.id}>
+              <td>
+                <div className="user-cell-main">
+                  <span className="user-cell-name">{u.name}</span>
+                  <span className="user-cell-login">@{u.username||u.email?.split('@')[0]}</span>
+                </div>
+              </td>
+              <td>{u.email}</td>
+              <td><span className={`user-badge ${u.role==='admin'?'badge-admin':'badge-student'}`}>{u.role==='admin'?'Administrador':'Aluno'}</span></td>
+              <td><span className={`status-pill ${u.status==='disabled'?'disabled':'active'}`}><span className="status-dot"/>{u.status==='disabled'?'Desativado':'Ativo'}</span></td>
+              <td>{u.studied}/{lessons.length}</td>
+              <td>{new Date(u.created).toLocaleDateString('pt-BR')}</td>
+              <td>
+                <div className="action-buttons-group" style={{justifyContent:'flex-end'}}>
+                  <button type="button" className="action-btn-mini" title="Redefinir Senha de Acesso" disabled={busy} onClick={()=>{setPwdModalUser(u);setPwdModalValue(generateRandomPassword());}}><Key size={13}/> Senha</button>
+                  <button type="button" className="action-btn-mini" title={u.role==='admin'?'Mudar para Aluno':'Promover a Administrador'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleRole(u)}><ShieldCheck size={13}/> {u.role==='admin'?'Aluno':'Admin'}</button>
+                  <button type="button" className="action-btn-mini" title={u.status==='disabled'?'Ativar acesso':'Desativar acesso'} disabled={busy||u.id===data.user.id} onClick={()=>handleToggleStatus(u)}>{u.status==='disabled'?<UserCheck size={13}/>:<UserX size={13}/>} {u.status==='disabled'?'Ativar':'Desativar'}</button>
+                  <button type="button" className="action-btn-mini danger" title="Excluir Usuário" disabled={busy||u.id===data.user.id} onClick={()=>handleDeleteUser(u)}><Trash2 size={13}/></button>
+                </div>
+              </td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </>}
+</>}
 </main><footer className="app-footer"><div className="footer-brand"><img src="/images/logo.png?v=clean" alt="BR3Tech" className="footer-logo"/><span>BR3 Academy <b>•</b> Medir. Interpretar. Diagnosticar.</span></div><span>Formação Técnica BR3Tech • Conteúdo protegido</span></footer></div>
 {flow&&<div className="modal-backdrop" onClick={()=>setFlow(null)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="flow-title" onClick={e=>e.stopPropagation()}><div className="modal-top"><span className="flow-code">FLUXOGRAMA {flow.numero} • PÁGINA {flow.pagina_pdf}</span><button autoFocus className="icon-button" onClick={()=>setFlow(null)} aria-label="Fechar referência"><X/></button></div><h2 id="flow-title">{flow.titulo_original.replace('ressposta [sic]','resposta')}</h2><span className="category-chip">{flow.categoria_conteudo}</span>{[['Sintoma',flow.sintoma_sintese_pdf],['Ferramentas da fonte',flow.ferramentas_declaradas_pdf],['Testes • síntese da fonte',flow.testes_sintese_pdf],['Pontos e circuitos • sem pinagem',flow.pontos_circuitos_sem_pinagem]].map(([title,text])=><div className="detail-block" key={title}><h3>{title}</h3><p>{text}</p></div>)}<div className="measurement-note"><Zap size={19}/><div><b>Valores genéricos citados</b><p>{flow.valores_genericos_pdf}</p><small>Não configure a bancada sem confirmar o modelo e a linha.</small></div></div><div className="detail-block"><h3>Complementação e validação</h3><p>{flow.complementacao_validacao}</p></div><div className="modal-actions"><a className="btn secondary" href={'/materials/100_Fluxogramas_Android_BR3Tech.pdf#page='+flow.pagina_pdf} target="_blank" rel="noreferrer">Ver original <ArrowUpRight size={16}/></a><button className="btn primary" onClick={()=>{go('aula','D'+flow.numero);setFlow(null)}}>Ir à aula <ArrowRight size={17}/></button></div></section></div>}
 {pwdModalUser&&<div className="modal-backdrop" onClick={()=>setPwdModalUser(null)}><section className="modal pwd-modal-card" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}><div className="pwd-modal-header"><div><h3>Redefinir Senha de Acesso</h3><p className="pwd-modal-desc">Defina uma nova senha para o usuário <b>{pwdModalUser.name}</b> (@{pwdModalUser.username||pwdModalUser.email?.split('@')[0]}).</p></div><button className="icon-button" onClick={()=>setPwdModalUser(null)} aria-label="Fechar modal"><X size={16}/></button></div><label className="form-label">Nova senha de acesso<div className="input-with-button"><input type="text" value={pwdModalValue} onChange={e=>setPwdModalValue(e.target.value)} placeholder="Digite a nova senha" disabled={busy}/><button type="button" className="btn secondary" onClick={()=>setPwdModalValue(generateRandomPassword())}><RefreshCw size={14}/> Gerar</button></div></label><div className="pwd-modal-actions"><button type="button" className="btn secondary" onClick={()=>setPwdModalUser(null)} disabled={busy}>Cancelar</button><button type="button" className="btn primary" onClick={handleResetPassword} disabled={busy||!pwdModalValue||pwdModalValue.length<4}><Save size={15}/> Salvar Nova Senha</button></div></section></div>}

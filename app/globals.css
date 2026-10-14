@@ -148,5 +148,45 @@
 .pwd-modal-desc{color:#9cb59f;font-size:12px;margin:0 0 20px;line-height:1.5}
 .pwd-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 
+/* ==========================================================================
+   Admin Sector Navigation & Tabs
+   ========================================================================== */
+.admin-sector-nav{display:flex;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid #243828;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.admin-sector-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:#101a13;border:1px solid #273e2c;border-radius:9px;color:#9cb7a3;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .2s cubic-bezier(0.4,0,0.2,1);white-space:nowrap}
+.admin-sector-btn:hover{background:#18281d;color:#ffffff;border-color:#3f6245}
+.admin-sector-btn.active{background:rgba(161,239,75,0.14);color:#a1ef4b;border-color:#a1ef4b;box-shadow:0 0 16px rgba(161,239,75,0.18)}
+.admin-sector-badge{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;background:#1d2e21;color:#8ab591}
+.admin-sector-btn.active .admin-sector-badge{background:#a1ef4b;color:#0b130e}
+.admin-sector-badge.green{background:rgba(161,239,75,0.2);color:#a1ef4b}
+
+/* ==========================================================================
+   Financial Sector Styles
+   ========================================================================== */
+.financial-plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-bottom:22px}
+.financial-plan-card{background:#111b14;border:1px solid #263c2a;border-radius:10px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:all .2s ease}
+.financial-plan-card:hover{border-color:#466f4c;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.financial-plan-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.financial-plan-title{font-size:15px;font-weight:700;color:#f3f7f4;margin:0}
+.financial-plan-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:4px}
+.financial-plan-tag.popular{background:rgba(161,239,75,0.18);color:#a1ef4b;border:1px solid rgba(161,239,75,0.4)}
+.financial-plan-tag.subscription{background:rgba(90,180,240,0.18);color:#60c5ff;border:1px solid rgba(90,180,240,0.4)}
+.financial-plan-tag.premium{background:rgba(245,166,35,0.18);color:#f5a623;border:1px solid rgba(245,166,35,0.4)}
+.financial-plan-price{font-size:24px;font-weight:800;color:#a1ef4b;margin:10px 0 6px}
+.financial-plan-price small{font-size:12px;font-weight:500;color:#8aa48f;margin-left:4px}
+.financial-plan-desc{font-size:12px;color:#9bb49f;line-height:1.5;margin-bottom:16px}
+.financial-plan-meta{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #1f3323;font-size:12px;color:#7e9c83}
+
+.financial-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.financial-filters{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.financial-filter-select{background:#0d1511;border:1px solid #2d4529;border-radius:6px;padding:8px 12px;color:#eef4ec;font-size:12px;outline:none;cursor:pointer}
+.btn-export{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#18261c;border:1px solid #334d38;border-radius:6px;color:#b2ceb7;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.btn-export:hover{background:#233829;color:#ffffff;border-color:#4a6f50}
+
+.finance-status-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.finance-status-badge.paid{background:#152b19;color:#85e367;border:1px solid #2a582a}
+.finance-status-badge.pending{background:#332612;color:#fbbf24;border:1px solid #634b1a}
+.finance-method-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#9ab59f;background:#142017;padding:3px 8px;border-radius:4px;border:1px solid #263a2a}
+
+
 
 
